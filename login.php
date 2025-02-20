@@ -2,6 +2,21 @@
 session_start();
 
 include "connection.php";
+
+if (isset($_POST['login'])){
+	$username = trim($_POST['username']);
+	$password = trim($_POST['password']);
+
+
+	$username = con->real_escape_string($username);
+	$password = con->real_escape_string($password);
+
+	$usenamesql = "Select * FROM Login where username = '$username'";
+	$result = con->query($sql);
+
+	$passwordsql = "SELECT * FROM Login where password = '$password'";
+	$result = con->query($sql);
+}
 ?>
 
 <!DOCTYPE HTML>
@@ -30,3 +45,4 @@ include "connection.php";
 </form>
 </body>
 </html>
+

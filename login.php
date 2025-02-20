@@ -1,22 +1,7 @@
 <?php
 session_start();
 
-con = mysql.connector.connect(
-	host = "100.69.138.84";
-	user = "backend_user";
-	password = "490AFMNprojectFinal";
-	database = "project490_db";
-)
-
-print("Connection is successful");
-
-if (isset($_POST["username"])){
-	$username = $_POST["username"];
-}
-
-if (isset($_POST["password"])){
-	$password = $_POST["password"];
-}
+include "connection.php";
 ?>
 
 <!DOCTYPE HTML>

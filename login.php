@@ -5,8 +5,8 @@ include "connection.php";
 
 $errors = [];
 
-$usernameRegex = /^[a-zA-Z][a-zA-Z0-9]{3,10}$/;
-$passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,}$/; 
+$usernameRegex = '/^[a-zA-Z][a-zA-Z0-9]{3,10}$/';
+$passwordRegex = '/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,}$/'; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	$username = trim($_POST['username']);
@@ -51,7 +51,7 @@ if (empty($password)){
 //validation
 
 function validateUsername($username){
-	if (!$usernameRegex($username)){
+	if (preg_match($usernameRegex, $username)){
 		echo "INVALID USERNAME. PLEASE ENTER A UNIQUE USERNAME";
 	}
 	else {
@@ -60,7 +60,7 @@ function validateUsername($username){
 }
 
 function validatePassword($password){
-	if (!$passwordRegex($password)){
+	if (preg_match($passwordRegex, $password)){
 		echo "INVALID PASSWORD. PASSWORD MUST HAVE A SPECIAL CHARACTER, NUMBER AND SHOULD BE 7 CHARACTERS LONG. PLEASE RE-ENTER";
 	}
 	else {

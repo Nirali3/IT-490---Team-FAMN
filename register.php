@@ -1,11 +1,8 @@
 <?php 
-// Connection to Database
-$host = "100.69.138.84";
-//$username = "";
-//$password = "";
-$database = "";
+session_start();
 
-$db = new mysqli($host, $username, $password, $database);
+// Connection to Database
+include "connection.php";
 
 // Initialize variables 
 if (!isset($first_name)) {$first_name = ''; }
@@ -44,8 +41,7 @@ if (empty($email)) {
 if (empty($username)) {
     $errors[] = "Please input a username.";
 } else {
-    // PLEASE ADD DATABASE NAME!!!!!!!!!!!!!!!!
-    $emailStmt = $db->prepare("SELECT username FROM (db) WHERE username = :username");
+    $emailStmt = $db->prepare("SELECT username FROM project490_db WHERE username = :username");
     $emailStmt->bind_param("s", $username);
     $emailStmt->execute();
     $emailStmt->store_result();
@@ -72,8 +68,7 @@ if (empty($password)) {
 if (empty($errors)) {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    // PLEASE ADD PROPER DATABASE NAME!!!!!!!!!!!!!!!!!
-    $stmt = $db->prepare("INSERT INTO db (first_name, last_name, email, username, password) VALUES (?, ?, ?, ?, ?)");
+    $stmt = $db->prepare("INSERT INTO project490_db (first_name, last_name, email, username, password) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("sssss", $first_name, $last_name, $email, $username, $hashed_password);
     $stmt->execute();
     $stmt->close();
@@ -88,7 +83,7 @@ if (empty($errors)) {
     </head>
     <body>
         <main>
-            <form method="POST" action="registration.php">
+            <form method="POST" action="register.php">
                 <label>First Name:</label>
                 <input type="text" name="first_name" value="">
                 <br>

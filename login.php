@@ -12,8 +12,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	$username = trim($_POST['username']);
 	$password = trim($_POST['password']);
 
-	$username = $_POST['username'];
-	$password = $_POST['password'];
+	if (empty($username)){
+		$errors[] = "USERNAME CANNOT BE EMPTY";
+	}
+
+	if (empty($password)){
+		$errors[] = "PASSWORD CANNOT BE EMPTY";
+	}
+} else {
 
 	$stmt = $con->prepare("SELECT username, password FROM login WHERE username = ?");
     	$stmt->bind_param("s", $username);
@@ -21,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     	$stmt->store_result();
 	
 	if ($stmt->num_rows > 0) {
-		$stmt->bind_result($hashed_password);
+		$stmt->bind_result($username, $hashed_password);
 		$stmt->fetch();
 		
 		if (password_verify($password, $hashed_password)) {
@@ -38,20 +44,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	}
 	$stmt->close();
 }
+
 $con->close();
-
-if (empty($username)){
-	$errors = "Username cannot be empty. Please enter:";
-}
-
-if (empty($password)){
-	$errors = "Password cannot be empty. Please enter:";
-}
 
 //validation
 
-function validateUsername($username){
-	if (preg_match($usernameRegex, $username)){
+function validateUsername($username, $usernameRegex){
+	if (!preg_match($usernameRegex, $username)){
 		echo "INVALID USERNAME. PLEASE ENTER A UNIQUE USERNAME";
 	}
 	else {
@@ -59,8 +58,8 @@ function validateUsername($username){
 	}
 }
 
-function validatePassword($password){
-	if (preg_match($passwordRegex, $password)){
+function validatePassword($password, $passwordRegex){
+	if (!preg_match($passwordRegex, $password)){
 		echo "INVALID PASSWORD. PASSWORD MUST HAVE A SPECIAL CHARACTER, NUMBER AND SHOULD BE 7 CHARACTERS LONG. PLEASE RE-ENTER";
 	}
 	else {
@@ -75,11 +74,11 @@ function validatePassword($password){
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>User Login</title>
-<h1> Login </h1>
+<title>Login Page</title>
 </head>
 
 <body>
+<h1> User Login </h1>
 <form method="POST" action="login.php" id="loginform">
 <p>
 <label>Username:</label>
@@ -88,11 +87,11 @@ function validatePassword($password){
 
 <p>
 <label>Password:</label>
-<input type="text" id="password" name="password"/>
+<input type="password" id="password" name="password"/>
 </p>
 
-<input type="button" name="register-button" value="Register"/>
-<input type="button" name="login-button" value="Login"/>
+<a href="register.php"<button type="button">Register</button></a>
+<input type="button" name="login-button" value="Login"/><br>
 
 </form>
 </body>

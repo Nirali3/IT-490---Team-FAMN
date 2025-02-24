@@ -84,7 +84,8 @@ if (empty($errors)) {
     <body>
         <main>
             <form method="POST" action="register.php">
-                <label>First Name:</label>
+		<h1>Registration</h1>
+		<label>First Name:</label>
                 <input type="text" name="first_name" value="">
                 <br>
                 <label>Last Name:</label>
@@ -99,7 +100,7 @@ if (empty($errors)) {
                 <label>Password:</label>
                 <input type="text" name="password" value="">
                 <br>
-                <button type="submit" value="Submit">
+                <input type="submit" value="Submit">
             </form>
             <div id="message">
                 <h3>Password Criteria:</h3>

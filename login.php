@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	}
 } else {
 
-	$stmt = $con->prepare("SELECT username, password FROM login WHERE username = ?");
+	$stmt = $con->prepare("SELECT username, password_hash FROM login WHERE username = ?");
     	$stmt->bind_param("s", $username);
     	$stmt->execute();
     	$stmt->store_result();
@@ -35,15 +35,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 		
 		if (password_verify($password, $hashed_password)) {
 			$_SESSION["username"] = $username;
-            		header("Location: homepage.save.php");
-			exit();
 		} else {
 			echo "Invalid password!";
 		}
 	} else {
 		echo "USER DOES NOT EXIST! PLEASE CREATE AN ACCOUNT FIRST";
-		header("Location: register.php");
-		exit();
 	}
 	$stmt->close();
 }
@@ -93,8 +89,8 @@ function validatePassword($password, $passwordRegex){
 <input type="password" id="password" name="password"/>
 </p>
 
-<a href="register.php"<button type="button">Register</button></a>
-<input type="button" name="login-button" value="Login"/><br>
+<input type="button" name="register-button" value="Register"/>
+<input type="button" name="login-button" value="Login"/>
 
 </form>
 </body>

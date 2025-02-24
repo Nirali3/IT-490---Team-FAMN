@@ -13,13 +13,13 @@ $passwordRegex = '/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,}$/';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	$username = trim($_POST['username']);
-	$password = trim($_POST['password']);
+	$password_hash = trim($_POST['password_hash']);
 
 	if (empty($username)){
 		$errors[] = "USERNAME CANNOT BE EMPTY";
 	}
 
-	if (empty($password)){
+	if (empty($password_hash)){
 		$errors[] = "PASSWORD CANNOT BE EMPTY";
 	}
 } else {
@@ -30,10 +30,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     	$stmt->store_result();
 	
 	if ($stmt->num_rows > 0) {
-		$stmt->bind_result($username, $hashed_password);
+		$stmt->bind_result($username, $password_hash);
 		$stmt->fetch();
 		
-		if (password_verify($password, $hashed_password)) {
+		if (password_verify($password_hash)) {
 			$_SESSION["username"] = $username;
 		} else {
 			echo "Invalid password!";
@@ -57,8 +57,8 @@ function validateUsername($username, $usernameRegex){
 	}
 }
 
-function validatePassword($password, $passwordRegex){
-	if (!preg_match($passwordRegex, $password)){
+function validatePassword($password_hash, $passwordRegex){
+	if (!preg_match($passwordRegex, $password_hash)){
 		echo "INVALID PASSWORD. PASSWORD MUST HAVE A SPECIAL CHARACTER, NUMBER AND SHOULD BE 7 CHARACTERS LONG. PLEASE RE-ENTER";
 	}
 	else {

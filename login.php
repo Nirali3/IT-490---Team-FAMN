@@ -13,13 +13,13 @@ $passwordRegex = '/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,}$/';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	$username = trim($_POST['username']);
-	$password_hash = trim($_POST['password_hash']);
+	$password = trim($_POST['password']);
 
 	if (empty($username)){
 		$errors[] = "USERNAME CANNOT BE EMPTY";
 	}
 
-	if (empty($password_hash)){
+	if (empty($password)){
 		$errors[] = "PASSWORD CANNOT BE EMPTY";
 	}
 } else {
@@ -30,16 +30,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     	$stmt->store_result();
 	
 	if ($stmt->num_rows > 0) {
-		$stmt->bind_result($username, $password_hash);
+		$stmt->bind_result($username, $password);
 		$stmt->fetch();
 		
-		if (password_verify($password_hash)) {
+		if (password_verify($password)) {
+			echo "Login successful!";
 			$_SESSION["username"] = $username;
+			header("Location: homepage.php");
+			exit();
 		} else {
-			echo "Invalid password!";
+			$errors[] = "Invalid password!";
 		}
 	} else {
-		echo "USER DOES NOT EXIST! PLEASE CREATE AN ACCOUNT FIRST";
+		$errors[] = "USER DOES NOT EXIST! PLEASE CREATE AN ACCOUNT FIRST";
 	}
 	$stmt->close();
 }
@@ -50,19 +53,19 @@ $con->close();
 
 function validateUsername($username, $usernameRegex){
 	if (!preg_match($usernameRegex, $username)){
-		echo "INVALID USERNAME. PLEASE ENTER A UNIQUE USERNAME";
+		$errors[] = "INVALID USERNAME. PLEASE ENTER A UNIQUE USERNAME";
 	}
 	else {
-		echo "VALID USERNAME!";
+		$errors[] = "VALID USERNAME!";
 	}
 }
 
-function validatePassword($password_hash, $passwordRegex){
-	if (!preg_match($passwordRegex, $password_hash)){
-		echo "INVALID PASSWORD. PASSWORD MUST HAVE A SPECIAL CHARACTER, NUMBER AND SHOULD BE 7 CHARACTERS LONG. PLEASE RE-ENTER";
+function validatePassword($password, $passwordRegex){
+	if (!preg_match($passwordRegex, $password)){
+		$errors[] = "INVALID PASSWORD. PASSWORD MUST HAVE A SPECIAL CHARACTER, NUMBER AND SHOULD BE 7 CHARACTERS LONG. PLEASE RE-ENTER";
 	}
 	else {
-		echo "VALID PASSWORD!";
+		$errors[] = "VALID PASSWORD!";
 	}
 }
 

@@ -6,14 +6,16 @@ error_reporting(E_ALL);
 
 session_start();
 
+include "connection.php";
+
 if (!isset($_COOKIE['session_key'])) {
 	die("Error: Session key not set. Please login.");
 	header("Location: login.php");
 	exit();
 }
 
-$session_key = $_COOKIE['session_key'];
-
+$session_key = $_COOKIE['session_key']; 
+>>>>>>> f28c568 (Included connection.php file)
 ?>
 
 <!DOCTYPE html>

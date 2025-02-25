@@ -42,9 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 			$errors[] = "Invalid password!.Please try again";
 		}
 	} else {
-		$errors[] = "USER DOES NOT EXIST! PLEASE CREATE AN ACCOUNT FIRST";
-		header("Location: register.php");
-		exit();
+		$errors[] = echo "USER DOES NOT EXIST! PLEASE CREATE AN ACCOUNT FIRST";
 	}
 	$stmt->close();
 }

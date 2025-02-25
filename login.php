@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 			$errors[] = "Invalid password!.Please try again";
 		}
 	} else {
-		$errors[] = echo "USER DOES NOT EXIST! PLEASE CREATE AN ACCOUNT FIRST";
+		$errors[] = "USER DOES NOT EXIST! PLEASE CREATE AN ACCOUNT FIRST";
 	}
 	$stmt->close();
 }
@@ -80,7 +80,7 @@ function validatePassword($password, $passwordRegex){
 
 <body>
 <h1> User Login </h1>
-<form method="POST" action="homepage.php" id="loginform">
+<form method="POST" action="login.php" id="loginform">
 <p>
 <label>Username:</label>
 <input type="text" id="username" name="username"/>

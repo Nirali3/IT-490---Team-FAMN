@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 		$stmt->bind_result($username, $password);
 		$stmt->fetch();
 		
-		if (password_verify($password)) {
+		if (password_verify($password, $password_hash)) {
 			echo "Login successful!";
 			$_SESSION["username"] = $username;
 			header("Location: homepage.php");
@@ -53,19 +53,19 @@ $con->close();
 
 function validateUsername($username, $usernameRegex){
 	if (!preg_match($usernameRegex, $username)){
-		$errors[] = "INVALID USERNAME. PLEASE ENTER A UNIQUE USERNAME";
+		echo "INVALID USERNAME. PLEASE ENTER A UNIQUE USERNAME";
 	}
 	else {
-		$errors[] = "VALID USERNAME!";
+		echo "VALID USERNAME!";
 	}
 }
 
 function validatePassword($password, $passwordRegex){
 	if (!preg_match($passwordRegex, $password)){
-		$errors[] = "INVALID PASSWORD. PASSWORD MUST HAVE A SPECIAL CHARACTER, NUMBER AND SHOULD BE 7 CHARACTERS LONG. PLEASE RE-ENTER";
+		echo "INVALID PASSWORD. PASSWORD MUST HAVE A SPECIAL CHARACTER, NUMBER AND SHOULD BE 7 CHARACTERS LONG. PLEASE RE-ENTER";
 	}
 	else {
-		$errors[] = "VALID PASSWORD!";
+		echo "VALID PASSWORD!";
 	}
 }
 
@@ -92,8 +92,8 @@ function validatePassword($password, $passwordRegex){
 <input type="password" id="password" name="password"/>
 </p>
 
-<input type="button" name="register-button" value="Register"/>
-<input type="button" name="login-button" value="Login"/>
+<input type="submit" name="register-button" value="Register"/>
+<input type="submitt" name="login-button" value="Login"/>
 
 </form>
 </body>

@@ -39,7 +39,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 			header("Location: homepage.php");
 			exit();
 		} else {
+<<<<<<< HEAD
 			$errors[] = "Invalid password!";
+=======
+			$errors[] = "Invalid password!.Please try again";
+>>>>>>> origin/authentication
 		}
 	} else {
 		$errors[] = "USER DOES NOT EXIST! PLEASE CREATE AN ACCOUNT FIRST";
@@ -56,7 +60,7 @@ function validateUsername($username, $usernameRegex){
 		echo "INVALID USERNAME. PLEASE ENTER A UNIQUE USERNAME";
 	}
 	else {
-		echo "VALID USERNAME!";
+		echo "USERNAME VALID!";
 	}
 }
 
@@ -65,10 +69,9 @@ function validatePassword($password, $passwordRegex){
 		echo "INVALID PASSWORD. PASSWORD MUST HAVE A SPECIAL CHARACTER, NUMBER AND SHOULD BE 7 CHARACTERS LONG. PLEASE RE-ENTER";
 	}
 	else {
-		echo "VALID PASSWORD!";
+		echo "PASSWORD VALID!";
 	}
 }
-
 ?>
 
 <!DOCTYPE HTML>

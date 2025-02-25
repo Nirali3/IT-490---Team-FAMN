@@ -1,20 +1,27 @@
 <?php
+
+ini_set('display_errors',1);
+ini_set('display_startup_errors',1);
+error_reporting(E_ALL);
+
 require 'vendor/autoload.php';
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
-// Check if session key exists
+session_start();
+
 if (!isset($_COOKIE['session_key'])) {
-    header("Location: login.php");
-    exit();
+	die("Error: Session key not set. Please login.");
+	header("LOcation: login.php");
+	exit();
 }
 
 $session_key = $_COOKIE['session_key'];
 
 // Set up RabbitMQ connection
-$rabbitmq_host = 'your_rabbitmq_server_ip'; // Change this to your RabbitMQ server IP
-$rabbitmq_user = 'auth_user';
-$rabbitmq_pass = 'auth_pass123';
+$rabbitmq_host = '10.0.2.15'; 
+$rabbitmq_user = 'guest';
+$rabbitmq_pass = 'guest';
 
 try {
     $connection = new AMQPStreamConnection($rabbitmq_host, 5672, $rabbitmq_user, $rabbitmq_pass);

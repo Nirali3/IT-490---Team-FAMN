@@ -41,15 +41,15 @@ if (empty($email)) {
 if (empty($username)) {
     $errors[] = "Please input a username.";
 } else {
-    $emailStmt = $db->prepare("SELECT username FROM project490_db WHERE username = :username");
+    $emailStmt = $db->prepare("SELECT username FROM register WHERE username = ?");
     $emailStmt->bind_param("s", $username);
     $emailStmt->execute();
     $emailStmt->store_result();
-    $emailStmt->close();
 
     if ($emailStmt->num_rows > 0) {
         $errors[] = "Username already exists.";
     }
+    $emailStmt->close();
 }
 
 // Error Message: Password

@@ -93,7 +93,7 @@ function validatePassword($password, $passwordRegex){
 </p>
 
 <input type="submit" name="register-button" value="Register"/>
-<input type="submitt" name="login-button" value="Login"/>
+<input type="submit" name="login-button" value="Login"/>
 
 </form>
 </body>

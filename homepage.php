@@ -14,10 +14,6 @@ if (!isset($_COOKIE['session_key'])) {
 	exit();
 }
 
-<<<<<<< HEAD
-$session_key = $_COOKIE['session_key'];
-
-=======
 $session_key = $_COOKIE['session_key']; 
 >>>>>>> f28c568 (Included connection.php file)
 ?>

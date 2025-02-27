@@ -22,34 +22,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	if (empty($password)){
 		$errors[] = "PASSWORD CANNOT BE EMPTY";
 	}
-} else {
 
-	$stmt = $con->prepare("SELECT username, password_hash FROM login WHERE username = ?");
-    	$stmt->bind_param("s", $username);
-    	$stmt->execute();
-    	$stmt->store_result();
-	
-	if ($stmt->num_rows > 0) {
-		$stmt->bind_result($username, $password);
-		$stmt->fetch();
-		
-		if (password_verify($password, $password_hash)) {
-			echo "Login successful!";
-			$_SESSION["username"] = $username;
-			header("Location: homepage.php");
-			exit();
+	if (isset($_POST['login-button'])){
+		if (empty($errors)){
+			$stmt = $con->prepare("SELECT username, password_hash FROM login WHERE username = ?");
+			$stmt->bind_param("s", $username);
+			$stmt->execute();
+			$stmt->store_result();
+			
+		if ($stmt->num_rows > 0) {
+			$stmt->bind_result($username, $password_hash);
+			$stmt->fetch();
+			
+			if (password_verify($password, $password_hash)) {
+				$_SESSION["username"] = $username;
+				header("Location: homepage.php");
+				exit();
+			}else {
+				$errors[] = "Invalid password!.Please try again";
+			}
 		} else {
-<<<<<<< HEAD
-			$errors[] = "Invalid password!";
-=======
-			$errors[] = "Invalid password!.Please try again";
->>>>>>> origin/authentication
+			$errors[] = "USER DOES NOT EXIST! PLEASE CREATE AN ACCOUNT FIRST";
 		}
-	} else {
-		$errors[] = "USER DOES NOT EXIST! PLEASE CREATE AN ACCOUNT FIRST";
+		$stmt->close();
 	}
-	$stmt->close();
+	} elseif (isset($_POST['register-button'])){
+		header("Location: register.php");
+		exit();
+	}
 }
+
 
 $con->close();
 

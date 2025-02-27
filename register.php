@@ -68,7 +68,7 @@ if (empty($password)) {
 if (empty($errors)) {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    $stmt = $db->prepare("INSERT INTO project490_db (first_name, last_name, email, username, password) VALUES (?, ?, ?, ?, ?)");
+    $stmt = $db->prepare("INSERT INTO register (first_name, last_name, email, username, password) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("sssss", $first_name, $last_name, $email, $username, $hashed_password);
     $stmt->execute();
     $stmt->close();

@@ -17,18 +17,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	$password = trim($_POST['password']);
 
 	if (empty($username)){
-		echo <script>alert("USERNAME CANNOT BE EMPTY")</script>;
+		echo "<script>alert('USERNAME CANNOT BE EMPTY')</script>";
 	}
 
 	if (empty($password)){
-		echo <script>alert( "PASSWORD CANNOT BE EMPTY")</script>;
+		echo "<script>alert('PASSWORD CANNOT BE EMPTY')</script>";
 	}
 
 	if (isset($_POST['login-button']) && empty($errors)){
 		$client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
 
 		$request = array();
-		$request['type' = "login";
+		$request['type'] = "login";
 		$request['username'] = $username;
 		$request['password'] = $password;
 
@@ -40,11 +40,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 			exit();
 		}
 
-		if (empty($errors)){
-			$stmt = $con->prepare("SELECT username, password_hash FROM login WHERE username = ?");
-			$stmt->bind_param("s", $username);
-			$stmt->execute();
-			$stmt->store_result();
+		$stmt = $con->prepare("SELECT username, password_hash FROM login WHERE username = ?");
+		$stmt->bind_param("s", $username);
+		$stmt->execute();
+		$stmt->store_result();
 			
 		if ($stmt->num_rows > 0) {
 			$stmt->bind_result($username, $password_hash);
@@ -55,13 +54,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 				header("Location: homepage.php");
 				exit();
 			}else {
-				echo <script>alert("Invalid password!.Please try again")</script>;
+				echo "<script>alert('Invalid password!.Please try again')</script>";
 			}
 		} else {
-			echo <script>alert("USER DOES NOT EXIST! PLEASE CREATE AN ACCOUNT FIRST")</script>;
+			echo "<script>alert('USER DOES NOT EXIST! PLEASE CREATE AN ACCOUNT FIRST')</script>";
 		}
 		$stmt->close();
-	}
 	} elseif (isset($_POST['register-button'])){
 		header("Location: register.php");
 		exit();
@@ -75,19 +73,19 @@ $con->close();
 
 function validateUsername($username, $usernameRegex){
 	if (!preg_match($usernameRegex, $username)){
-		echo "INVALID USERNAME. PLEASE ENTER A UNIQUE USERNAME";
+		echo "<script>alert('INVALID USERNAME. PLEASE ENTER A UNIQUE USERNAME')</script>";
 	}
 	else {
-		echo "USERNAME VALID!";
+		echo "<script>alert('USERNAME VALID!')</script>";
 	}
 }
 
 function validatePassword($password, $passwordRegex){
 	if (!preg_match($passwordRegex, $password)){
-		echo "INVALID PASSWORD. PASSWORD MUST HAVE A SPECIAL CHARACTER, NUMBER AND SHOULD BE 7 CHARACTERS LONG. PLEASE RE-ENTER";
+		echo "<script>alert('INVALID PASSWORD. PASSWORD MUST HAVE A SPECIAL CHARACTER, NUMBER AND SHOULD BE 7 CHARACTERS LONG. PLEASE RE-ENTER')</script>";
 	}
 	else {
-		echo "PASSWORD VALID!";
+		echo "<script>alert('PASSWORD VALID!')</script>";
 	}
 }
 ?>

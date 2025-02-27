@@ -1,4 +1,7 @@
-<?php 
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ 
 session_start();
 
 // Connection to Database
@@ -41,7 +44,7 @@ if (empty($email)) {
 if (empty($username)) {
     $errors[] = "Please input a username.";
 } else {
-    $emailStmt = $db->prepare("SELECT username FROM register WHERE username = ?");
+    $emailStmt = $con->prepare("SELECT username FROM register WHERE username = ?");
     $emailStmt->bind_param("s", $username);
     $emailStmt->execute();
     $emailStmt->store_result();
@@ -68,7 +71,7 @@ if (empty($password)) {
 if (empty($errors)) {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    $stmt = $db->prepare("INSERT INTO register (first_name, last_name, email, username, password) VALUES (?, ?, ?, ?, ?)");
+    $stmt = $con->prepare("INSERT INTO register (first_name, last_name, email, username, password) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("sssss", $first_name, $last_name, $email, $username, $hashed_password);
     $stmt->execute();
     $stmt->close();

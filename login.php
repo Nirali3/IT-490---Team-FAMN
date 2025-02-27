@@ -5,6 +5,7 @@ ini_set('display_errors', 1);
 session_start();
 
 include "connection.php";
+require_once('rabbitMQLib.inc');
 
 $errors = [];
 
@@ -16,14 +17,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	$password = trim($_POST['password']);
 
 	if (empty($username)){
-		$errors[] = "USERNAME CANNOT BE EMPTY";
+		echo <script>alert("USERNAME CANNOT BE EMPTY")</script>;
 	}
 
 	if (empty($password)){
-		$errors[] = "PASSWORD CANNOT BE EMPTY";
+		echo <script>alert( "PASSWORD CANNOT BE EMPTY")</script>;
 	}
 
-	if (isset($_POST['login-button'])){
+	if (isset($_POST['login-button']) && empty($errors)){
+		$client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
+
+		$request = array();
+		$request['type' = "login";
+		$request['username'] = $username;
+		$request['password'] = $password;
+
+		$response = $client->send_request($request);
+
+		if($response === true){
+			$_SESSION["username"] = $username;
+			header("Location: homepage.php");
+			exit();
+		}
+
 		if (empty($errors)){
 			$stmt = $con->prepare("SELECT username, password_hash FROM login WHERE username = ?");
 			$stmt->bind_param("s", $username);
@@ -39,10 +55,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 				header("Location: homepage.php");
 				exit();
 			}else {
-				$errors[] = "Invalid password!.Please try again";
+				echo <script>alert("Invalid password!.Please try again")</script>;
 			}
 		} else {
-			$errors[] = "USER DOES NOT EXIST! PLEASE CREATE AN ACCOUNT FIRST";
+			echo <script>alert("USER DOES NOT EXIST! PLEASE CREATE AN ACCOUNT FIRST")</script>;
 		}
 		$stmt->close();
 	}

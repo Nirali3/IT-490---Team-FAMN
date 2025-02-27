@@ -7,6 +7,17 @@ error_reporting(E_ALL);
 session_start();
 
 include "connection.php";
+
+if (!isset($_SESSION['username'])) {
+	header("Location: login.php");
+	exit();
+}
+
+$login_message = "";
+if (isset($_SESSION['login_success']) && $_SESSION['login_success']) {
+	$login_message = "<p style='color: green;'>Login successful!</p>";
+	unset($_SESSION['login_success']);
+}
 ?>
 
 <!DOCTYPE html>

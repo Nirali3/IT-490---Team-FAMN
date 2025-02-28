@@ -30,6 +30,8 @@ if (isset($_SESSION['login_success']) && $_SESSION['login_success']) {
 </head>
 <body>
     <h2>Welcome to Your Dashboard</h2>
+
+    <?php echo $login_message; ?>
     <p>You are logged in successfully.</p>
 
     <form action="logout.php" method="post">

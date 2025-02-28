@@ -17,14 +17,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	$password = trim($_POST['password']);
 
 	if (empty($username)){
-		echo "<script>alert('USERNAME CANNOT BE EMPTY')</script>";
+		echo "<script>alert('USERNAME CANNOT BE EMPTY. PLEASE INPUT A USERNAME')</script>";
 	}
 
 	if (empty($password)){
-		echo "<script>alert('PASSWORD CANNOT BE EMPTY')</script>";
+		echo "<script>alert('PASSWORD CANNOT BE EMPTY. PLEASE INPUT A PASSWORD')</script>";
 	}
 
-	if (isset($_POST['login-button']) && empty($errors)){
+	if (isset($_POST['login']) && empty($errors)){
 		$client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
 
 		$request = array();
@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 			echo "<script>alert('USER DOES NOT EXIST! PLEASE CREATE AN ACCOUNT FIRST')</script>";
 		}
 		$stmt->close();
-	} elseif (isset($_POST['register-button'])){
+	} elseif (isset($_POST['register'])){
 		header("Location: register.php");
 		exit();
 	}
@@ -111,8 +111,8 @@ function validatePassword($password, $passwordRegex){
 <input type="password" id="password" name="password"/>
 </p>
 
-<input type="submit" name="register-button" value="Register"/>
-<input type="submit" name="login-button" value="Login"/>
+<input type="submit" name="register" value="Register"/>
+<input type="submit" name="login" value="Login"/>
 
 </form>
 </body>

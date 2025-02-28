@@ -16,11 +16,11 @@ if (!isset($password)) {$password = ''; }
 $errors = [];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $first_name = $_POST['first_name'];
-    $last_name = $_POST['last_name'];
-    $email = $_POST['email'];
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $first_name = trim($_POST['first_name']);
+    $last_name = trim($_POST['last_name']);
+    $email = trim($_POST['email']);
+    $username = trim($_POST['username']);
+    $password = trim($_POST['password']);
 }
 
 // Error Message: First Name
@@ -64,17 +64,20 @@ if (empty($password)) {
     $errors[] = "Password must have at least one upper case letter.";
 } elseif (!preg_match('/[0-9]/', $password)) {
     $errors[] = "Password must contin at least one number";
-} elseif (!preg_match('/[\'^$%&*()}{@#~><>,|=_+\-]/', $password)) {
+} elseif (!preg_match('/[\W]/', $password)) {
     $errors[] = "Password must have at least one special character.";
 }
 
 if (empty($errors)) {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    $stmt = $con->prepare("INSERT INTO register (first_name, last_name, email, username, password) VALUES (?, ?, ?, ?, ?)");
+    $stmt = $con->prepare("INSERT INTO register (firstName, lastName, email, username, password_hash) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("sssss", $first_name, $last_name, $email, $username, $hashed_password);
     $stmt->execute();
     $stmt->close();
+
+    header("Location: login.php");
+    exit();
 }
 
 ?>
@@ -83,28 +86,44 @@ if (empty($errors)) {
 <html>
     <head>
         <title>Registration</title>
+	<style>
+		.error { color: red; }
+	</style>
     </head>
     <body>
         <main>
             <form method="POST" action="register.php">
 		<h1>Registration</h1>
 		<label>First Name:</label>
-                <input type="text" name="first_name" value="">
+                <input type="text" name="first_name" value="<?= htmlspecialchars($first_name) ?>">
                 <br>
                 <label>Last Name:</label>
-                <input type="text" name="last_name" value="">
+                <input type="text" name="last_name" value="<?= htmlspecialchars($last_name) ?>">
                 <br>
                 <label>Email:</label>
-                <input type="text" name="email" value="">
+                <input type="text" name="email" value="<?= htmlspecialchars($email) ?>">
                 <br>
                 <label>Username:</label>
-                <input type="text" name="username" value="">
+                <input type="text" name="username" value="<?= htmlspecialchars($username) ?>">
                 <br>
                 <label>Password:</label>
-                <input type="text" name="password" value="">
+                <input type="password" name="password" value="">
                 <br>
-                <input type="submit" value="Submit">
+                <input type="submit" value="Register">
             </form>
+
+	    <!-- Display Error Messages After Form Submission -->
+	    <?php if (!empty($errors)): ?>
+		<div class="error">
+		    <h3>Errors:</h3>
+		    <ul>
+			<?php foreach($errors as $error): ?>
+			    <li><?= htmlspecialchars($error) ?></li>
+			<?php endforeach; ?>
+		    </ul>
+		</div>
+	    <?php endif; ?>
+
             <div id="message">
                 <h3>Password Criteria:</h3>
                 <p>At least one upper case letter</p>

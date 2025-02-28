@@ -15,13 +15,13 @@ $passwordRegex = '/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,}$/';
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	$username = trim($_POST['username']);
 	$password = trim($_POST['password']);
-
+	
 	if (empty($username)){
-		echo "<script>alert('USERNAME CANNOT BE EMPTY. PLEASE INPUT A USERNAME')</script>";
+		$errors[] = "USERNAME CANNOT BE EMPTY. PLEASE INPUT A USERNAME";
 	}
-
+	
 	if (empty($password)){
-		echo "<script>alert('PASSWORD CANNOT BE EMPTY. PLEASE INPUT A PASSWORD')</script>";
+		$errors[]="PASSWORD CANNOT BE EMPTY. PLEASE INPUT A PASSWORD";
 	}
 
 	if (isset($_POST['login']) && empty($errors)){
@@ -54,10 +54,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 				header("Location: homepage.php");
 				exit();
 			}else {
-				echo "<script>alert('Invalid password!.Please try again')</script>";
+				$errors[] = "Invalid password!.Please try again.";
 			}
 		} else {
-			echo "<script>alert('USER DOES NOT EXIST! PLEASE CREATE AN ACCOUNT FIRST')</script>";
+			$errors[] = "USER DOES NOT EXIST! PLEASE CREATE AN ACCOUNT FIRST.";
 		}
 		$stmt->close();
 	} elseif (isset($_POST['register'])){
@@ -73,20 +73,32 @@ $con->close();
 
 function validateUsername($username, $usernameRegex){
 	if (!preg_match($usernameRegex, $username)){
-		echo "<script>alert('INVALID USERNAME. PLEASE ENTER A UNIQUE USERNAME')</script>";
+		$errors[] = "INVALID USERNAME. PLEASE ENTER AGAIN.";
 	}
-	else {
-		echo "<script>alert('USERNAME VALID!')</script>";
+	else{
+		echo "USERNAME VALID!";
 	}
 }
 
 function validatePassword($password, $passwordRegex){
 	if (!preg_match($passwordRegex, $password)){
-		echo "<script>alert('INVALID PASSWORD. PASSWORD MUST HAVE A SPECIAL CHARACTER, NUMBER AND SHOULD BE 7 CHARACTERS LONG. PLEASE RE-ENTER')</script>";
+		$errors[] = "INVALID PASSWORD. PASSWORD MUST HAVE A SPECIAL CHARACTER, NUMBER AND SHOULD BE 7 CHARACTERS LONG. PLEASE RE-ENTER";
 	}
 	else {
-		echo "<script>alert('PASSWORD VALID!')</script>";
+		echo "PASSWORD VALID!";
 	}
+}
+
+if (empty($errors)){
+	$hashed_password = password_hash($password);
+
+	$stmt = $con->prepare("INSERT INTO login (username, password_hash) VALUES (?, ?)");
+	$stmt->bind_param("ss", $username, $hashed_password);
+	$stmt->execute();
+	$stmt->close();
+
+	header("Location: homepage.php");
+	exit();
 }
 ?>
 
@@ -115,5 +127,16 @@ function validatePassword($password, $passwordRegex){
 <input type="submit" name="login" value="Login"/>
 
 </form>
+
+ <?php if (!empty($errors)): ?>
+	<div class="error">
+		<h3>Errors:</h3>
+		<ul>
+			<?php foreach($errors as $error): ?>
+			    <li><?= htmlspecialchars($error) ?></li>
+			<?php endforeach; ?>
+		</ul>
+	</div>
+<?php endif; ?>
 </body>
 </html>

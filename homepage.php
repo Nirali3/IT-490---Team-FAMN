@@ -8,17 +8,10 @@ session_start();
 
 include "connection.php";
 
-if (!isset($_SESSION['username'])) {
-	header("Location: login.php");
-	exit();
-}
+$loggedIn = isset($_SESSION['username']);
 
-$login_message = "";
-if (isset($_SESSION['login_success']) && $_SESSION['login_success']) {
-	$login_message = "<p style='color: green;'>Login successful!</p>";
-	unset($_SESSION['login_success']);
-}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -31,8 +24,9 @@ if (isset($_SESSION['login_success']) && $_SESSION['login_success']) {
 <body>
     <h2>Welcome to Your Dashboard</h2>
 
-    <?php echo $login_message; ?>
-    <p>You are logged in successfully.</p>
+    <?php if ($loggedIn): ?>
+	<p>You are logged in successfully.</p>
+    <?php endif; ?>
 
     <form action="logout.php" method="post">
         <button type="submit">Logout</button>

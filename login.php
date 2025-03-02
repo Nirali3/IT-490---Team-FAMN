@@ -81,7 +81,7 @@ function validateUsername($username, $usernameRegex){
 
 function validatePassword($password, $passwordRegex){
 	global $errors;
-	if (!preg_match($passssswordRegex, $password)){
+	if (!preg_match($passwordRegex, $password)){
                 $errors[] = "PASSWORD MUST BE 7 CHARACTERS LONG. IT SHOULD INCLUDE: AN UPPERCASE LETTER, A NUMBER, AND A SPECIAL CHARACTER. PLEASE RE-ENTER.";
         }
 }

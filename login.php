@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 			exit();
 		}
 
-		stmt = $con->prepare("SELECT password_hash FROM login WHERE username = ?");
+		$stmt = $con->prepare("SELECT password_hash FROM login WHERE username = ?");
 		$stmt->bind_param("s", $username);
 		$stmt->execute();
 		$stmt->store_result();
@@ -55,36 +55,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 		} else {
 			$errors[] = "USER DOES NOT EXIST! PLEASE CREATE AN ACCOUNT FIRST.";
 		}
-		
-		elseif (isset($_POST['register']) && empty($errors)){
-			$hashed_password = password_hash($password, PASSWORD_DEFAULT);
-			$stmt = $con->prepare("INSERT INTO login (username, password_hash) VALUES (?, ?)");
-			$stmt->bind_param("ss", $username, $hashed_password);
-			$stmt->execute();
-			$stmt->close();
-
-			header("Location: homepage.php");
-			exit();
-		}
+		$stmt->close();
 	}
+		
+	if (isset($_POST['register']) && empty($errors)){
+		$hashed_password = password_hash($password, PASSWORD_DEFAULT);
+		$stmt = $con->prepare("INSERT INTO login (username, password_hash) VALUES (?, ?)");
+		$stmt->bind_param("ss", $username, $hashed_password);
+		$stmt->execute();
+		$stmt->close();
+
+		header("Location: homepage.php");
+		exit();
+	}
+}
 
 //validation
 
 function validateUsername($username, $usernameRegex){
+	global $errors;
 	if (!preg_match($usernameRegex, $username)){
 		$errors[] = "INVALID USERNAME. PLEASE ENTER AGAIN.";
-	}
-	else{
-		echo "USERNAME VALID!";
 	}
 }
 
 function validatePassword($password, $passwordRegex){
-        if (!preg_match($passssswordRegex, $password)){
+	global $errors;
+	if (!preg_match($passssswordRegex, $password)){
                 $errors[] = "PASSWORD MUST BE 7 CHARACTERS LONG. IT SHOULD INCLUDE: AN UPPERCASE LETTER, A NUMBER, AND A SPECIAL CHARACTER. PLEASE RE-ENTER.";
-        }
-        else{
-                echo "USERNAME VALID!";
         }
 }
 ?>

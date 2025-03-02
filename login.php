@@ -16,8 +16,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	$username = trim($_POST['username']);
 	$password = trim($_POST['password']);
 
-	validateUsername($username, $usernameRegex, $errors);
-	validatePassword($password, $passwordRegex, $errors);
+	validateUsername($username, $usernameRegex);
+	validatePassword($password, $passwordRegex);
 
 	if (isset($_POST['login']) && empty($errors)){
 		$client = new rabbitMQClient("testRabbitMQ.ini", "testServer");

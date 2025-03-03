@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 		$error[] = "PASSWORD CANNOT BE EMPTY";
 	}
 	
-	if (!empty($username)) && (!empty($paassword)){
+	if (!empty($username)) && !empty($password)){
 		validateUsername($username, $usernameRegex);
 		validatePassword($password, $passwordRegex);
 	}
@@ -64,8 +64,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 			}
 		} else {
 			$error[] = "USER DOES NOT EXIST! PLEASE CREATE AN ACCOUNT FIRST.";
-			header("Location: register.php");
-			exit();
 		}
 		$stmt->close();
 	}
@@ -125,12 +123,12 @@ function validatePassword($password, $passwordRegex){
 
 </form>
 
- <?php if (!empty($errors)): ?>
+ <?php if (!empty($error)): ?>
 	<div class="error">
 		<h3>Error:</h3>
 		<ul>
-			<?php foreach($errors as $error): ?>
-			    <li><?= htmlspecialchars($error) ?></li>
+			<?php foreach($error as $err): ?>
+			    <li><?= htmlspecialchars($err) ?></li>
 			<?php endforeach; ?>
 		</ul>
 	</div>

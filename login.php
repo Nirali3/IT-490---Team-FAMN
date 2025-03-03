@@ -64,18 +64,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 			}
 		} else {
 			$error[] = "USER DOES NOT EXIST! PLEASE CREATE AN ACCOUNT FIRST.";
+			sleep(3);
+			header("Location: register.php");
+			exit();
 		}
 		$stmt->close();
 	}
 		
-	if (isset($_POST['register']) && empty($error)){
-		$hashed_password = password_hash($password, PASSWORD_DEFAULT);
-		$stmt = $con->prepare("INSERT INTO login (username, password_hash) VALUES (?, ?)");
-		$stmt->bind_param("ss", $username, $hashed_password);
-		$stmt->execute();
-		$stmt->close();
-
-		header("Location: homepage.php");
+	if (isset($_POST['register'])){
+		header("Location: register.php");
 		exit();
 	}
 }

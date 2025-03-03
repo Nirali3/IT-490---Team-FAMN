@@ -68,6 +68,16 @@ if (empty($password)) {
     $errors[] = "Password must have at least one special character.";
 }
 
+$stmt = $con->prepare("SELECT email FROM register WHERE email = ?");
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$stmt->store_result();
+
+if ($stmt->num_rows > 0) {
+	$errors[] = "This email is already registered. Please use another email.";
+}
+$stmt->close();
+
 if (empty($errors)) {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 

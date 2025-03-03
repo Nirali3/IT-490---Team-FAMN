@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 		$error[] = "PASSWORD CANNOT BE EMPTY";
 	}
 	
-	if (!empty($username)) && !empty($password)){
+	if (!empty($username) && !empty($password)){
 		validateUsername($username, $usernameRegex);
 		validatePassword($password, $passwordRegex);
 	}

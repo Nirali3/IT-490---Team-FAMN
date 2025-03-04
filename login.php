@@ -7,7 +7,7 @@ session_start();
 include "connection.php";
 require_once('rabbitMQLib.inc');
 
-$errors = [];
+$error = [];
 
 $usernameRegex = '/^[a-zA-Z][a-zA-Z0-9]{3,10}$/';
 $passwordRegex = '/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!.%*?&])[A-Za-z\d@$!%*.?&]{7,}$/'; 
@@ -17,21 +17,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	$password = trim($_POST['password']);
 
 	if (empty($username)){
-		$errors[] = "USERNAME CANNOT BE EMPTY";
+		$error[] = "USERNAME CANNOT BE EMPTY";
 	}
 
 	if (empty($password)){
-		$errors[] = "PASSWORD CANNOT BE EMPTY";
+		$error[] = "PASSWORD CANNOT BE EMPTY";
 	}
 	
 	if (!empty($username) && !empty($password)){
-		validateUsername($username, $usernameRegex, $errors);
-		validatePassword($password, $passwordRegex, $errors);
+		validateUsername($username, $usernameRegex);
+		validatePassword($password, $passwordRegex);
 	}
 
-	if (isset($_POST['login']) && empty($errors)){
-		try {
-			$client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
+	if (isset($_POST['login']) && empty($error)) {
+		$client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
 
 		$request = array(
 			'type' => "login",
@@ -40,22 +39,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 		);
 
 		$response = $client->send_request($request);
-		var_dump($response);
+
 		if($response === true){
 			$_SESSION["username"] = $username;
 			header("Location: homepage.php");
 			exit();
 
-		}else{
-			$error[] = "Login failed. Please try again";
 		}
 
-            } catch (Exception $e) {
-		$errors[] = "RabbitMQ Error: " . $e->getMessage();
-	    }
-	}
-
-	if (!empty($errors)) {
 		$stmt = $con->prepare("SELECT password_hash FROM login WHERE username = ?");
 		$stmt->bind_param("s", $username);
 		$stmt->execute();
@@ -70,16 +61,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 				header("Location: homepage.php");
 				exit();
 			} else {
-			     $errors[] = "Invalid password!.Please try again.";
+			     $error[] = "Invalid password!.Please try again.";
 			}
 			else{
 				$errors[] = "USER DOES NOT EXIST. PLEASE CREATE ACCOUNT";
 			}
 
+<<<<<<< HEAD
+=======
+		} else {
+			$error[] = "USER DOES NOT EXIST! PLEASE CREATE AN ACCOUNT FIRST.";
+>>>>>>> 09f7023 (Original Version)
 		}
 
 		$stmt->close();
 	}
+<<<<<<< HEAD
+=======
+	if (isset($_POST['register']) && empty($error)) {
+		$hashed_password = password_hash($password, PASSWORD_DEFAULT);
+		$stmt = $con->prepare("INSERT INTO login (username,password_hash) VALUES (?,?)");
+		$stmt->bind_param("ss", $username, $hashed_password);
+		$stmt->execute();
+		$stmt->close();
+>>>>>>> 09f7023 (Original Version)
 
 	if (isset($_POST['register'])){
 		header("Location: register.php");
@@ -90,15 +95,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
 //validation
 
-function validateUsername($username, $usernameRegex, &$errors) {
+function validateUsername($username, $usernameRegex) {
+	global $error;
 	if (!preg_match($usernameRegex, $username)) {
-		$errors[] = "INVALID USERNAME. PLEASE ENTER A UNIQUE USERNAME.";
+		$error[] = "INVALID USERNAME. PLEASE ENTER AGAIN.";
 	}
 }
 
-function validatePassword($password, $passwordRegex, &$errors) {
+function validatePassword($password, $passwordRegex) {
+	global $error;
 	if (!preg_match($passwordRegex, $password)) {
-                $errors[] = "PASSWORD MUST BE 7 CHARACTERS LONG. IT SHOULD INCLUDE: AN UPPERCASE LETTER, A NUMBER, AND A SPECIAL CHARACTER. PLEASE RE-ENTER.";
+                $error[] = "PASSWORD MUST BE 7 CHARACTERS LONG. IT SHOULD INCLUDE: AN UPPERCASE LETTER, A NUMBER, AND A SPECIAL CHARACTER. PLEASE RE-ENTER.";
         }
 }
 ?>
@@ -119,12 +126,12 @@ function validatePassword($password, $passwordRegex, &$errors) {
 <form method="POST" action="login.php" id="loginform">
 	<p>
 		<label>Username:</label>
-		<input type="text" id="username" name="username" required />
+		<input type="text" id="username" name="username" />
 	</p>
 
 	<p>
 		<label>Password:</label>
-		<input type="password" id="password" name="password" required />
+		<input type="password" id="password" name="password" />
 	</p>
 
 	<input type="submit" name="register" value="Register"/>
@@ -132,12 +139,12 @@ function validatePassword($password, $passwordRegex, &$errors) {
 
 </form>
 
- <?php if (!empty($errors)): ?>
+ <?php if (!empty($error)): ?>
 	<div class="error">
 		<h3>Error:</h3>
 		<ul>
-			<?php foreach($errors as $error): ?>
-			    <li><?= htmlspecialchars($error) ?></li>
+			<?php foreach($error as $err): ?>
+			    <li><?= htmlspecialchars($err) ?></li>
 			<?php endforeach; ?>
 		</ul>
 	</div>

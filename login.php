@@ -79,6 +79,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
 		$stmt->close();
 	}
+	if (isset($_POST['register']) && empty($errors)) {
+		$hashed_password = password_hash($password, PASSWORD_DEFAULT);
+		$stmt = $con->prepare("INSERT INTO login (username,password_hash) VALUES (?,?)");
+		$stmt->bind_param("ss", $username, $hashed_password);
+		$stmt->execute();
+		$stmt->close();
+
+		header("Location: homepage.php");
+		exit();
+	}
 }
 
 //validation

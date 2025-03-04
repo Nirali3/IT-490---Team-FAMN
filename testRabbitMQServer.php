@@ -10,7 +10,7 @@ function doLogin($username,$password)
 	"test" => "Am12345."
 	];
 
-	if (isset($validUsers[$username]) && $validUsers[$username] === $password {
+	if (isset($validUsers[$username]) && $validUsers[$username] === $password) {
 		return ["success" => true, "message" => "Login successful"];
 	}
 

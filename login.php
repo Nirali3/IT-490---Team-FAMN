@@ -10,7 +10,7 @@ require_once('rabbitMQLib.inc');
 $errors = [];
 
 $usernameRegex = '/^[a-zA-Z][a-zA-Z0-9]{3,10}$/';
-$passwordRegex = '/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!.%*?&])[A-Za-z\d@$!%*.?&]{7,}$/'; 
+$passwordRegex = '/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,}$/'; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	$username = trim($_POST['username']);
@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 			exit();
 
 		}else{
-			$error[] = "Login failed. Please try again";
+			$errors[] = "Login failed. Please try again";
 		}
 
             } catch (Exception $e) {
@@ -72,10 +72,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 			} else {
 			     $errors[] = "Invalid password!.Please try again.";
 			}
-			else{
-				$errors[] = "USER DOES NOT EXIST. PLEASE CREATE ACCOUNT";
-			}
 
+		}else{
+			$errors[] = "USER DOES NOT EXIST";
 		}
 
 		$stmt->close();

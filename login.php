@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 		validatePassword($password, $passwordRegex);
 	}
 
-	if (isset($_POST['login']) && empty($error)) {
+	if (isset($_POST['login']) && empty($errors)) {
 		$client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
 
 		$request = array(
@@ -70,13 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
 		$stmt->close();
 	}
-	if (isset($_POST['register']) && empty($errors)) {
-		$hashed_password = password_hash($password, PASSWORD_DEFAULT);
-		$stmt = $con->prepare("INSERT INTO login (username,password_hash) VALUES (?,?)");
-		$stmt->bind_param("ss", $username, $hashed_password);
-		$stmt->execute();
-		$stmt->close();
-
+	if (isset($_POST['register']) {
 		header("Location: register.php");
 		exit();
 	}

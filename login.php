@@ -70,7 +70,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
 		$stmt->close();
 	}
-	if (isset($_POST['register'])) {
+
+	if (isset($_POST['register'])){
 		header("Location: register.php");
 		exit();
 	}

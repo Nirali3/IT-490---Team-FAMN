@@ -7,7 +7,7 @@ session_start();
 include "connection.php";
 require_once('rabbitMQLib.inc');
 
-$error = [];
+$errors = [];
 
 $usernameRegex = '/^[a-zA-Z][a-zA-Z0-9]{3,10}$/';
 $passwordRegex = '/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,}$/'; 
@@ -17,11 +17,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	$password = trim($_POST['password']);
 
 	if (empty($username)){
-		$error[] = "USERNAME CANNOT BE EMPTY";
+		$errors[] = "USERNAME CANNOT BE EMPTY";
 	}
 
 	if (empty($password)){
-		$error[] = "PASSWORD CANNOT BE EMPTY";
+		$errors[] = "PASSWORD CANNOT BE EMPTY";
 	}
 	
 	if (!empty($username) && !empty($password)){
@@ -62,24 +62,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 				header("Location: homepage.php");
 				exit();
 			} else {
-			     $error[] = "Invalid password!.Please try again.";
+			     $errors[] = "Invalid password!.Please try again.";
 			}
 		}else{
 			$errors[] = "USER DOES NOT EXIST";
-		} else {
-			$error[] = "USER DOES NOT EXIST! PLEASE CREATE AN ACCOUNT FIRST.";
 		}
 
 		$stmt->close();
 	}
-	if (isset($_POST['register']) && empty($error)) {
+	if (isset($_POST['register']) && empty($errors)) {
 		$hashed_password = password_hash($password, PASSWORD_DEFAULT);
 		$stmt = $con->prepare("INSERT INTO login (username,password_hash) VALUES (?,?)");
 		$stmt->bind_param("ss", $username, $hashed_password);
 		$stmt->execute();
 		$stmt->close();
 
-	if (isset($_POST['register'])){
 		header("Location: register.php");
 		exit();
 	}
@@ -89,16 +86,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 //validation
 
 function validateUsername($username, $usernameRegex) {
-	global $error;
+	global $errors;
 	if (!preg_match($usernameRegex, $username)) {
-		$error[] = "INVALID USERNAME. PLEASE ENTER AGAIN.";
+		$errors[] = "INVALID USERNAME. PLEASE ENTER AGAIN.";
 	}
 }
 
 function validatePassword($password, $passwordRegex) {
-	global $error;
+	global $errors;
 	if (!preg_match($passwordRegex, $password)) {
-                $error[] = "PASSWORD MUST BE 7 CHARACTERS LONG. IT SHOULD INCLUDE: AN UPPERCASE LETTER, A NUMBER, AND A SPECIAL CHARACTER. PLEASE RE-ENTER.";
+                $errors[] = "PASSWORD MUST BE 7 CHARACTERS LONG. IT SHOULD INCLUDE: AN UPPERCASE LETTER, A NUMBER, AND A SPECIAL CHARACTER. PLEASE RE-ENTER.";
         }
 }
 ?>
@@ -110,7 +107,7 @@ function validatePassword($password, $passwordRegex) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login Page</title>
 <style>
-	.error { color: red; }
+	.errors { color: red; }
 </style>
 </head>
 
@@ -132,12 +129,12 @@ function validatePassword($password, $passwordRegex) {
 
 </form>
 
- <?php if (!empty($error)): ?>
+ <?php if (!empty($errors)): ?>
 	<div class="error">
-		<h3>Error:</h3>
+		<h3>Errors:</h3>
 		<ul>
-			<?php foreach($error as $err): ?>
-			    <li><?= htmlspecialchars($err) ?></li>
+			<?php foreach($errors as $error): ?>
+			    <li><?= htmlspecialchars($error) ?></li>
 			<?php endforeach; ?>
 		</ul>
 	</div>

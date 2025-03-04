@@ -27,6 +27,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	if (!empty($username) && !empty($password)){
 		validateUsername($username, $usernameRegex);
 		validatePassword($password, $passwordRegex);
+
+		if(!empty($error)){
+			return;
+		}
 	}
 
 	if (isset($_POST['login']) && empty($error)){
@@ -101,7 +105,7 @@ function validatePassword($password, $passwordRegex){
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login Page</title>
 <style>
-	.err { color: red; }
+	.error { color: red; }
 </style>
 </head>
 

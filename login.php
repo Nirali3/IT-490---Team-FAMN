@@ -27,10 +27,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	if (!empty($username) && !empty($password)){
 		validateUsername($username, $usernameRegex);
 		validatePassword($password, $passwordRegex);
-
-		if(!empty($error)){
-			return;
-		}
 	}
 
 	if (isset($_POST['login']) && empty($error)){
@@ -43,11 +39,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 		);
 
 		$response = $client->send_request($request);
-
+		var_dump($response);
 		if($response === true){
 			$_SESSION["username"] = $username;
 			header("Location: homepage.php");
 			exit();
+		}else{
+			$error[] = "Login failed. Please try again";
 		}
 
 		$stmt = $con->prepare("SELECT password_hash FROM login WHERE username = ?");

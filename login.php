@@ -10,7 +10,7 @@ require_once('rabbitMQLib.inc');
 $errors = [];
 
 $usernameRegex = '/^[a-zA-Z][a-zA-Z0-9]{3,10}$/';
-$passwordRegex = '/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,}$/'; 
+$passwordRegex = '/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!.%*?&])[A-Za-z\d@$!%*.?&]{7,}$/'; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	$username = trim($_POST['username']);
@@ -52,8 +52,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
             } catch (Exception $e) {
 		$errors[] = "RabbitMQ Error: " . $e->getMessage();
-            }
-        }
+	    }
+	}
 
 	if (!empty($errors)) {
 		$stmt = $con->prepare("SELECT password_hash FROM login WHERE username = ?");
@@ -72,23 +72,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 			} else {
 			     $errors[] = "Invalid password!.Please try again.";
 			}
+			else{
+				$errors[] = "USER DOES NOT EXIST. PLEASE CREATE ACCOUNT";
+			}
 
-		} else {
-			$errors[] = "USER DOES NOT EXIST! PLEASE CREATE AN ACCOUNT FIRST.";
 		}
 
 		$stmt->close();
 	}
-	if (isset($_POST['register']) && empty($errors)) {
-		$hashed_password = password_hash($password, PASSWORD_DEFAULT);
-		$stmt = $con->prepare("INSERT INTO login (username,password_hash) VALUES (?,?)");
-		$stmt->bind_param("ss", $username, $hashed_password);
-		$stmt->execute();
-		$stmt->close();
 
-		header("Location: homepage.php");
+	if (isset($_POST['register'])){
+		header("Location: register.php");
 		exit();
 	}
+	
 }
 
 //validation

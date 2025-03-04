@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 			header("Location: homepage.php");
 			exit();
 		}else{
-			$errors[] = "Login failed. Please try again";
+			$errors[] = $response[] = ['message'];
 		}
 
 		$stmt = $con->prepare("SELECT password_hash FROM login WHERE username = ?");
@@ -70,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
 		$stmt->close();
 	}
-	if (isset($_POST['register']) {
+	if (isset($_POST['register'])) {
 		header("Location: register.php");
 		exit();
 	}

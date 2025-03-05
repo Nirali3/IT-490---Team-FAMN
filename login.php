@@ -42,6 +42,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
 		if(isset($response['success']) && $response['success'] == 1){
 			$_SESSION["username"] = $username;
+			
+			echo "Session username: " . $_SESSION["username"];
+			
 			header("Location: homepage.php");
 			exit();
 		}else{
@@ -49,28 +52,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 		}
 	}
 
-		/*$stmt = $con->prepare("SELECT password_hash FROM login WHERE username = ?");
-		$stmt->bind_param("s", $username);
-		$stmt->execute();
-		$stmt->store_result();
-
-		if($stmt->num_rows > 0) {
-			$stmt->bind_result($password_hash);
-			$stmt->fetch();
-			
-			if (password_verify($password, $password_hash)) {
-				$_SESSION["username"] = $username;
-				header("Location: homepage.php");
-				exit();
-			} else {
-			     $errors[] = "Invalid password!.Please try again.";
-			}
-		}else{
-			$errors[] = "USER DOES NOT EXIST";
-		}
-
-		$stmt->close();
-}*/
 
 	if (isset($_POST['register'])){
 		header("Location: register.php");

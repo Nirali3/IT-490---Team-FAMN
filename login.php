@@ -40,15 +40,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
 		$response = $client->send_request($request);
 
-		if($response === true){
+		if(isset($response['success']) && $response['success'] == 1){
 			$_SESSION["username"] = $username;
 			header("Location: homepage.php");
 			exit();
 		}else{
-			$errors[] = "login failed with rabbitmq response";
+			$errors[] = $response['message'];
 		}
+	}
 
-		$stmt = $con->prepare("SELECT password_hash FROM login WHERE username = ?");
+		/*$stmt = $con->prepare("SELECT password_hash FROM login WHERE username = ?");
 		$stmt->bind_param("s", $username);
 		$stmt->execute();
 		$stmt->store_result();
@@ -69,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 		}
 
 		$stmt->close();
-	}
+}*/
 
 	if (isset($_POST['register'])){
 		header("Location: register.php");

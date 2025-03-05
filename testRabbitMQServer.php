@@ -27,7 +27,8 @@ function doValidate($sessionId)
 function requestProcessor($request)
 {
   echo "received request".PHP_EOL;
-  var_dump($request);
+  print_r($request);
+
   if(!isset($request['type']))
   {
     return "ERROR: unsupported message type";

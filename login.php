@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 			header("Location: homepage.php");
 			exit();
 		}else{
-			$errors[] = $response[] = ['message'];
+			$errors[] = "login failed with rabbitmq response";
 		}
 
 		$stmt = $con->prepare("SELECT password_hash FROM login WHERE username = ?");
@@ -102,7 +102,7 @@ function validatePassword($password, $passwordRegex) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login Page</title>
 <style>
-	.errors { color: red; }
+	.error { color: red; }
 </style>
 </head>
 

@@ -1,15 +1,16 @@
 <?php
 $host = "100.69.138.84";
+$username = "backend_user";
 $password = "490AFMNprojectFinal";
 $database = "project490_db";
-$username = "backend_user";
 
-$con = mysqli_connect($host,$username,$password,$database);
+$con = new mysqli($host,$username,$password,$database);
 	
-if(mysqli_connect_errno()){
-	echo "Failed to connect: " . mysqli_connect_error();
+if ($con->connect_error){
+	die("Failed to connect: " . $con->connect_error);
 }
-//else{
-//	echo "Connection Successful";
-//}
+else{
+	echo "Connection Successful";
+}
 ?>
+

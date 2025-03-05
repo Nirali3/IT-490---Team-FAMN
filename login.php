@@ -42,7 +42,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
 		if(isset($response['success']) && $response['success'] == 1){
 			$_SESSION["username"] = $username;
-			
 			echo "Session username: " . $_SESSION["username"];
 			
 			header("Location: homepage.php");
@@ -50,6 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 		}else{
 			$errors[] = $response['message'];
 		}
+
 	}
 
 

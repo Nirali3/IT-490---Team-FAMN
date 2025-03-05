@@ -1,5 +1,5 @@
 <?php
-error_reporting(E_ALL); 
+error_reporting(E_ALL & ~E_DEPRECATED); 
 ini_set('display_errors', 1);
 
 session_start();
@@ -10,7 +10,7 @@ require_once('rabbitMQLib.inc');
 $errors = [];
 
 $usernameRegex = '/^[a-zA-Z][a-zA-Z0-9]{3,10}$/';
-$passwordRegex = '/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,}$/'; 
+$passwordRegex = '/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.])[A-Za-z\d@$!%*?&.]{7,}$/'; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	$username = trim($_POST['username']);
@@ -30,7 +30,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	}
 
 	if (isset($_POST['login']) && empty($errors)) {
+
 		$client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
+
 
 		$request = array(
 			'type' => "login",
@@ -41,9 +43,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 		$response = $client->send_request($request);
 
 		if(isset($response['success']) && $response['success'] == 1){
+			session_start();
 			$_SESSION["username"] = $username;
-			echo "Session username: " . $_SESSION["username"];
 			
+			ob_end_clean();
 			header("Location: homepage.php");
 			exit();
 		}else{
@@ -71,9 +74,9 @@ function validateUsername($username, $usernameRegex) {
 
 function validatePassword($password, $passwordRegex) {
 	global $errors;
-	if (!preg_match($passwordRegex, $password)) {
-                $errors[] = "PASSWORD MUST BE 7 CHARACTERS LONG. IT SHOULD INCLUDE: AN UPPERCASE LETTER, A NUMBER, AND A SPECIAL CHARACTER. PLEASE RE-ENTER.";
-        }
+//	if (!preg_match($passwordRegex, $password)) {
+//            $errors[] = "PASSWORD MUST BE 7 CHARACTERS LONG. IT SHOULD INCLUDE: AN UPPERCASE LETTER, A NUMBER, AND A SPECIAL CHARACTER. PLEASE RE-ENTER.";
+//      }
 }
 ?>
 

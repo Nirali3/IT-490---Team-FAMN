@@ -3,22 +3,34 @@
 
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
+require_once('connection.php'); // Incluir tu archivo de conexión
 
-include "connection.php";
-
-function doLogin($username,$password)
+// Función para hacer login
+function doLogin($username, $password)
 {
-    $validUsers = [ 
-	$username => $password	];
+    // Escapar los valores para evitar inyecciones SQL
+    global $con; // Usamos la conexión global que viene del archivo connection.php
+    $username = $con->real_escape_string($username);
 
-	if (isset($validUsers[$username]) && $validUsers[$username] === $password) {
-		return ["success" => true, "message" => "Login successful"];
-	}
+    // Consultar el usuario y la contraseña en la base de datos
+    $sql = "SELECT password_hash FROM register WHERE username = '$username' LIMIT 1";
+    $result = $con->query($sql);
 
-    //return false if not valid
+    if ($result->num_rows > 0) {
+        // El usuario existe, obtenemos la contraseña almacenada
+        $row = $result->fetch_assoc();
+        $storedPassword = $row['password_hash'];
 
-    		return ["success" => false, "message" => "Invalid credentials"];
+        // Verificar la contraseña usando password_verify si es un hash
+        if (password_verify($password, $storedPassword)) {
+            return ["success" => true, "message" => "Login successful"];
+        }
+    }
+    
+    // Si no encontramos el usuario o la contraseña no es válida
+    return ["success" => false, "message" => "Invalid credentials"];
 }
+
 
 function doValidate($sessionId)
 {

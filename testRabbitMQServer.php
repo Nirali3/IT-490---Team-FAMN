@@ -4,11 +4,12 @@
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
 
+include "connection.php";
+
 function doLogin($username,$password)
 {
     $validUsers = [ 
-	"test" => "Am12345."
-	];
+	$username => $password	];
 
 	if (isset($validUsers[$username]) && $validUsers[$username] === $password) {
 		return ["success" => true, "message" => "Login successful"];

@@ -213,6 +213,7 @@ class rabbitMQClient
 
       $callback_queue = new AMQPQueue($channel);
       $callback_queue->setName($this->queue."_response");
+      $callback_queue->setFlags(AMQP_DURABLE);
       $callback_queue->declare();
 			$callback_queue->bind($exchange->getName(),$this->routing_key.".response");
 

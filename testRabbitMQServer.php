@@ -3,14 +3,13 @@
 
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
-require_once('connection.php'); // Incluir tu archivo de conexión
+require_once('connection.php');
 
-// Función para hacer login
+
 function doLogin($username, $password)
 {
-    // Escapar los valores para evitar inyecciones SQL
     global $con; // Usamos la conexión global que viene del archivo connection.php
-    $username = $con->real_escape_string($username);
+   $username = $con->real_escape_string($username);
 
     // Consultar el usuario y la contraseña en la base de datos
     $sql = "SELECT password_hash FROM register WHERE username = '$username' LIMIT 1";

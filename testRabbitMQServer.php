@@ -9,7 +9,7 @@ include "connection.php";
 function doLogin($username,$password)
 {
     $validUsers = [ 
-	"test" => "Am12345."	];
+	$username => $password];
 
 	if (isset($validUsers[$username]) && $validUsers[$username] === $password) {
 		return ["success" => true, "message" => "Login successful"];
@@ -53,3 +53,4 @@ $server->process_requests('requestProcessor');
 echo "testRabbitMQServer END".PHP_EOL;
 exit();
 ?>
+

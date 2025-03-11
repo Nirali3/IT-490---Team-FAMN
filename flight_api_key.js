@@ -1,2 +1,1 @@
-//const apikey = "1e7a5d4e55da2b5a1c18addf9765a8b83c5072149998fd452d03588862b2d105";
 

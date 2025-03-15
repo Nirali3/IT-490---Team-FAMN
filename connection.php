@@ -9,8 +9,8 @@ $con = new mysqli($host,$username,$password,$database);
 if ($con->connect_error){
 	die("Failed to connect: " . $con->connect_error);
 }
-else{
+/*else{
 	echo "Connection Successful";
-}
+}*/
 ?>
 

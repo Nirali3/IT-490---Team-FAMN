@@ -84,12 +84,12 @@ $loggedIn = isset($_SESSION['username']);
     <div class="navbar">
         <div>
             <a href="homepage.php">Home</a>
-            <a href="booking_flight.php">Book a Flight</a>
+	    <a href="userAccount.php">User Account</a>
+	    <a href="searchEvents.php">Search Events</a>
+	    <a href="indexSearchFlight.php">Search Flights</a>
+	    <a href="booking_flight.php">Book a Flight</a>
             <a href="confirmation.php">Confirmation</a>
-            <a href="indexSearchFlight.php">Search Flights</a>
             <a href="recommendation.php">Recommendations</a>
-            <a href="searchEvents.php">Search Events</a>
-            <a href="userAccount.php">User Account</a>
         </div>
 
         <!-- Logout Button -->

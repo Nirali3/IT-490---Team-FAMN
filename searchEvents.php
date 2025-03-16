@@ -6,7 +6,34 @@ error_reporting(E_ALL);
 session_start();
 
 include "connection.php";
+require 'vendor/autoload.php';
 
+$dotenv = Dotenv\Dotenv::createImmutable('/var/www/html', 'api.env');
+$dotenv->load();
+
+$api_key = $_ENV['GOOGLE_API_KEY'];
+
+$location = isset($_POST['location']) ? $_POST['location'] : "";
+
+$query = urlencode("events in " . $location);
+
+$url = "https://serpapi.com/search?engine=google_events&q={$query}&hl=en&gl=us&api_key={$api_key}";
+
+$response = file_get_contents($url);
+
+$data = json_decode($response, true);
+
+if (!empty($data['events_results'])) {
+    foreach ($data['events_results'] as $event) {
+        echo "<h3>" . htmlspecialchars($event['title']) . "</h3>";
+	echo "<p><strong>Date:</strong> " . htmlspecialchars($event['date']['when']) . "</p>";
+
+        echo "<p><a href='" . htmlspecialchars($event['link']) . "' target='_blank'>More Info</a></p>";
+        echo "<hr>";
+    }
+} else {
+    echo "<p>No events found for " . htmlspecialchars($location) . ".</p>";
+}
 
 ?>
 
@@ -90,7 +117,7 @@ include "connection.php";
 	</div>
 
 <form method="POST" action="searchEvents.php" id="searchform">
-<input type="text" id="locationSearch" name="Location" placeholder="Enter any City"/>
+<input type="text" id="locationSearch" name="Location" placeholder="Enter any location. eg- events in New York"/>
 <button type="submit" name="search" value="Search Events"</button>
 </form>
 </body>

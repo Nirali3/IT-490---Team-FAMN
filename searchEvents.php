@@ -13,26 +13,34 @@ $dotenv->load();
 
 $api_key = $_ENV['GOOGLE_API_KEY'];
 
-$location = isset($_POST['location']) ? $_POST['location'] : "";
+$EventResults = "";
 
-$query = urlencode("events in " . $location);
+if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location']){
+	$location = trim($_POST['Location']);
+	$location = isset($_POST['Location']) ? $_POST['Location'] : "";
+	$query = urlencode("events in " . $location);
+	$url = "https://serpapi.com/search?engine=google_events&q={$query}&hl=en&gl=us&api_key={$api_key}";
+	
+	$response = file_get_contents($url);
 
-$url = "https://serpapi.com/search?engine=google_events&q={$query}&hl=en&gl=us&api_key={$api_key}";
-
-$response = file_get_contents($url);
-
-$data = json_decode($response, true);
-
-if (!empty($data['events_results'])) {
-    foreach ($data['events_results'] as $event) {
-        echo "<h3>" . htmlspecialchars($event['title']) . "</h3>";
-	echo "<p><strong>Date:</strong> " . htmlspecialchars($event['date']['when']) . "</p>";
-
-        echo "<p><a href='" . htmlspecialchars($event['link']) . "' target='_blank'>More Info</a></p>";
-        echo "<hr>";
-    }
-} else {
-    echo "<p>No events found for " . htmlspecialchars($location) . ".</p>";
+	if($response === false){
+		die("Failed to fetch events. Please try again.");
+	}
+	else{
+		$data = json_decode($response, true); 
+		
+		if (!empty($data['events_results'])) {
+			foreach ($data['events_results'] as $event) {
+				$EventsResults = "<h3>" . htmlspecialchars($event['title']) . "</h3>";
+				$EventsResults = "<p><strong>Date:</strong> " . htmlspecialchars($event['date']['when']) . "</p>";
+				$EventsResults = "<p><a href='" . htmlspecialchars($event['link']) . "' target='_blank'>More Info</a></p>";
+				$EventsResults = "<hr>";
+			}
+		}
+	       	else {
+			echo "<p>No events found for " . htmlspecialchars($location) . ".</p>";
+		}
+	}
 }
 
 ?>
@@ -45,6 +53,12 @@ if (!empty($data['events_results'])) {
 <title>Event Search</title>
 <style>
 
+	body{
+		font-family: Arial, sans-serif;
+		margin: 0;
+		padding: 0;
+	}
+	
 	button[type="submit"]{
 		background-color: #0077b6;
 		color: white;
@@ -69,11 +83,8 @@ if (!empty($data['events_results'])) {
 		border-radius: 5px;
 	}
 
-	h1{
-		color: #0077b6;
-	}
-
-	h4{
+	h1, h4{
+		text-align: center;		
 		color: #0077b6;
 	}
 
@@ -101,8 +112,6 @@ if (!empty($data['events_results'])) {
 </head>
 
 <body>
-<h1> Search Events </h1>
-<h4> Search Events By Location </h4>
 
 <!-- Navigation Bar -->
     <div class="navbar">
@@ -115,10 +124,14 @@ if (!empty($data['events_results'])) {
             <a href="confirmation.php">Confirmation</a>
             <a href="recommendation.php">Recommendations</a>
 	</div>
+</div>
+
+<h1> Search Events </h1>
+<h4> Search Events By Location </h4>
 
 <form method="POST" action="searchEvents.php" id="searchform">
 <input type="text" id="locationSearch" name="Location" placeholder="Enter any location. eg- events in New York"/>
-<button type="submit" name="search" value="Search Events"</button>
+<button type="submit" name="search" value="Search Events">Search Events</button>
 </form>
 </body>
 </html>

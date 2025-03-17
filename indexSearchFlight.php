@@ -1,40 +1,16 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+ini_set('display_errors',1);
+ini_set('display_startup_errors',1);
 error_reporting(E_ALL);
 
 session_start();
+
 include "connection.php";
+require 'vendor/autoload.php';
 
-// Check if user is logged in
-$loggedIn = isset($_SESSION['username']);
-$username = $loggedIn ? $_SESSION['username'] : "Guest";
+$dotenv = Dotenv\Dotenv::createImmutable('/var/www/html', 'api.env');
+$dotenv->load();
 
-// Fetch user's purchased flights & events
-$purchasedFlights = [];
-$purchasedEvents = [];
-
-// Database query to get purchased flights
-if ($loggedIn) {
-    $stmt = $conn->prepare("SELECT * FROM booked_flights WHERE username = ?");
-    $stmt->bind_param("s", $_SESSION['username']);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    while ($row = $result->fetch_assoc()) {
-        $purchasedFlights[] = $row;
-    }
-    $stmt->close();
-
-    // Database query to get purchased events
-    $stmt = $conn->prepare("SELECT * FROM booked_events WHERE username = ?");
-    $stmt->bind_param("s", $_SESSION['username']);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    while ($row = $result->fetch_assoc()) {
-        $purchasedEvents[] = $row;
-    }
-    $stmt->close();
-}
 
 // Cargar la librería dotenv
 require_once 'vendor/autoload.php';

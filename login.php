@@ -88,11 +88,69 @@ function validatePassword($password, $passwordRegex) {
 <title>Login Page</title>
 <style>
 	.error { color: red; }
+
+	body{
+		font-family: Arial, sans-serif;
+		background-color: #f4f4f9;
+		color: #333;
+		text-align: center;
+		margin: 0;
+		padding: 0;
+	}
+
+	button[type="submit"]{
+		background-color: #0077b6;
+		color: white;
+		padding: 12px 24px;
+		border: none;
+		border-radius: 5px;
+		font-size: 18px;
+		display: inline-block;
+		width: auto;
+	}
+
+	button[type="submit"]:hover{
+		background-color: #005f87;
+	}
+
+	input[type="text"]{
+		width: 10%;
+		height: 30px;
+		padding: 10 0px;
+		margin: 20px auto;
+		font-size: 18px;
+	}
+
+	input[type="password"]{
+		width: 10%;
+		height: 30px;
+		padding: 10 0px;
+		margin: 20px auto;
+		font-size: 18px;
+	}
+
+	h1, h2{
+		font-family: Arial, Sans-serif;
+		font-size: 24px;
+		text-align: center;
+		color: #0077b6;
+	}
+
+	label{
+		font-size: 18px;
+		font-family: Arial, sans-serif;
+		margin-bottom: 5px;
+	}
+
+	#loginform{
+		width: 100%;
+	}
 </style>
 </head>
 
 <body>
-<h1> User Login </h1>
+<h1> Real Time Flight Tracker </h1>
+<h2> User Login </h2>
 <form method="POST" action="login.php" id="loginform">
 	<p>
 		<label>Username:</label>
@@ -104,8 +162,8 @@ function validatePassword($password, $passwordRegex) {
 		<input type="password" id="password" name="password" />
 	</p>
 
-	<input type="submit" name="register" value="Register"/>
-	<input type="submit" name="login" value="Login"/>
+	<button type="submit" name="register" value="Register">Register</button>
+	<button type="submit" name="login" value="Login">Login</button>
 
 </form>
 

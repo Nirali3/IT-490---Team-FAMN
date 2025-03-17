@@ -8,7 +8,7 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 // Obtener la API Key desde el .env
-$apiKey = getenv('API_KEY');
+$apiKey = getenv('GOOGLE_API_KEY');
 
 if (!$apiKey) {
     die('<p class="error">API Key not found. Please check your .env file.</p>');

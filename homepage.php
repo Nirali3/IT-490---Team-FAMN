@@ -7,6 +7,7 @@ session_start();
 include "connection.php";
 
 $loggedIn = isset($_SESSION['username']);
+$username = $loggedIn ? $_SESSION['username'] : "Guest";
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +15,7 @@ $loggedIn = isset($_SESSION['username']);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Real-Time Flight Tracker</title>
+    <title>Explore & Book | Your Event and Flight Tracker</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
         /* Light Blue Theme Styling */

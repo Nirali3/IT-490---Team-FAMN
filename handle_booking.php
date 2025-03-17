@@ -8,7 +8,7 @@ session_start();
 include "connection.php";
 require 'vendor/autoload.php';
 
-$dotenv = Dotenv\Dotenv::createImmutable('var/www/html', 'api.env');
+$dotenv = Dotenv\Dotenv::createImmutable('/var/www/html/', 'api.env');
 $dotenv->load();
 
 $api_key = $_ENV['GOOGLE_API_KEY'];

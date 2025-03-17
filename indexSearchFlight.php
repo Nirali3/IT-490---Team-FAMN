@@ -1,6 +1,6 @@
 <?php
-ini_set('display_errors',1);
-ini_set('display_startup_errors',1);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 session_start();
@@ -11,15 +11,13 @@ require 'vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable('/var/www/html', 'api.env');
 $dotenv->load();
 
-
-$apiKey = getenv('GOOGLE_API_KEY');
+$apiKey = $_ENV['GOOGLE_API_KEY'];  // Usando $_ENV en lugar de getenv()
 
 if (!$apiKey) {
     die('<p class="error">API Key not found. Please check your .env file.</p>');
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['origin'], $_GET['destination'], $_GET['departureDate'], $_GET['returnDate'])) {
-    
     $origin = urlencode($_GET['origin']);
     $destination = urlencode($_GET['destination']);
     $departureDate = urlencode($_GET['departureDate']);
@@ -34,11 +32,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['origin'], $_GET['destin
     }
 
     $data = json_decode($response, true);
-
     $flights = $data['best_flights'] ?? [];
-
 } else {
-   $flights = [];
+    $flights = [];
 }
 
 ?>

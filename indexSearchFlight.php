@@ -12,21 +12,12 @@ $dotenv = Dotenv\Dotenv::createImmutable('/var/www/html', 'api.env');
 $dotenv->load();
 
 
-// Cargar la librería dotenv
-require_once 'vendor/autoload.php';
-
-// Cargar el archivo .env
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
-
-// Obtener la API Key desde el .env
 $apiKey = getenv('GOOGLE_API_KEY');
 
 if (!$apiKey) {
     die('<p class="error">API Key not found. Please check your .env file.</p>');
 }
 
-// Check if the form was submitted
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['origin'], $_GET['destination'], $_GET['departureDate'], $_GET['returnDate'])) {
     
     $origin = urlencode($_GET['origin']);
@@ -34,21 +25,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['origin'], $_GET['destin
     $departureDate = urlencode($_GET['departureDate']);
     $returnDate = urlencode($_GET['returnDate']);
 
-    // Google Flights API URL (SerpApi)
     $apiUrl = "https://serpapi.com/search.json?engine=google_flights&departure_id=$origin&arrival_id=$destination&gl=us&hl=en&currency=USD&outbound_date=$departureDate&return_date=$returnDate&api_key=$apiKey";
 
-    // Fetch API data
     $response = file_get_contents($apiUrl);
 
-    // Handle API response error
     if ($response === FALSE) {
         die('<p class="error">Error retrieving data from the API.</p>');
     }
 
-    // Decode JSON response
     $data = json_decode($response, true);
 
-    // Check if flight data was received
     $flights = $data['best_flights'] ?? [];
 
 } else {

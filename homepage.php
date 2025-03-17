@@ -6,7 +6,10 @@ error_reporting(E_ALL);
 session_start();
 include "connection.php";
 
+// Check if the user is logged in and get their name
 $loggedIn = isset($_SESSION['username']);
+$username = $loggedIn ? $_SESSION['username'] : "Guest";
+
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +17,7 @@ $loggedIn = isset($_SESSION['username']);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Real-Time Flight Tracker</title>
+    <title>Explore & Book | Your Event & Flight Tracker</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
         /* Light Blue Theme Styling */
@@ -76,6 +79,18 @@ $loggedIn = isset($_SESSION['username']);
             line-height: 1.5;
         }
 
+        .image-section {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .image-section img {
+            width: 40%;
+            height: auto;
+            border-radius: 10px;
+            margin: 10px;
+        }
     </style>
 </head>
 <body>
@@ -84,10 +99,10 @@ $loggedIn = isset($_SESSION['username']);
     <div class="navbar">
         <div>
             <a href="homepage.php">Home</a>
-	    <a href="userAccount.php">User Account</a>
-	    <a href="searchEvents.php">Search Events</a>
-	    <a href="indexSearchFlight.php">Search Flights</a>
-	    <a href="booking_flight.php">Book a Flight</a>
+            <a href="userAccount.php">User Account</a>
+            <a href="searchEvents.php">Search Events</a>
+            <a href="indexSearchFlight.php">Search Flights</a>
+            <a href="booking_flight.php">Book a Flight</a>
             <a href="confirmation.php">Confirmation</a>
             <a href="recommendation.php">Recommendations</a>
         </div>
@@ -102,11 +117,17 @@ $loggedIn = isset($_SESSION['username']);
 
     <!-- Main Content -->
     <div class="container">
-        <h1>Welcome to Real-Time Flight Tracker</h1>
+        <h1>Welcome, <?php echo htmlspecialchars($username); ?>!</h1>
         <p>
-            Track real-time flight status, search for global events, and book your flights with ease.
-            Get personalized recommendations based on your travel history and receive instant notifications.
+            Explore events, find the perfect flights, and book your trips all in one place.
+            Get personalized recommendations and track your flight in real time.
         </p>
+    </div>
+
+    <!-- Image Section -->
+    <div class="image-section">
+        <img src="images/events.jpg" alt="Events">
+        <img src="images/flights.jpg" alt="Flights">
     </div>
 
 </body>

@@ -36,7 +36,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
 				}
 
 				if(!empty($event['thumbnail'])){
-					$EventResults .= "<img src='" . htmlspecialchars($event['thumbnail']) . "' alt='Event image' style='max-width:300px; display:block; margin:10px 0;'/>";
+					$EventResults .= "<img src='" . htmlspecialchars($event['thumbnail']) . "' alt='Event image' class='event-img' style='max-width:300px; display:block; margin:10px 15px;'/>";
 				}
 		
 
@@ -46,7 +46,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
 		}
 	
 	       	else {
-			$EventResults = "<p>No events found for " . htmlspecialchars($location) . ".</p>";
+			$EventResults = "<p style='color:red; font-size:18px;'>No events found for " . htmlspecialchars($location) . ".</p>";
 		}
 	}
 }
@@ -101,11 +101,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
 	}
 
 	#searchform{
-		width: 90%;
+		width: 100%;
 	}
 
 	#event_results{
-		width: 90%;
+		width: 100%;
 		max-width: 800px;
 		margin: 30px auto;
 		padding: 20px;
@@ -119,6 +119,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
 	#event_results a:hover{
 		text-decoration: underline;
 		color: #0077b6;
+	}
+
+	.event-img{
+		width: 300px;
 	}
 
 	.search-bar{

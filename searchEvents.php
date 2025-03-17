@@ -16,7 +16,6 @@ $api_key = $_ENV['GOOGLE_API_KEY'];
 $EventResults = "";
 
 if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
-	$location = trim($_POST['Location']);
 	$location = isset($_POST['Location']) ? $_POST['Location'] : "";
 	$query = urlencode("events in " . $location);
 	$url = "https://serpapi.com/search?engine=google_events&q={$query}&hl=en&gl=us&api_key={$api_key}";
@@ -32,13 +31,22 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
 		if (!empty($data['events_results'])) {
 			foreach ($data['events_results'] as $event) {
 				$EventResults .= "<h3>" . htmlspecialchars($event['title']) . "</h3>";
-				$EventResults .= "<p><strong>Date:</strong> " . htmlspecialchars($event['date']['when']) . "</p>";
+				if(!empty($event['date']['when'])){
+					$EventResults .= "<p><strong>Date:</strong> " . htmlspecialchars($event['date']['when']) . "</p>";
+				}
+
+				if(!empty($event['thumbnail'])){
+					$EventResults .= "<img src='" . htmlspecialchars($event['thumbnail']) . "' alt='Event image' style='max-width:300px; display:block; margin:10px 0;'/>";
+				}
+		
+
 				$EventResults .= "<p><a href='" . htmlspecialchars($event['link']) . "' target='_blank'>More Info</a></p>";
 				$EventResults .= "<hr>";
 			}
 		}
+	
 	       	else {
-			echo "<p>No events found for " . htmlspecialchars($location) . ".</p>";
+			$EventResults = "<p>No events found for " . htmlspecialchars($location) . ".</p>";
 		}
 	}
 }
@@ -79,12 +87,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
 
 	input[type="text"]{
 		width: 100%;
+		height: 50px;
 		max-width: 600px;
+		display: block;
 		padding: 10 15px;
 		margin: 20px auto;
-		font-size: 16px;
-		border: 2px solid #0077b6;
-		border-radius: 5px;
+		font-size: 18px;
 	}
 
 	h1, h4{
@@ -94,6 +102,23 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
 
 	#searchform{
 		width: 90%;
+	}
+
+	#event_results{
+		width: 90%;
+		max-width: 800px;
+		margin: 30px auto;
+		padding: 20px;
+		font-size: 18px;
+		font-family: Arial, sans-serif;
+		background-color: #ffffff;
+		border-radius: 10px;
+		box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+		}
+	
+	#event_results a:hover{
+		text-decoration: underline;
+		color: #0077b6;
 	}
 
 	.search-bar{
@@ -153,6 +178,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
 		<input type="text" id="locationSearch" name="Location" placeholder="Enter any location. eg- events in New York"/>
 		<button type="submit" name="search" value="Search Events">Search Events</button>
 	</form>
+</div>
+
+<div id="event_results">
+	<?php echo $EventResults; ?>
 </div>
 
 </body>

@@ -1,0 +1,47 @@
+.error { color: red; }
+
+#register-form {
+	max-width: 600px;
+	margin: 0 auto;
+	padding: 20px;
+	background-color: #f9f9f9;
+	border-radius: 10px;
+	border: 2px solid #0077b6;
+}
+	
+#register-form h1 {
+	color: #0077b6;
+	font-size: 24px;
+	margin-bottom: 20px;
+	text-align: center;
+}
+	
+.form-field {
+	margin-bottom: 20px;
+}
+	
+.form-field label {
+	font-size: 18px;
+	font-weight: bold;
+	display: block;
+	margin-bottom: 5px;
+}
+	
+button[type="submit"] {
+	width: 100%;
+	background-color: #0077b6;
+	color: white;
+	padding: 12px;
+	font-size: 18px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+	
+.error-messages {
+	background-color: #ffcccc;
+	border: 1px solid #ff0000;
+	padding: 15px;
+	border-radius: 5px;
+	margin-bottom: 20px;
+}

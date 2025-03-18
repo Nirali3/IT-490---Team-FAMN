@@ -31,7 +31,7 @@ if (file_exists($cache_file) && (time() - filemtime($cache_file)) < $cache_time)
     // API Call for Trending Events
     sleep(5);
     
-    $query = urlencode("trending events in " . $location);
+    $query = urlencode("events in " . $location);
     $url = "https://serpapi.com/search?engine=google_events&q={$query}&hl=en&gl=us&api_key={$api_key}";
 
     $response = @file_get_contents($url);

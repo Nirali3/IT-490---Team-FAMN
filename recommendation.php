@@ -48,8 +48,8 @@ if (file_exists($cache_file) && (time() - filemtime($cache_file)) < $cache_time)
 $data = json_decode($response, true);
 
 // Debugging: Print raw response (REMOVE AFTER DEBUGGING)
-echo "<pre>";
-var_dump($data);
+echo "<pre>Raw API Response:\n";
+var_dump($response);
 echo "</pre>";
 exit();
 

@@ -14,7 +14,10 @@ $username = $loggedIn ? $_SESSION['username'] : "Guest";
 $errors = [];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-	if (!isset($review_message)) {$review_message = ''; }
+	$review_message = isset($_POST['review_message']) ? trim($_POST['review_message']) : '';
+	$booking_id = isset($_POST['booking_id']) ? trim($_POST['booking_id']) : '';
+	$passenger_id = isset($_POST['passenger_id']) ? trim($_POST['passenger_id']) : '';
+	
 	if (empty($review_message)) {
 		$errors[] = "Please write a review";
 	}
@@ -22,8 +25,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 if ($loggedIn) {
-	$stmt = $con->prepare("INSERT INTO Reviews (review, user, bookingid, passengerid) VALUES(?,?,?,?)");
-	$stmt->bind_param("ssss", $review_message, $username, $booking_id, $passenger_id);
+	$stmt = $con->prepare("INSERT INTO Reviews (comment, bookingid, passengerid) VALUES(?,?,?,?)");
+	$stmt->bind_param("sss", $review_message, $booking_id, $passenger_id);
 	$stmt->execute();
 	$stmt->close();
 

@@ -11,18 +11,13 @@ include "connection.php";
 $loggedIn = isset($_SESSION['username']);
 $username = $loggedIn ? $_SESSION['username'] : "Guest";
 
-if (!isset($review_message)) {$review_message = ''; }
-if (!isset($username)) {$username = ''; }
-
 $errors = [];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = trim($_POST['username']);
-    $review_message = trim($_POST['review_message']);
-
-    if (empty($review_message)) {
-        $errors[] = "Please write a review";
-    }
+	if (!isset($review_message)) {$review_message = ''; }
+	if (empty($review_message)) {
+		$errors[] = "Please write a review";
+	}
 
 }
 
@@ -45,3 +40,13 @@ if ($loggedIn) {
 }
 
 ?>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+		.error { color: red; }
+	</style>
+</head>
+</html>
+	

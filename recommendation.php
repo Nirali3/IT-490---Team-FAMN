@@ -36,7 +36,11 @@ if (file_exists($cache_file) && (time() - filemtime($cache_file)) < $cache_time)
 
     $response = @file_get_contents($url);
 
-    if ($response === false) {
+    if ($response === false || strops($response, '"error":') !== false)
+    {   
+        if (file_exists("recommendation_cache.json")) {
+            $response = file_get_contents("recommendation_cache.json");
+        } else {
         die("<p style='color:red; font-size:18px;'>Failed to fetch recommended events. Please try again later.");
     }
     

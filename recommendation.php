@@ -29,18 +29,17 @@ if (file_exists($cache_file) && (time() - filemtime($cache_file)) < $cache_time)
     $response = file_get_contents($cache_file);
 } else {
     // API Call for Trending Events
+    sleep(5);
+    
     $query = urlencode("trending events in " . $location);
     $url = "https://serpapi.com/search?engine=google_events&q={$query}&hl=en&gl=us&api_key={$api_key}";
 
-    $response = file_get_contents($url);
+    $response = @file_get_contents($url);
 
     if ($response === false) {
-        if (file_exists($cache_file)) {
-            $response = file_get_contents($cache_file);
-        } else {
-        die("Failed to fetch recommended events. Please try again later.");
+        die("<p style='color:red; font-size:18px;'>Failed to fetch recommended events. Please try again later.");
     }
-    } else {
+    
     // Save API response to cache
     file_put_contents($cache_file, $response);
 }

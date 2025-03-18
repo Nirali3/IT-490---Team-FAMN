@@ -124,7 +124,7 @@ if (empty($errors)) {
 	}
 
 	input[type="text"]{
-		width: 10%;
+		width: 20%;
 		height: 30px;
 		padding: 10 0px;
 		margin: 20px auto;
@@ -132,7 +132,7 @@ if (empty($errors)) {
 	}
 
 	input[type="password"]{
-		width: 10%;
+		width: 20%;
 		height: 30px;
 		padding: 10 0px;
 		margin: 20px auto;

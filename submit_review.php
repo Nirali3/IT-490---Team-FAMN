@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	}
 
 if ($loggedIn) {
-	$stmt = $con->prepare("INSERT INTO Reviews (comment, booking_id, passenger_id) VALUES(?,?,?,?)");
+	$stmt = $con->prepare("INSERT INTO Reviews (comment, booking_id, passenger_id) VALUES(?,?,?)");
 
 if ($loggedIn && empty($errors)) {
 	$stmt = $con->prepare("INSERT INTO Reviews (comment, bookingid, passengerid) VALUES(?,?,?)");

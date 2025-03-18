@@ -9,15 +9,16 @@ include "connection.php";
 // Check if user is logged in
 $loggedIn = isset($_SESSION['username']);
 $username = $loggedIn ? $_SESSION['username'] : "Guest";
+$passenger_id = $_SESSION['passenger_id'] ?? null;
 
 // Fetch user's purchased flights & events
 $purchasedFlights = [];
 $purchasedPassengers = [];
 
 // Database query to get purchased flights
-if ($loggedIn) {
-    $stmt = $con->prepare("SELECT * FROM booking WHERE user_id = ?");
-    $stmt->bind_param("s", $_SESSION['user_id']);
+if ($loggedIn && $passenger_id) {
+    $stmt = $con->prepare("SELECT * FROM Bookings WHERE passenger_id = ?");
+    $stmt->bind_param("s", $_SESSION['passenger_id']);
     $stmt->execute();
     $result = $stmt->get_result();
     while ($row = $result->fetch_assoc()) {
@@ -26,8 +27,8 @@ if ($loggedIn) {
     $stmt->close();
 
     // Database query to get purchased events
-    $stmt = $con->prepare("SELECT * FROM passengers WHERE booking_id IN (SELECT id FROM booking WHERE user_id = ?)");
-    $stmt->bind_param("s", $_SESSION['user_id']);
+    $stmt = $con->prepare("SELECT * FROM Passengers WHERE passenger_id = ?");
+    $stmt->bind_param("s", $_SESSION['passenger_id']);
     $stmt->execute();
     $result = $stmt->get_result();
     while ($row = $result->fetch_assoc()) {

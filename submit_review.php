@@ -22,23 +22,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		$errors[] = "Please write a review";
 	}
 
-}
 
-if ($loggedIn) {
-	$stmt = $con->prepare("INSERT INTO Reviews (comment, bookingid, passengerid) VALUES(?,?,?,?)");
+if ($loggedIn && empty($errors)) {
+	$stmt = $con->prepare("INSERT INTO Reviews (comment, bookingid, passengerid) VALUES(?,?,?)");
 	$stmt->bind_param("sss", $review_message, $booking_id, $passenger_id);
-	$stmt->execute();
-	$stmt->close();
-
-	if($stmt->execute()){
-		echo "Reveiw Submitted Successfully!";
-		header("Location: homepage.php");
-		exit();
-	}
-	else{
-		echo "Please Write a Review: ";
+	
+	if ($stmt->execute()) {
+		$_SESSION['review_message'] = "Review Submitted Successfully!";
 		header("Location: userAccount.php");
 		exit();
+	} else {
+		$_SESSION['review_message'] = "Error submitting review.";
+		header("Location: userAccount.php");
+		exit();
+	}
+	
+	$stmt->close();
+} else {
+	$_SESSION['review_message'] = implode("<br>", $errors);
+	header("Location: userAccount.php");
+	exit();
 	}
 }
 

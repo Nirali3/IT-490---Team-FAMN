@@ -47,6 +47,13 @@ if (file_exists($cache_file) && (time() - filemtime($cache_file)) < $cache_time)
 // Process JSON Response
 $data = json_decode($response, true);
 
+// Debugging: Print raw response (REMOVE AFTER DEBUGGING)
+echo "<pre>";
+var_dump($data);
+echo "</pre>";
+exit();
+
+
 if (!empty($data['events_results'])) {
     foreach ($data['events_results'] as $event) {
         $eventTitle = htmlspecialchars($event['title']);

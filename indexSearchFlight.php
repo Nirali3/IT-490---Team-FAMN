@@ -15,41 +15,35 @@ if (!$apiKey) {
     die('<p class="error">API Key not found. Please check your .env file.</p>');
 }
 
-// Cargar los aeropuertos desde airport.json
 $airportsData = json_decode(file_get_contents('airports.json'), true);
 
-// Función para buscar código IATA por ciudad o país
 function getIATA($location, $airportsData) {
-    $location = strtolower(trim($location)); // Convertir a minúsculas y eliminar espacios extras
+    $location = strtolower(trim($location));
 
     foreach ($airportsData as $airport) {
         if (strpos(strtolower($airport['city']), $location) !== false || strpos(strtolower($airport['country']), $location) !== false) {
-            return $airport['iata']; // Retorna el primer código IATA encontrado
+            return $airport['iata']; 
         }
     }
-    return null; // Si no se encuentra, devuelve null
+    return null;
 }
 
-// Procesar la solicitud
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['origin'], $_GET['destination'], $_GET['departureDate'], $_GET['returnDate'])) {
     $originInput = $_GET['origin'];
     $destinationInput = $_GET['destination'];
 
-    // Obtener los códigos IATA
     $originIATA = getIATA($originInput, $airportsData);
     $destinationIATA = getIATA($destinationInput, $airportsData);
 
     if (!$originIATA || !$destinationIATA) {
-        die('<p class="error">No se encontró el código IATA para la ciudad o país ingresado.</p>');
+        die('<p class="error">No flight has been found to this airport in that city/country.</p>');
     }
 
-    // Formatear la URL del API con los códigos IATA
     $departureDate = urlencode($_GET['departureDate']);
     $returnDate = urlencode($_GET['returnDate']);
 
     $apiUrl = "https://serpapi.com/search.json?engine=google_flights&departure_id=$originIATA&arrival_id=$destinationIATA&gl=us&hl=en&currency=USD&outbound_date=$departureDate&return_date=$returnDate&api_key=$apiKey";
 
-    // Llamar al API
     $response = file_get_contents($apiUrl);
 
     if ($response === FALSE) {
@@ -71,7 +65,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['origin'], $_GET['destin
     <title>Flight Search</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-        /* Light Blue Theme Styling */
         body {
             font-family: Arial, sans-serif;
             margin: 0;

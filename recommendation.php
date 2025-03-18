@@ -12,7 +12,7 @@ $dotenv = Dotenv\Dotenv::createImmutable('/var/www/html', 'api.env');
 $dotenv->load();
 
 $api_key = $_ENV['GOOGLE_API_KEY'];
-$cache_file = "/var/www/html/recommendation_cache.json";
+$cache_file = "recommendation_cache.json";
 $cache_time = 3600; // 1 hour caching
 
 $recommendedEvents = "";
@@ -21,15 +21,15 @@ $recommendedEvents = "";
 $location = "New York"; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])) {
-    $location = htmlspecialchars($_POST['Location']);
-}
+   $location = isset($_POST['Location']) ? $_POST['Location'] : "";
+
 
 // Check if cache exists and is recent
-if (file_exists($cache_file) && (time() - filemtime($cache_file)) < $cache_time) {
-    $response = file_get_contents($cache_file);
-} else {
+//if (file_exists($cache_file) && (time() - filemtime($cache_file)) < $cache_time) {
+//    $response = file_get_contents($cache_file);
+//} else {
     // API Call for Trending Events
-    sleep(5);
+//    sleep(5);
     
     $query = urlencode("events in " . $location);
     $url = "https://serpapi.com/search?engine=google_events&q={$query}&hl=en&gl=us&api_key={$api_key}";
@@ -39,13 +39,15 @@ if (file_exists($cache_file) && (time() - filemtime($cache_file)) < $cache_time)
     if ($response === false) {
         die("<p style='color:red; font-size:18px;'>Failed to fetch recommended events. Please try again later.");
     }
+    else {
+            $data =json_decode($response, true);
     
     // Save API response to cache
-    file_put_contents($cache_file, $response);
-}
+   // file_put_contents($cache_file, $response);
+
 
 // Process JSON Response
-$data = json_decode($response, true);
+//$data = json_decode($response, true);
 
 if (!empty($data['events_results'])) {
     foreach ($data['events_results'] as $event) {
@@ -55,7 +57,7 @@ if (!empty($data['events_results'])) {
         $eventImage = !empty($event['thumbnail']) ? htmlspecialchars($event['thumbnail']) : "images/default-event.jpg";
 
         // Simulating event rating (In Real Case, Fetch from Database)
-        $rating = rand(4, 5); // Random ratings between 4 and 5 for recommendations
+        $rating = rand(3, 5); // Random ratings between 4 and 5 for recommendations
         $stars = str_repeat("⭐", $rating);
 
         $recommendedEvents .= "

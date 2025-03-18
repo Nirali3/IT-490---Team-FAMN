@@ -11,6 +11,9 @@ include "connection.php";
 $loggedIn = isset($_SESSION['username']);
 $username = $loggedIn ? $_SESSION['username'] : "Guest";
 
+if (!isset($review_message)) {$review_message = ''; }
+if (!isset($username)) {$username = ''; }
+
 $errors = [];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

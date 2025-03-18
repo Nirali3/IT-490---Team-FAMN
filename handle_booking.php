@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $cvc = $_POST['cvc'];
 
         if (!isset($_GET['price'], $_GET['airline'], $_GET['departure'], $_GET['arrival'], $_GET['departure_time'], $_GET['arrival_time'])) {
-            echo "Error: Missing flight details.";
+            echo "Please select a flight before booking.";
             exit;
         }
 

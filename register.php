@@ -176,7 +176,7 @@ if (empty($errors)) {
                 <label>Password:</label>
                 <input type="password" name="password" value="">
                 <br>
-                <input type="submit" value="Register">
+                <button type="submit" value="Register">Register</button>
             </form>
 
 	    <!-- Display Error Messages After Form Submission -->

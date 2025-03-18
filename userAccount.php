@@ -16,7 +16,7 @@ $purchasedPassengers = [];
 
 // Database query to get purchased flights
 if ($loggedIn) {
-    $stmt = $conn->prepare("SELECT * FROM booking WHERE user_id = ?");
+    $stmt = $con->prepare("SELECT * FROM booking WHERE user_id = ?");
     $stmt->bind_param("s", $_SESSION['user_id']);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -26,7 +26,7 @@ if ($loggedIn) {
     $stmt->close();
 
     // Database query to get purchased events
-    $stmt = $conn->prepare("SELECT * FROM passengers WHERE booking_id IN (SELECT id FROM booking WHERE user_id = ?");
+    $stmt = $con->prepare("SELECT * FROM passengers WHERE booking_id IN (SELECT id FROM booking WHERE user_id = ?");
     $stmt->bind_param("s", $_SESSION['user_id']);
     $stmt->execute();
     $result = $stmt->get_result();

@@ -171,7 +171,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
 	    <a href="userAccount.php">User Account</a>
 	    <a href="searchEvents.php">Search Events</a>
 	    <a href="indexSearchFlight.php">Search Flights</a>
-	    <a href="booking_flight.php">Book a Flight</a>
             <a href="push_notifications.php">Notifications</a>
             <a href="recommendation.php">Recommendations</a>
 	</div>

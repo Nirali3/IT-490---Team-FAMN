@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 if ($loggedIn) {
-	$stmt = $con->prepare("INSERT INTO Reviews (comment, bookingid, passengerid) VALUES(?,?,?,?)");
+	$stmt = $con->prepare("INSERT INTO Reviews (comment, booking_id, passenger_id) VALUES(?,?,?,?)");
 	$stmt->bind_param("sss", $review_message, $booking_id, $passenger_id);
 	$stmt->execute();
 	$stmt->close();

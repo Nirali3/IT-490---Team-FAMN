@@ -117,7 +117,7 @@ $username = $loggedIn ? $_SESSION['username'] : "Guest";
 
     <!-- Main Content -->
     <div class="container">
-        <h1>Welcome, <?php echo htmlspecialchars($username); ?>!</h1>
+        <h1>Welcome to our Events and Flight Booking Dashboard , <?php echo htmlspecialchars($username); ?>!</h1>
         <p>
             Explore events, find the perfect flights, and book your trips all in one place.
             Get personalized recommendations and track your flight in real time.

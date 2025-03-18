@@ -217,6 +217,8 @@ if ($loggedIn && $passenger_id) {
         <form class="review-form" action="submit_review.php" method="post">
             <textarea name="review" placeholder="Write your review here..." required></textarea>
             <br>
+            <input type="hidden" name="booking_id" value="<?php echo isset($purchasedFlights[0]['booking_id']) ? $purchasedFlights[0]['booking_id'] : ''; ?>">
+            <input type="hidden" name="passenger_id" value="<?php echo isset($purchasedPassengers[0]['passenger_id']) ? $purchasedPassengers[0]['passenger_id'] : ''; ?>">
             <label>Rate: </label>
             <select name="rating" required>
                 <option value="5">⭐⭐⭐⭐⭐</option>
@@ -228,6 +230,10 @@ if ($loggedIn && $passenger_id) {
             <br>
             <button type="submit" class="submit-review">Submit Review</button>
         </form>
+
+        <?php if (isset($_SESSION['review_message'])): ?>
+            <p style="color: red;"><?php echo $_SESSION['review_message']; unset($_SESSION['review_message']); ?></p>
+        <?php endif; ?>
 
         <!-- Push Notifications Section -->
     <!--    <h3>Notifications</h3>

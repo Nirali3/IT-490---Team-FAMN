@@ -1,5 +1,8 @@
 <?php
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 session_start();
 
 include "connection.php";
@@ -16,8 +19,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (empty($review_message)) {
         $errors[] = "Please write a review";
-        header("Location: userAccount.php");
-	exit();
     }
 
 }

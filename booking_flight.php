@@ -46,7 +46,6 @@ $arrival_time = htmlspecialchars($_GET['arrivalDate']);
             <a href="userAccount.php">User Account</a>
             <a href="searchEvents.php">Search Events</a>
             <a href="indexSearchFlight.php">Search Flights</a>
-            <a href="booking_flight.php">Book a Flight</a>
             <a href="push_notifications.php">Notifications</a>
             <a href="recommendation.php">Recommendations</a>
         </div>
@@ -94,6 +93,7 @@ $arrival_time = htmlspecialchars($_GET['arrivalDate']);
         <button type="button" id="add-passenger">Add Passenger</button>
 
         <h3>Payment Details:</h3>
+	<div id="payment-section">
         <label>Card Number:</label>
         <input type="text" name="card_number" required pattern="\d{16}" title="Card number must be 16 digits">
 
@@ -107,6 +107,7 @@ $arrival_time = htmlspecialchars($_GET['arrivalDate']);
         <input type="text" name="cvc" required pattern="\d{3}" title="CVC must be 3 digits">
 
         <button type="submit">Book Tickets</button>
+	</div>
     </form>
 
     <script>

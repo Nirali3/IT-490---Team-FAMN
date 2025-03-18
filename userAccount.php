@@ -224,13 +224,13 @@ if ($loggedIn) {
         </form>
 
         <!-- Push Notifications Section -->
-        <h3>Notifications</h3>
+    <!--    <h3>Notifications</h3>
         <div class="notifications">
             <div class="notification-item">🔔 Flight update: Your flight from NYC to LA is delayed.</div>
             <div class="notification-item">📅 Reminder: Your concert in Chicago is tomorrow!</div>
             <div class="notification-item">💰 Special offer: 20% off your next flight booking!</div>
         </div>
-    </div>
-
+    </div> 
+        -->
 </body>
 </html>

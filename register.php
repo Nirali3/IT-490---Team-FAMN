@@ -96,9 +96,66 @@ if (empty($errors)) {
 <html>
     <head>
         <title>Registration</title>
-	<style>
-		.error { color: red; }
-	</style>
+        <style>
+	.error { color: red; }
+
+	body{
+		font-family: Arial, sans-serif;
+		background-color: #f4f4f9;
+		color: #333;
+		text-align: center;
+		margin: 0;
+		padding: 0;
+	}
+
+	button[type="submit"]{
+		background-color: #0077b6;
+		color: white;
+		padding: 12px 24px;
+		border: none;
+		border-radius: 5px;
+		font-size: 18px;
+		display: inline-block;
+		width: auto;
+	}
+
+	button[type="submit"]:hover{
+		background-color: #005f87;
+	}
+
+	input[type="text"]{
+		width: 10%;
+		height: 30px;
+		padding: 10 0px;
+		margin: 20px auto;
+		font-size: 18px;
+	}
+
+	input[type="password"]{
+		width: 10%;
+		height: 30px;
+		padding: 10 0px;
+		margin: 20px auto;
+		font-size: 18px;
+	}
+
+	h1, h2{
+		font-family: Arial, Sans-serif;
+		font-size: 24px;
+		text-align: center;
+		color: #0077b6;
+	}
+
+	label{
+		font-size: 18px;
+		font-family: Arial, sans-serif;
+		margin-bottom: 5px;
+	}
+
+	#loginform{
+		width: 100%;
+	}
+</style>
     </head>
     <body>
         <main>

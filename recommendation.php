@@ -25,11 +25,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])) {
 
 
 // Check if cache exists and is recent
-//if (file_exists($cache_file) && (time() - filemtime($cache_file)) < $cache_time) {
-//    $response = file_get_contents($cache_file);
-//} else {
+if (file_exists($cache_file) && (time() - filemtime($cache_file)) < $cache_time) {
+      $response = file_get_contents($cache_file);
+} else {
     // API Call for Trending Events
-//    sleep(5);
+    sleep(5);
     
     $query = urlencode("events in " . $location);
     $url = "https://serpapi.com/search?engine=google_events&q={$query}&hl=en&gl=us&api_key={$api_key}";
@@ -40,10 +40,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])) {
         die("<p style='color:red; font-size:18px;'>Failed to fetch recommended events. Please try again later.");
     }
     else {
+
+             // Save API response to cache
+            file_put_contents($cache_file, $response);
             $data =json_decode($response, true);
-    
-    // Save API response to cache
-   // file_put_contents($cache_file, $response);
 
 
 // Process JSON Response

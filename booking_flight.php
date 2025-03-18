@@ -92,21 +92,21 @@ $arrival_time = htmlspecialchars($_GET['arrivalDate']);
 
         <button type="button" id="add-passenger">Add Passenger</button>
 
-        <h3>Payment Details:</h3>
+        <h2>Payment Details:</h2>
 	<div id="payment-section">
-        <label>Card Number:</label>
-        <input type="text" name="card_number" required pattern="\d{16}" title="Card number must be 16 digits">
+            <label>Card Number:</label>
+            <input type="text" name="card_number" required pattern="\d{16}" title="Card number must be 16 digits">
 
-        <label>Cardholder's Name:</label>
-        <input type="text" name="cardholder_name" required>
+            <label>Cardholder's Name:</label>
+            <input type="text" name="cardholder_name" required>
         
-        <label>Expiration Date:</label>
-        <input type="month" name="expiration_date" required min="<?= date('Y-m') ?>" title="Expiration year and month">
+            <label>Expiration Date:</label>
+            <input type="month" name="expiration_date" required min="<?= date('Y-m') ?>" title="Expiration year and month">
 
-        <label>CVC:</label>
-        <input type="text" name="cvc" required pattern="\d{3}" title="CVC must be 3 digits">
+            <label>CVC:</label>
+            <input type="text" name="cvc" required pattern="\d{3}" title="CVC must be 3 digits">
 
-        <button type="submit">Book Tickets</button>
+            <button type="submit">Book Tickets</button>
 	</div>
     </form>
 

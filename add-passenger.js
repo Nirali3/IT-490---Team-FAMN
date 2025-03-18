@@ -1,11 +1,12 @@
 $(document).ready(function () {
-    $("#add-passenger").off("click").on("click", function () {
+    $("#add-passenger").click(function () {
         var passengerForm = $(".passenger").first().clone();
 
         passengerForm.find("input").val("");
         passengerForm.find("select").prop("selectedIndex", 0);
 
-        $("#passenger-section").append(passengerForm);
+	$("#passenger-section").append(passengerForm);
+	passengerForm.prepared('<hr class="passenger-separator">');
 
         newTotalPrice();
     });

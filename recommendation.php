@@ -12,7 +12,7 @@ $dotenv = Dotenv\Dotenv::createImmutable('/var/www/html', 'api.env');
 $dotenv->load();
 
 $api_key = $_ENV['GOOGLE_API_KEY'];
-$cache_file = "/var/www/html/recommendation_cache.json";
+$cache_file = "recommendation_cache.json";
 $cache_time = 3600; // 1 hour caching
 
 $recommendedEvents = "";
@@ -36,11 +36,7 @@ if (file_exists($cache_file) && (time() - filemtime($cache_file)) < $cache_time)
 
     $response = @file_get_contents($url);
 
-    if ($response === false || strops($response, '"error":') !== false)
-    {   
-        if (file_exists("recommendation_cache.json")) {
-            $response = file_get_contents("recommendation_cache.json");
-        } else {
+    if ($response === false) {
         die("<p style='color:red; font-size:18px;'>Failed to fetch recommended events. Please try again later.");
     }
     

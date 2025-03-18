@@ -100,7 +100,7 @@ if (empty($errors)) {
     </head>
     <body>
         <main>
-            <form method="POST" action="register.php">
+            <form id="register-form" method="POST" action="register.php">
 		<h1>Registration</h1>
 		<label>First Name:</label>
                 <input type="text" name="first_name" value="<?= htmlspecialchars($first_name) ?>">
@@ -117,7 +117,7 @@ if (empty($errors)) {
                 <label>Password:</label>
                 <input type="password" name="password" value="">
                 <br>
-                <input type="submit" value="Register">
+                <button type="submit">Register</button>
             </form>
 
 	    <!-- Display Error Messages After Form Submission -->

@@ -231,10 +231,6 @@ if ($loggedIn && $passenger_id) {
             <button type="submit" class="submit-review">Submit Review</button>
         </form>
 
-        <?php if (isset($_SESSION['review_message'])): ?>
-            <p style="color: red;"><?php echo $_SESSION['review_message']; unset($_SESSION['review_message']); ?></p>
-        <?php endif; ?>
-
         <!-- Push Notifications Section -->
     <!--    <h3>Notifications</h3>
         <div class="notifications">

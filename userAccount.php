@@ -12,12 +12,12 @@ $username = $loggedIn ? $_SESSION['username'] : "Guest";
 
 // Fetch user's purchased flights & events
 $purchasedFlights = [];
-$purchasedEvents = [];
+$purchasedPassengers = [];
 
 // Database query to get purchased flights
 if ($loggedIn) {
-    $stmt = $conn->prepare("SELECT * FROM booked_flights WHERE username = ?");
-    $stmt->bind_param("s", $_SESSION['username']);
+    $stmt = $conn->prepare("SELECT * FROM booking WHERE user_id = ?");
+    $stmt->bind_param("s", $_SESSION['user_id']);
     $stmt->execute();
     $result = $stmt->get_result();
     while ($row = $result->fetch_assoc()) {
@@ -26,12 +26,12 @@ if ($loggedIn) {
     $stmt->close();
 
     // Database query to get purchased events
-    $stmt = $conn->prepare("SELECT * FROM booked_events WHERE username = ?");
-    $stmt->bind_param("s", $_SESSION['username']);
+    $stmt = $conn->prepare("SELECT * FROM passengers WHERE booking_id IN (SELECT id FROM booking WHERE user_id = ?");
+    $stmt->bind_param("s", $_SESSION['user_id']);
     $stmt->execute();
     $result = $stmt->get_result();
     while ($row = $result->fetch_assoc()) {
-        $purchasedEvents[] = $row;
+        $purchasedPassengers[] = $row;
     }
     $stmt->close();
 }
@@ -159,8 +159,9 @@ if ($loggedIn) {
             <a href="userAccount.php">User Account</a>
             <a href="searchEvents.php">Search Events</a>
             <a href="indexSearchFlight.php">Search Flights</a>
-            <a href="booking_flight.php">Book a Flight</a>
-            <a href="confirmation.php">Confirmation</a>
+            <!-- <a href="booking_flight.php">Book a Flight</a> -->
+           <!-- <a href="confirmation.php">Confirmation</a> -->
+            <a href="push_notifications.php">Notification Center</a>
             <a href="recommendation.php">Recommendations</a>
         </div>
 
@@ -181,9 +182,12 @@ if ($loggedIn) {
         <div class="booking-list">
             <?php if (!empty($purchasedFlights)): ?>
                 <?php foreach ($purchasedFlights as $flight): ?>
+                    <p><strong>Airline:</strong> <?php echo htmlspecialchars($flight['airline']); ?></p>
                     <p><strong>Flight:</strong> <?php echo htmlspecialchars($flight['flight_number']); ?></p>
                     <p><strong>From:</strong> <?php echo htmlspecialchars($flight['departure']); ?> → <strong>To:</strong> <?php echo htmlspecialchars($flight['arrival']); ?></p>
-                    <p><strong>Date:</strong> <?php echo htmlspecialchars($flight['date']); ?></p>
+                    <p><strong>Flight:</strong> <?php echo htmlspecialchars($flight['flight_number']); ?></p>
+                    <p><strong>Booking Date:</strong> <?php echo htmlspecialchars($flight['created_at']); ?></p>
+                    <p><strong>Price:</strong> <?php echo htmlspecialchars($flight['price']); ?></p>
                     <hr>
                 <?php endforeach; ?>
             <?php else: ?>
@@ -191,18 +195,19 @@ if ($loggedIn) {
             <?php endif; ?>
         </div>
 
-        <!-- Purchased Events Section -->
-        <h3>My Purchased Events</h3>
+        <!-- Purchased Passengers Section -->
+        <h3>Passengers in my Booking</h3>
         <div class="booking-list">
-            <?php if (!empty($purchasedEvents)): ?>
-                <?php foreach ($purchasedEvents as $event): ?>
-                    <p><strong>Event:</strong> <?php echo htmlspecialchars($event['event_name']); ?></p>
-                    <p><strong>Location:</strong> <?php echo htmlspecialchars($event['event_location']); ?></p>
-                    <p><strong>Date:</strong> <?php echo htmlspecialchars($event['event_date']); ?></p>
+            <?php if (!empty($purchasedPassengers)): ?>
+                <?php foreach ($purchasedPassengers as $passenger): ?>
+                    <p><strong>Name:</strong> <?php echo htmlspecialchars($passenger['first_name'] . " " . $passenger['last_name']); ?></p>
+                    <p><strong>Date of Birth:</strong> <?php echo htmlspecialchars($passenger['dob']); ?></p>
+                    <p><strong>Cabin Class:</strong> <?php echo htmlspecialchars($passenger['cabin_class']); ?></p>
+                    <p><strong>Age Group:</strong> <?php echo htmlspecialchars($passenger['age_group']); ?></p>
                     <hr>
                 <?php endforeach; ?>
             <?php else: ?>
-                <p>No events booked yet.</p>
+                <p>No passengers booked yet.</p>
             <?php endif; ?>
         </div>
 

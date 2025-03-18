@@ -39,7 +39,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
 					$EventResults .= "<img src='" . htmlspecialchars($event['thumbnail']) . "' alt='Event image' class='event-img' style='max-width:300px; display:block; margin:10px 15px;'/>";
 				}
 		
-
 				$EventResults .= "<p><a href='" . htmlspecialchars($event['link']) . "' target='_blank'>More Info</a></p>";
 				$EventResults .= "<hr>";
 			}
@@ -169,7 +168,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
 	    <a href="searchEvents.php">Search Events</a>
 	    <a href="indexSearchFlight.php">Search Flights</a>
 	    <a href="booking_flight.php">Book a Flight</a>
-            <a href="confirmation.php">Confirmation</a>
+            <a href="push_notifications.php">Notifications</a>
             <a href="recommendation.php">Recommendations</a>
 	</div>
 </div>

@@ -12,6 +12,8 @@ $dotenv = Dotenv\Dotenv::createImmutable('/var/www/html', 'api.env');
 $dotenv->load();
 
 $api_key = $_ENV['GOOGLE_API_KEY'];
+$cache_file = "/var/www/html/cache/recommendation_cache.json";
+$cache_time = 3600; // 1 hour caching
 
 $recommendedEvents = "";
 
@@ -22,41 +24,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])) {
     $location = htmlspecialchars($_POST['Location']);
 }
 
-// API Call for Trending Events
-$query = urlencode("trending events in " . $location);
-$url = "https://serpapi.com/search?engine=google_events&q={$query}&hl=en&gl=us&api_key={$api_key}";
-
-$response = file_get_contents($url);
-
-if ($response === false) {
-    die("Failed to fetch recommended events. Please try again.");
+// Check if cache exists and is recent
+if (file_exists($cache_file) && (time() - filemtime($cache_file)) < $cache_time) {
+    $response = file_get_contents($cache_file);
 } else {
-    $data = json_decode($response, true);
+    // API Call for Trending Events
+    $query = urlencode("trending events in " . $location);
+    $url = "https://serpapi.com/search?engine=google_events&q={$query}&hl=en&gl=us&api_key={$api_key}";
 
-    if (!empty($data['events_results'])) {
-        foreach ($data['events_results'] as $event) {
-            $eventTitle = htmlspecialchars($event['title']);
-            $eventDate = !empty($event['date']['when']) ? htmlspecialchars($event['date']['when']) : "TBA";
-            $eventLink = htmlspecialchars($event['link']);
-            $eventImage = !empty($event['thumbnail']) ? htmlspecialchars($event['thumbnail']) : "images/default-event.jpg";
+    $response = file_get_contents($url);
 
-            // Simulating event rating (In Real Case, Fetch from Database)
-            $rating = rand(4, 5); // Random ratings between 4 and 5 for recommendations
-            $stars = str_repeat("⭐", $rating);
-
-            $recommendedEvents .= "
-                <div class='event-card'>
-                    <img src='$eventImage' alt='Event Image'>
-                    <h3>$eventTitle</h3>
-                    <p><strong>Date:</strong> $eventDate</p>
-                    <p><strong>Rating:</strong> $stars</p>
-                    <p><a href='$eventLink' target='_blank' class='more-info'>More Info</a></p>
-                </div>
-            ";
-        }
-    } else {
-        $recommendedEvents = "<p style='color:red; font-size:18px;'>No trending events found for " . htmlspecialchars($location) . ".</p>";
+    if ($response === false) {
+        die("Failed to fetch recommended events. Please try again later.");
     }
+
+    // Save API response to cache
+    file_put_contents($cache_file, $response);
+}
+
+// Process JSON Response
+$data = json_decode($response, true);
+
+if (!empty($data['events_results'])) {
+    foreach ($data['events_results'] as $event) {
+        $eventTitle = htmlspecialchars($event['title']);
+        $eventDate = !empty($event['date']['when']) ? htmlspecialchars($event['date']['when']) : "TBA";
+        $eventLink = htmlspecialchars($event['link']);
+        $eventImage = !empty($event['thumbnail']) ? htmlspecialchars($event['thumbnail']) : "images/default-event.jpg";
+
+        // Simulating event rating (In Real Case, Fetch from Database)
+        $rating = rand(4, 5); // Random ratings between 4 and 5 for recommendations
+        $stars = str_repeat("⭐", $rating);
+
+        $recommendedEvents .= "
+            <div class='event-card'>
+                <img src='$eventImage' alt='Event Image'>
+                <h3>$eventTitle</h3>
+                <p><strong>Date:</strong> $eventDate</p>
+                <p><strong>Rating:</strong> $stars</p>
+                <p><a href='$eventLink' target='_blank' class='more-info'>More Info</a></p>
+            </div>
+        ";
+    }
+} else {
+    $recommendedEvents = "<p style='color:red; font-size:18px;'>No trending events found for " . htmlspecialchars($location) . ".</p>";
 }
 ?>
 
@@ -179,6 +190,7 @@ if ($response === false) {
         <a href="userAccount.php">User Account</a>
         <a href="searchEvents.php">Search Events</a>
         <a href="indexSearchFlight.php">Search Flights</a>
+        <!--<a href="booking_flight.php">Book a Flight</a> -->
         <a href="push_notifications.php">Notifications</a>
         <a href="recommendation.php">Recommendations</a>
     </div>

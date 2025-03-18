@@ -34,6 +34,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
 				if(!empty($event['date']['when'])){
 					$EventResults .= "<p><strong>Date:</strong> " . htmlspecialchars($event['date']['when']) . "</p>";
 				}
+				if (!empty($event['address'])) {
+					$address = is_array($event['address']) ? implode(", ", $event['address']) : $event['address'];
+					$EventResults .= "<p><strong>Address:</strong> " . htmlspecialchars($address) . "</p>";
+				}
 
 				if(!empty($event['thumbnail'])){
 					$EventResults .= "<img src='" . htmlspecialchars($event['thumbnail']) . "' alt='Event image' class='event-img' style='max-width:300px; display:block; margin:10px 15px;'/>";

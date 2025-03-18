@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $("#add-passenger").click(function () {
+    $("#add-passenger").off("click").on("click", function () {
         var passengerForm = $(".passenger").first().clone();
 
         passengerForm.find("input").val("");

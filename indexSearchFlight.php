@@ -4,27 +4,52 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 session_start();
-
 include "connection.php";
 require 'vendor/autoload.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable('/var/www/html', 'api.env');
 $dotenv->load();
 
-$apiKey = $_ENV['GOOGLE_API_KEY'];  // Usando $_ENV en lugar de getenv()
-
+$apiKey = $_ENV['GOOGLE_API_KEY'];  
 if (!$apiKey) {
     die('<p class="error">API Key not found. Please check your .env file.</p>');
 }
 
+// Cargar los aeropuertos desde airport.json
+$airportsData = json_decode(file_get_contents('airports.json'), true);
+
+// Función para buscar código IATA por ciudad o país
+function getIATA($location, $airportsData) {
+    $location = strtolower(trim($location)); // Convertir a minúsculas y eliminar espacios extras
+
+    foreach ($airportsData as $airport) {
+        if (strpos(strtolower($airport['city']), $location) !== false || strpos(strtolower($airport['country']), $location) !== false) {
+            return $airport['iata']; // Retorna el primer código IATA encontrado
+        }
+    }
+    return null; // Si no se encuentra, devuelve null
+}
+
+// Procesar la solicitud
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['origin'], $_GET['destination'], $_GET['departureDate'], $_GET['returnDate'])) {
-    $origin = urlencode($_GET['origin']);
-    $destination = urlencode($_GET['destination']);
+    $originInput = $_GET['origin'];
+    $destinationInput = $_GET['destination'];
+
+    // Obtener los códigos IATA
+    $originIATA = getIATA($originInput, $airportsData);
+    $destinationIATA = getIATA($destinationInput, $airportsData);
+
+    if (!$originIATA || !$destinationIATA) {
+        die('<p class="error">No se encontró el código IATA para la ciudad o país ingresado.</p>');
+    }
+
+    // Formatear la URL del API con los códigos IATA
     $departureDate = urlencode($_GET['departureDate']);
     $returnDate = urlencode($_GET['returnDate']);
 
-    $apiUrl = "https://serpapi.com/search.json?engine=google_flights&departure_id=$origin&arrival_id=$destination&gl=us&hl=en&currency=USD&outbound_date=$departureDate&return_date=$returnDate&api_key=$apiKey";
+    $apiUrl = "https://serpapi.com/search.json?engine=google_flights&departure_id=$originIATA&arrival_id=$destinationIATA&gl=us&hl=en&currency=USD&outbound_date=$departureDate&return_date=$returnDate&api_key=$apiKey";
 
+    // Llamar al API
     $response = file_get_contents($apiUrl);
 
     if ($response === FALSE) {
@@ -36,7 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['origin'], $_GET['destin
 } else {
     $flights = [];
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -295,25 +319,23 @@ button:active {
         <?php endif; ?>
     </div>
 
-    <!-- Flight Search Form -->
-    <div class="container">
-        <h1>Find Your Flight</h1>
-        <form id="flightForm" method="GET" action="#flights-section">
-            <label for="origin">Origin IATA Code:</label>
-            <input type="text" id="origin" name="origin" placeholder="Example: CDG" required>
-            
-            <label for="destination">Destination IATA Code:</label>
-            <input type="text" id="destination" name="destination" placeholder="Example: AUS" required>
-            
-            <label for="departureDate">Departure Date:</label>
+<div class="container">
+        <h1>Search Flights</h1>
+        <form action="" method="GET">
+            <label for="origin">Origin (City or Country)</label>
+            <input type="text" id="origin" name="origin" required>
+
+            <label for="destination">Destination (City or Country)</label>
+            <input type="text" id="destination" name="destination" required>
+
+            <label for="departureDate">Departure Date</label>
             <input type="date" id="departureDate" name="departureDate" required>
 
-            <label for="returnDate">Return Date:</label>
+            <label for="returnDate">Return Date</label>
             <input type="date" id="returnDate" name="returnDate" required>
-            
+
             <button type="submit">Search Flights</button>
         </form>
-    </div>
 
     <!-- Flights Section -->
     <div class="flights-container" id="flights-section">

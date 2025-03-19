@@ -62,6 +62,51 @@ $username = $loggedIn ? $_SESSION['username'] : "Guest";
             background-color: #cc0000;
         }
 
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 450px;
+            background: url('images/flight.jpg') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            font-size: 28px;
+            font-weight: bold;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+
+        /* CTA Button */
+        .cta-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 25px;
+            background-color: #ff6600;
+            color: white;
+            font-size: 20px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .cta-button:hover {
+            background-color: #cc5500;
+        }
+
         .container {
             text-align: center;
             margin-top: 50px;
@@ -82,6 +127,7 @@ $username = $loggedIn ? $_SESSION['username'] : "Guest";
         .image-section {
             display: flex;
             justify-content: center;
+            gap: 20px;
             margin-top: 30px;
         }
 
@@ -116,6 +162,15 @@ $username = $loggedIn ? $_SESSION['username'] : "Guest";
         <?php endif; ?>
     </div>
 
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            Explore & Book Your Journey <br>
+            <a href="booking_flight.php" class="cta-button">Book Now</a>
+        </div>
+    </div>
+
     <!-- Main Content -->
     <div class="container">
         <h1>Welcome to our Events and Flight Booking Dashboard , <?php echo htmlspecialchars($username); ?>!</h1>
@@ -127,8 +182,7 @@ $username = $loggedIn ? $_SESSION['username'] : "Guest";
 
     <!-- Image Section -->
     <div class="image-section">
-        <img src="images/events.jpg" alt="Events">
-        <img src="images/flights.jpg" alt="Flights">
+        <img src="images/flightimage.jpg" alt="Flights">
     </div>
 
 </body>

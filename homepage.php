@@ -181,9 +181,9 @@ $username = $loggedIn ? $_SESSION['username'] : "Guest";
     </div>
 
     <!-- Image Section -->
-    <div class="image-section">
+<!--     <div class="image-section">
         <img src="images/flightimages.jpeg" alt="Flights">
     </div>
-
+ -->
 </body>
 </html>

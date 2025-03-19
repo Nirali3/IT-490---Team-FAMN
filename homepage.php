@@ -167,7 +167,7 @@ $username = $loggedIn ? $_SESSION['username'] : "Guest";
         <div class="hero-overlay"></div>
         <div class="hero-content">
             Explore & Book Your Journey <br>
-            <a href="booking_flight.php" class="cta-button">Book Now</a>
+            <!--<a href="booking_flight.php" class="cta-button">Book Now</a> -->
         </div>
     </div>
 

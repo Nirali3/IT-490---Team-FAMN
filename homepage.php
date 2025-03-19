@@ -66,7 +66,7 @@ $username = $loggedIn ? $_SESSION['username'] : "Guest";
             position: relative;
             width: 100%;
             height: 450px;
-            background: url('images/flight.jpg') no-repeat center center/cover;
+            background: url('images/flightimage.jpeg') no-repeat center center/cover;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -182,7 +182,7 @@ $username = $loggedIn ? $_SESSION['username'] : "Guest";
 
     <!-- Image Section -->
     <div class="image-section">
-        <img src="images/flightimage.jpg" alt="Flights">
+        <img src="images/flightimages.jpeg" alt="Flights">
     </div>
 
 </body>

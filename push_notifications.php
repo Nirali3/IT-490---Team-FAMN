@@ -137,8 +137,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribe"])) {
             <a href="indexSearchFlight.php">Search Flights</a>
            <!-- <a href="booking_flight.php">Book a Flight</a>
             <a href="confirmation.php">Confirmation</a> -->
+            <a href="push_notifications.php">Notification Center</a>
             <a href="recommendation.php">Recommendations</a>
-            <a href="push_notifications.php">Notifications</a>
         </div>
     </div>
 

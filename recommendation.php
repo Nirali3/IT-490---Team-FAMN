@@ -180,7 +180,7 @@ if ($response === false) {
         <a href="searchEvents.php">Search Events</a>
         <a href="indexSearchFlight.php">Search Flights</a>
        <!-- <a href="booking_flight.php">Book a Flight</a>-->
-        <a href="push_notifications.php">Notifications</a>
+        <a href="push_notifications.php">Notification Center</a>
         <a href="recommendation.php">Recommendations</a>
     </div>
 </div>

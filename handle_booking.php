@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $pdo->beginTransaction();
 
-        $stmt = $pdo->prepare("INSERT INTO Bookings (airline, departureAiprort, arrivalAirport, departureDate, arrivalDate, price) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt = $pdo->prepare("INSERT INTO Bookings (airline, departureAirport, arrivalAirport, departureDate, arrivalDate, price) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->execute([$airline, $departureAirport, $arrivalAirport, $departureDate, $arrivalDate, $price]);
 
         $booking_id = $pdo->lastInsertId();

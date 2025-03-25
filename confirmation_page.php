@@ -6,16 +6,57 @@ session_start();
 
 include "connection.php";
 
+$flight = $_SESSION['flight_details'];
+$passengers = $_SESSION['passengers'];
+
+if (isset($_POST['confirm'])) {
+    header("Location: userAccount.php");
+    exit();
+}
 ?>
 
-<html>
-    <head>
-	<title>Confirmation Page</title>
-    </head>
-    <!-- Navigation Bar --> 
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation Page</title>
+    <link rel="stylesheet" href="style-booking.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="add-passenger.js"></script>
+</head>
+    <!-- Navigation Bar -->
     <div class="navbar">
-	<div>
-	    <a href="homepage.php">User Account</a>
+        <div>
+            <a href="homepage.php">Home</a>
+            <a href="userAccount.php">User Account</a>
+            <a href="searchEvents.php">Search Events</a>
+            <a href="indexSearchFlight.php">Search Flights</a>
+            <a href="push_notifications.php">Notifications</a>
+            <a href="recommendation.php">Recommendations</a>
+        </div>
+    </div>
 
-    <h1>Flight Information</h1>
+    <h2>Flight Information</h2>
+    <div id="flight-info">
+        <p><strong>Airline:</strong> <?= $airline ?></p>
+        <p><strong>Departure:</strong> <?= $departure ?> at <?= $departure_time ?></p>
+        <p><strong>Arrival:</strong> <?= $arrival ?> at <?= $arrival_time ?></p>
+        <p id="flight-price" data-price="<?= $price ?>"><strong>Price per Ticket:</strong> $<?= $price ?></p>
+    </div>
 
+    <h2>Passenger Information</h2>
+    <div id="passenger-info">
+    <?php foreach ($passengers as $index => $passenger): ?>
+            <p><strong>Passenger <?= $index + 1 ?>:</strong></p>
+            <ul>
+                <li><strong>Name:</strong> <?= $passenger['first_name'] . " " . $passenger['last_name'] ?></li>
+                <li><strong>Date of Birth:</strong> <?= $passenger['dob'] ?></li>
+                <li><strong>Cabin Class:</strong> <?= $passenger['cabin_class'] ?></li>
+                <li><strong>Age Group:</strong> <?= $passenger['age_group'] ?></li>
+            </ul>
+        <?php endforeach; ?>
+
+        <button type="submit" name="confirm" value="Confirm">Confirm</button>
+    </div>
+</html>

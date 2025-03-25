@@ -40,11 +40,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Start DB transaction
         $pdo->beginTransaction();
 
-        $stmt = $pdo->prepare("INSERT INTO Bookings (airline, departureAiprort, arrivalAirport, departureDate, arrivalDate, price) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssss", $airline, $departureAirport, $arrivalAirport, $departureDate, $arrivalDate, $price]);
-	$stmt->execute();
-        $booking_id = $con->lastInsertId();
-	$stmt->close();
+        $stmt = $pdo->prepare("INSERT INTO Bookings (airline, departureAirport, arrivalAirport, departureDate, arrivalDate, price) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$airline, $departureAirport, $arrivalAirport, $departureDate, $arrivalDate, $price]);
+
 
         $stmt = $con->prepare("INSERT INTO Passengers (booking_id, first_name, last_name, dob, cabin_class, age_group, card_number, cardholder_name, expiration_date, cvc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 

@@ -45,12 +45,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $pdo->beginTransaction();
 
-        $stmt = $pdo->prepare("INSERT INTO bookings (airline, departure, arrival, departure_time, arrival_time, price) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt = $pdo->prepare("INSERT INTO Bookings (airline, departure, arrival, departure_time, arrival_time, price) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->execute([$airline, $departure, $arrival, $departure_time, $arrival_time, $price]);
 
         $booking_id = $pdo->lastInsertId();
 
-        $stmt = $pdo->prepare("INSERT INTO passengers (booking_id, first_name, last_name, dob, cabin_class, age_group, card_number, cardholder_name, expiration_date, cvc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $pdo->prepare("INSERT INTO Passengers (booking_id, first_name, last_name, dob, cabin_class, age_group, card_number, cardholder_name, expiration_date, cvc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
         foreach ($first_names as $index => $first_name) {
             $stmt->execute([

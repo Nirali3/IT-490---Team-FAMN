@@ -30,9 +30,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $expiration_date = $_POST['expiration_date'];
         $cvc = $_POST['cvc'];
 
-        if (!isset($_GET['price'], $_GET['airline'], $_GET['departureAirport'], $_GET['destinationAirport'], $_GET['departureDate'], $_GET['arrivalDate'])) {
-            echo "Please select a flight before booking in 'Search Flight'.";
-            exit;
+//        if (!isset($_GET['price'], $_GET['airline'], $_GET['departureAirport'], $_GET['destinationAirport'], $_GET['departureDate'], $_GET['arrivalDate'])) {
+  //          echo "Please select a flight before booking in 'Search Flight'.";
+    //        exit;
         }
 
         // Flight Details

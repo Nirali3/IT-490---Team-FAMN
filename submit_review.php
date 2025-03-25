@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 
 session_start();
 
-echo "<h2>Submit Review Page is Working</h2>";
+echo "<h2>User Reviews</h2>";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     echo "<pre>";

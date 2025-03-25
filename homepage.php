@@ -34,14 +34,21 @@ $username = $loggedIn ? $_SESSION['username'] : "Guest";
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px;
+            padding: 10px 20px;
+	    flex-wrap: wrap;
         }
 
         .navbar a {
             color: white;
             text-decoration: none;
             padding: 10px 20px;
+   	    margin: 5px;
             display: inline-block;
+            margin: 5px;
+	    background-color: #0096c7;
+	    border-radius: 6px;
+  	    transition: background-color 0.3s ease;
+	    front-weight: bold;
         }
 
         .navbar a:hover {
@@ -65,7 +72,7 @@ $username = $loggedIn ? $_SESSION['username'] : "Guest";
         .hero {
             position: relative;
             width: 100%;
-            height: 450px;
+            height: 300px;
             background: url('images/flightimage.jpeg') no-repeat center center/cover;
             display: flex;
             align-items: center;
@@ -176,7 +183,11 @@ $username = $loggedIn ? $_SESSION['username'] : "Guest";
         <h1>Welcome to our Events and Flight Booking Dashboard , <?php echo htmlspecialchars($username); ?>!</h1>
         <p>
             Explore events, find the perfect flights, and book your trips all in one place.
-            Get personalized recommendations and track your flight in real time.
+            Enjoy smart recommendations and real-time travel updates!
+	    Discover trending concerts, festivals, and experiences happening near you or across the globe.
+	    Track flights in real-time, compare prices, and book with ease.
+	    Receive personalized alerts, seamless itinerary updates, and travel tips tailored just for you.
+	    Whether you are planning a quick getaway or a dream vacation, we have got everything you need to make it memorable.
         </p>
     </div>
 

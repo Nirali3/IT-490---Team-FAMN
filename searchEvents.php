@@ -145,13 +145,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
         	display: flex;
         	justify-content: space-between;
         	align-items: center;
-        	padding: 15px;
+		padding: 10px 20px;
+		flex-wrap: wrap;
 	}
 	.navbar a {
 		color: white;
         	text-decoration: none;
-        	padding: 10px 20px;
-        	display: inline-block;
+		padding: 10px 20px;
+		margin: 5px;
+		display: inline-block;
+		background-color: #0096c7;
+		border-radius: 6px;
+		transition: background-color 0.3s ease;
+		font-weight: bold;
 	}
 
 	.navbar a:hover {

@@ -4,12 +4,31 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 session_start();
+include "connection.php";
 
 $username = $_SESSION['username'] ?? "Guest";
 $review = $_POST['review'] ?? '';
 $rating = $_POST['rating'] ?? '';
 $booking_id = $_POST['booking_id'] ?? '';
 $passenger_id = $_POST['passenger_id'] ?? '';
+
+$inserted = false;
+$error_message = "";
+
+// Insert the review into the database if form is submitted
+if ($_SERVER["REQUEST_METHOD"] === "POST" && $review && $rating && $booking_id && $passenger_id) {
+    // Use $conn or $con depending on your connection file
+    $stmt = $con->prepare("INSERT INTO Reviews (username, comment, rating, booking_id, passenger_id) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssiii", $username, $review, $rating, $booking_id, $passenger_id);
+
+    if ($stmt->execute()) {
+        $inserted = true;
+    } else {
+        $error_message = "❌ Failed to submit review. Please try again later.";
+    }
+
+    $stmt->close();
+}
 ?>
 
 <!DOCTYPE html>

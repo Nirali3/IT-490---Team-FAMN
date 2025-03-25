@@ -1,1 +1,2 @@
-<?php phpinfo(); ?>
+<?php
+echo "Test page is working!";

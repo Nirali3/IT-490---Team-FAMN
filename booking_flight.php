@@ -61,6 +61,12 @@ $arrival_time = htmlspecialchars($_GET['arrivalDate']);
 
     <h2>Passenger Details</h2>
     <form method="POST" action="handle_booking.php">
+	<input type="hidden" name="price" value="<?= $price ?>">
+	<input type="hidden" name="airline" value="<?= $airline ?>">
+	<input type="hidden" name="departure" value="<?= $departure ?>">
+	<input type="hidden" name="arrival" value="<?= $arrival ?>">
+	<input type="hidden" name="departure_time" value="<?= $departure_time ?>">
+	<input type="hidden" name="arrival_time" value="<?= $arrival_time ?>">
         <div id="passenger-section">
             <div class="passenger">
                 <label>First Name:</label>

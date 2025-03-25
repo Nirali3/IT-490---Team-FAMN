@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $expiration_date = $_POST['expiration_date'];
         $cvc = $_POST['cvc'];
 
-        if (!isset($_GET['price'], $_GET['airline'], $_GET['departure'], $_GET['arrival'], $_GET['departure_time'], $_GET['arrival_time'])) {
+        if (!isset($_GET['price'], $_GET['airline'], $_GET['departureAirport'], $_GET['destinationAirport'], $_GET['departureDate'], $_GET['arrivalDate'])) {
             echo "Please select a flight before booking in 'Search Flight'.";
             exit;
         }
@@ -38,10 +38,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Flight Details
         $price = $_GET['price'];
         $airline = $_GET['airline'];
-        $departure = $_GET['departure'];
-        $arrival = $_GET['arrival'];
-        $departure_time = $_GET['departure_time'];
-        $arrival_time = $_GET['arrival_time'];
+        $departure = $_GET['departureAirport'];
+        $arrival = $_GET['arrivalAirport'];
+        $departure_time = $_GET['departureDate'];
+        $arrival_time = $_GET['arrivalDate'];
 
         $pdo->beginTransaction();
 

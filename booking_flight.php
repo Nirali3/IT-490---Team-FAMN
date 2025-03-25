@@ -25,6 +25,11 @@ $departure = htmlspecialchars($_GET['departureAirport']);
 $arrival = htmlspecialchars($_GET['destinationAirport']);
 $departure_time = htmlspecialchars($_GET['departureDate']);
 $arrival_time = htmlspecialchars($_GET['arrivalDate']);
+
+if (isset($_POST['submit'])) {
+    header("Location: confirmation_page.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -112,7 +117,7 @@ $arrival_time = htmlspecialchars($_GET['arrivalDate']);
             <label>CVC:</label>
             <input type="text" name="cvc" required pattern="\d{3}" title="CVC must be 3 digits">
 
-            <button type="submit">Book Tickets</button>
+            <button type="submit" name="submit">Book Tickets</button>
 	</div>
     </form>
 

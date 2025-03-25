@@ -12,13 +12,15 @@ if (!isset($_SESSION['username'])) {
 }
 
 $username = $_SESSION['username'];
+$success_message = "";
+$error_message = "";
 $review_message = "";
 $rating = "";
 $booking_id = "";
 $passenger_id = "";
 
 // Handle form submission
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $review_message = trim($_POST['review']);
     $rating = trim($_POST['rating']);
     $booking_id = trim($_POST['booking_id']);
@@ -75,15 +77,18 @@ while ($row = $result->fetch_assoc()) {
 <div class="container">
     <h2>Review Submission</h2>
 
-    <?php if (!empty($success_message)) : ?>
-        <p class="message"><?php echo $success_message; ?></p>
+    <?php if ($success_message): ?>
+        <p class="message"><?= $success_message ?></p>
+        <div class="review-box">
+            <p><strong>Review:</strong> <?= htmlspecialchars($review_message) ?></p>
+            <p class="rating"><?= str_repeat("⭐", (int)$rating) ?></p>
+            <p><strong>Submitted by:</strong> <?= htmlspecialchars($username) ?></p>
+        </div>
+    <?php elseif ($error_message): ?>
+        <p class="error"><?= $error_message ?></p>
     <?php endif; ?>
 
-    <?php if (!empty($error_message)) : ?>
-        <p class="error"><?php echo $error_message; ?></p>
-    <?php endif; ?>
-
-    <h3>Your Submitted Review</h3>
+    <h3>Your Submitted Reviews</h3>
     <p><strong>Review:</strong> <?php echo htmlspecialchars($review_message); ?></p>
     <p><strong>Rating:</strong> <?php echo str_repeat("⭐", $rating); ?></p>
     <p><strong>Submitted by:</strong> <?php echo htmlspecialchars($username); ?></p>

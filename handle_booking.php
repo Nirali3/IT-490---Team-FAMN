@@ -15,7 +15,7 @@ $api_key = $_ENV['GOOGLE_API_KEY'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
-        if (!isset($_POST['first_name'], $_POST['last_name'], $_POST['dob'], $_POST['cabin_class'], $_POST['age_group'], $_POST['card_number'], $_POST['cardholder_name'], $_POST['expiration_date'], $_POST['cvc'])) {
+        if (!isset($_POST['first_name'], $_POST['last_name'], $_POST['dob'], $_POST['cabin_class'], $_POST['age_group'], $_POST['card_number'], $_POST['cardholder_name'], $_POST['expiration_date'], $_POST['cvc'] $_POST['price'], $_POST['airline'], $_POST['departure'], $_POST['arrival'], $_POST['departure_time'], $_POST['arrival_time'])) {
             echo "Error: Missing required fields.";
             exit;
         }
@@ -30,30 +30,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $expiration_date = $_POST['expiration_date'];
         $cvc = $_POST['cvc'];
 
-//        if (!isset($_GET['price'], $_GET['airline'], $_GET['departureAirport'], $_GET['destinationAirport'], $_GET['departureDate'], $_GET['arrivalDate'])) {
-  //          echo "Please select a flight before booking in 'Search Flight'.";
-    //        exit;
-        }
+	$price = $_POST['price'];
+        $airline = $_POST['airline'];
+        $departure = $_POST['departureAirport'];
+        $arrival = $_POST['arrivalAirport'];
+        $departure_time = $_POST['departureDate'];
+        $arrival_time = $_POST['arrivalDate'];
 
-        // Flight Details
-        $price = $_GET['price'];
-        $airline = $_GET['airline'];
-        $departure = $_GET['departureAirport'];
-        $arrival = $_GET['arrivalAirport'];
-        $departure_time = $_GET['departureDate'];
-        $arrival_time = $_GET['arrivalDate'];
-
+        // Start DB transaction
         $pdo->beginTransaction();
 
         $stmt = $pdo->prepare("INSERT INTO Bookings (airline, departureAiprort, arrivalAirport, departureDate, arrivalDate, price) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$airline, $departureAirport, $arrivalAirport, $departureDate, $arrivalDate, $price]);
+        $stmt->bind_param("ssssss", $airline, $departureAirport, $arrivalAirport, $departureDate, $arrivalDate, $price]);
+	$stmt->execute();
+        $booking_id = $con->lastInsertId();
+	$stmt->close();
 
-        $booking_id = $pdo->lastInsertId();
-
-        $stmt = $pdo->prepare("INSERT INTO Passengers (booking_id, first_name, last_name, dob, cabin_class, age_group, card_number, cardholder_name, expiration_date, cvc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $con->prepare("INSERT INTO Passengers (booking_id, first_name, last_name, dob, cabin_class, age_group, card_number, cardholder_name, expiration_date, cvc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
         foreach ($first_names as $index => $first_name) {
-            $stmt->execute([
+            $stmt->bind_param("isssssssss",
                 $booking_id, 
                 $first_names[$index],
                 $last_names[$index],
@@ -64,13 +60,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $cardholder_name,
                 $expiration_date,
                 $cvc
-            ]);
+            );
+
+	   $stmt->execute();
         }
+	
+	$stmt->close();
         
         $pdo->commit();
-        echo "Booking is successful";
+        echo "<h3 style='color:green;'>Booking successful!</h3>";
+	echo "<a href='homepage.php'>Return to Home</a>"
     } catch (Exception $e) {
-        $pdo->rollBack();
+        $con->rollBack();
         echo "Error: " . $e->getMessage();
     }
+} else {
+	echo "<p> Invalid request method. Please submit the form.</p>";
 }
+
+?>
+

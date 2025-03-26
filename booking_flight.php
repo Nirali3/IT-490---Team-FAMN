@@ -14,12 +14,12 @@ $dotenv->load();
 $api_key = $_ENV['GOOGLE_API_KEY'];
 
 // Validación de parámetros
-if (!isset($_GET['price'], $_GET['airline'], $_GET['departureAirport'], $_GET['destinationAirport'], $_GET['departureDate'], $_GET['arrivalDate'])) {
+if (!isset($_GET['total_price'], $_GET['airline'], $_GET['departureAirport'], $_GET['destinationAirport'], $_GET['departureDate'], $_GET['arrivalDate'])) {
     die("Error: Missing flight details");
 }
 
 // Asignación de variables
-$price = htmlspecialchars($_GET['price']);
+$price = htmlspecialchars($_GET['total_price']);
 $airline = htmlspecialchars($_GET['airline']);
 $departure = htmlspecialchars($_GET['departureAirport']);
 $arrival = htmlspecialchars($_GET['destinationAirport']);
@@ -66,12 +66,12 @@ if (isset($_POST['submit'])) {
 
     <h2>Passenger Details</h2>
     <form method="POST" action="handle_booking.php">
-	<input type="hidden" name="price" value="<?= $price ?>">
+	<input type="hidden" name="total_price" value="<?= $price ?>">
 	<input type="hidden" name="airline" value="<?= $airline ?>">
-	<input type="hidden" name="departure" value="<?= $departure ?>">
-	<input type="hidden" name="arrival" value="<?= $arrival ?>">
-	<input type="hidden" name="departure_time" value="<?= $departure_time ?>">
-	<input type="hidden" name="arrival_time" value="<?= $arrival_time ?>">
+	<input type="hidden" name="departureAirport" value="<?= $departure ?>">
+	<input type="hidden" name="arrivalAirport" value="<?= $arrival ?>">
+	<input type="hidden" name="departureDate" value="<?= $departure_time ?>">
+	<input type="hidden" name="arrivalDate" value="<?= $arrival_time ?>">
         <div id="passenger-section">
             <div class="passenger">
                 <label>First Name:</label>

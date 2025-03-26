@@ -364,7 +364,7 @@ button:active {
                         <input type="hidden" name="airline" value="<?php echo $flight['flights'][0]['airline']; ?>">
                         <input type="hidden" name="price" value="<?php echo $flight['price']; ?>">
                         <input type="hidden" name="departureAirport" value="<?php echo $flight['flights'][0]['departure_airport']['name']; ?>">
-                        <input type="hidden" name="destinationAirport" value="<?php echo $lastFlight['arrival_airport']['name']; ?>">
+                        <input type="hidden" name="arrivalAirport" value="<?php echo $lastFlight['arrival_airport']['name']; ?>">
                         <input type="hidden" name="departureDate" value="<?php echo $flight['flights'][0]['departure_airport']['time']; ?>">
                         <input type="hidden" name="arrivalDate" value="<?php echo $lastFlight['arrival_airport']['time']; ?>">
                         <button type="submit" class="booking-button">Book Now</button>

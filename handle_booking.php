@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $arrival_time = $_POST['arrival_time'];
 
         // Insert into Bookings table
-        $stmt = $con->prepare("INSERT INTO Booking (airline, departureAirport, arrivalAirport, departureDate, arrivalDate, price) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt = $con->prepare("INSERT INTO bookings (airline, departureAirport, arrivalAirport, departureDate, arrivalDate, price) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("sssssd", $airline, $departure, $arrival, $departure_time, $arrival_time, $price);
         $stmt->execute();
         $booking_id = $stmt->insert_id;

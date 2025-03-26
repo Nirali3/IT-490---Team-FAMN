@@ -31,12 +31,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $cvc = $_POST['cvc'];
 
         // Flight Details
-        $price = $_POST['total_price'];
-        $airline = $_POST['airline'];
-        $departure = $_POST['departureAirport'];
-        $arrival = $_POST['arrivalAirport'];
-        $departure_time = $_POST['departureDate'];
-        $arrival_time = $_POST['arrivalDate'];
+        $price = htmlspecialchars($_POST['total_price']);
+        $airline = htmlspecialchars($_POST['airline']);
+        $departure = htmlspecialchars($_POST['departureAirport']);
+        $arrival = htmlspecialchars($_POST['arrivalAirport']);
+        $departure_time = htmlspecialchars($_POST['departureDate']);
+        $arrival_time = htmlspecialchars($_POST['arrivalDate']);
 
         $pdo->beginTransaction();
 
@@ -50,11 +50,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         foreach ($first_names as $index => $first_name) {
             $stmt->execute([
                 $booking_id, 
-                $first_names[$index],
-                $last_names[$index],
-                $dobs[$index],
-                $cabin_classes[$index],
-                $age_groups[$index]
+                htmlspecialchars($first_names[$index]),
+                htmlspecialchars($last_names[$index]),
+                htmlspecialchars($dobs[$index]),
+                htmlspecialchars($cabin_classes[$index]),
+                htmlspecialchars($age_groups[$index])
             ]);
         }
 

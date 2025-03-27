@@ -34,13 +34,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $price = htmlspecialchars($_POST['price']);
         $airline = htmlspecialchars($_POST['airline']);
         $departureAirport = htmlspecialchars($_POST['departureAirport']);
-        $arrivalAirport = htmlspecialchars($_POST['destinationAirport']);
+        $destinationAirport = htmlspecialchars($_POST['destinationAirport']);
         $departureDate = htmlspecialchars($_POST['departureDate']);
         $arrivalDate = htmlspecialchars($_POST['arrivalDate']);
 
         $pdo->beginTransaction();
 
-        $stmt = $pdo->prepare("INSERT INTO Bookings (airline, departureAirport, arrivalAirport, departureDate, arrivalDate, total_price, card_number, cardholder_name, expiration_date, cvc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $pdo->prepare("INSERT INTO Bookings (airline, departureAirport, destinationAirport, departureDate, arrivalDate, total_price, card_number, cardholder_name, expiration_date, cvc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->execute([$airline, $departureAirport, $destinationAirport, $departureDate, $arrivalDate, $price, $card_number, $cardholder_name, $expiration_date, $cvc]);
 
         $booking_id = $pdo->lastInsertId();

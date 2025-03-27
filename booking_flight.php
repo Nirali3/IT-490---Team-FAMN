@@ -59,8 +59,8 @@ if (isset($_POST['submit'])) {
     <h2>Flight Information</h2>
     <div id="flight-info">
         <p><strong>Airline:</strong> <?= $airline ?></p>
-        <p><strong>Departure:</strong> <?= $departure ?> at <?= $departureDate ?></p>
-        <p><strong>Arrival:</strong> <?= $arrival ?> at <?= $arrivalDate ?></p>
+        <p><strong>Departure:</strong> <?= $departureDate ?> at <?= $departureDate ?></p>
+        <p><strong>Arrival:</strong> <?= $arrivalDate ?> at <?= $arrivalDate ?></p>
         <p id="flight-price" data-price="<?= $price ?>"><strong>Price per Ticket:</strong> $<?= $price ?></p>
     </div>
 

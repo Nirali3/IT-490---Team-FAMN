@@ -362,11 +362,11 @@ button:active {
                     <!-- Book Now Button -->
                     <form action="booking_flight.php" method="GET">
                         <input type="hidden" name="airline" value="<?php echo $flight['flights'][0]['airline']; ?>">
-                        <input type="hidden" name="price" value="<?php echo $flight['price']; ?>">
-                        <input type="hidden" name="departureAirport" value="<?php echo $flight['flights'][0]['departure_airport']['name']; ?>">
-                        <input type="hidden" name="arrivalAirport" value="<?php echo $lastFlight['arrival_airport']['name']; ?>">
-                        <input type="hidden" name="departureDate" value="<?php echo $flight['flights'][0]['departure_airport']['time']; ?>">
-                        <input type="hidden" name="arrivalDate" value="<?php echo $lastFlight['arrival_airport']['time']; ?>">
+                        <input type="hidden" name="price" value="<?php echo $flight['total_price']; ?>">
+                        <input type="hidden" name="departureAirport" value="<?php echo $flight['flights'][0]['departureAirport']['name']; ?>">
+                        <input type="hidden" name="arrivalAirport" value="<?php echo $lastFlight['arrivalAirport']['name']; ?>">
+                        <input type="hidden" name="departureDate" value="<?php echo $flight['flights'][0]['departureDate']['time']; ?>">
+                        <input type="hidden" name="arrivalDate" value="<?php echo $lastFlight['arrivalDate']['time']; ?>">
                         <button type="submit" class="booking-button">Book Now</button>
                     </form>
                 </div>

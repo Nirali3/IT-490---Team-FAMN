@@ -15,7 +15,7 @@ $api_key = $_ENV['GOOGLE_API_KEY'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
-        if (!isset($_POST['first_name'], $_POST['last_name'], $_POST['dob'], $_POST['cabin_class'], $_POST['age_group'], $_POST['card_number'], $_POST['cardholder_name'], $_POST['expiration_date'], $_POST['cvc'], $_POST['airline'], $_POST['departureAirport'], $_POST['destinationAirport'], $_POST['departureDate'], $_POST['arrivalDate'])) {
+        if (!isset($_POST['first_name'], $_POST['last_name'], $_POST['dob'], $_POST['cabin_class'], $_POST['age_group'], $_POST['card_number'], $_POST['cardholder_name'], $_POST['expiration_date'], $_POST['cvc'], $_POST['airline'], $_POST['departureAirport'], $_POST['destinationAirport'], $_POST['departureDate'], $_POST['arrivalDate'], $_POST['price'])) {
             echo "Error: Missing required fields.";
             exit;
         }
@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $cvc = $_POST['cvc'];
 
         // Flight Details
-        $price = htmlspecialchars($_POST['total_price']);
+        $price = htmlspecialchars($_POST['price']);
         $airline = htmlspecialchars($_POST['airline']);
         $departureAirport = htmlspecialchars($_POST['departureAirport']);
         $arrivalAirport = htmlspecialchars($_POST['destinationAirport']);

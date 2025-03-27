@@ -21,10 +21,10 @@ if (!isset($_GET['total_price'], $_GET['airline'], $_GET['departureAirport'], $_
 // Asignación de variables
 $price = htmlspecialchars($_GET['total_price']);
 $airline = htmlspecialchars($_GET['airline']);
-$departure = htmlspecialchars($_GET['departureAirport']);
-$arrival = htmlspecialchars($_GET['destinationAirport']);
-$departure_time = htmlspecialchars($_GET['departureDate']);
-$arrival_time = htmlspecialchars($_GET['arrivalDate']);
+$departureAirport = htmlspecialchars($_GET['departureAirport']);
+$destinationAirport = htmlspecialchars($_GET['destinationAirport']);
+$departureDate = htmlspecialchars($_GET['departureDate']);
+$arrivalDate = htmlspecialchars($_GET['arrivalDate']);
 
 if (isset($_POST['submit'])) {
     header("Location: confirmation_page.php");

@@ -15,7 +15,7 @@ $api_key = $_ENV['GOOGLE_API_KEY'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
-        if (!isset($_POST['first_name'], $_POST['last_name'], $_POST['dob'], $_POST['cabin_class'], $_POST['age_group'], $_POST['card_number'], $_POST['cardholder_name'], $_POST['expiration_date'], $_POST['cvc'], $_POST['airline'], $_POST['departureAirport'], $_POST['arrivalAirport'], $_POST['departureDate'], $_POST['arrivalDate'])) {
+        if (!isset($_POST['first_name'], $_POST['last_name'], $_POST['dob'], $_POST['cabin_class'], $_POST['age_group'], $_POST['card_number'], $_POST['cardholder_name'], $_POST['expiration_date'], $_POST['cvc'], $_POST['airline'], $_POST['departureAirport'], $_POST['destinationAirport'], $_POST['departureDate'], $_POST['arrivalDate'])) {
             echo "Error: Missing required fields.";
             exit;
         }
@@ -33,15 +33,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Flight Details
         $price = htmlspecialchars($_POST['total_price']);
         $airline = htmlspecialchars($_POST['airline']);
-        $departure = htmlspecialchars($_POST['departureAirport']);
-        $arrival = htmlspecialchars($_POST['arrivalAirport']);
-        $departure_time = htmlspecialchars($_POST['departureDate']);
-        $arrival_time = htmlspecialchars($_POST['arrivalDate']);
+        $departureAirport = htmlspecialchars($_POST['departureAirport']);
+        $arrivalAirport = htmlspecialchars($_POST['destinationAirport']);
+        $departureDate = htmlspecialchars($_POST['departureDate']);
+        $arrivalDate = htmlspecialchars($_POST['arrivalDate']);
 
         $pdo->beginTransaction();
 
         $stmt = $pdo->prepare("INSERT INTO Bookings (airline, departureAirport, arrivalAirport, departureDate, arrivalDate, total_price, card_number, cardholder_name, expiration_date, cvc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$airline, $departure, $arrival, $departure_time, $arrival_time, $price, $card_number, $cardholder_name, $expiration_date, $cvc]);
+        $stmt->execute([$airline, $departureAirport, $destinationAirport, $departureDate, $arrivalDate, $price, $card_number, $cardholder_name, $expiration_date, $cvc]);
 
         $booking_id = $pdo->lastInsertId();
 

@@ -292,90 +292,91 @@ button:active {
     </style>
 </head>
 <body>
-
-    <!-- Navigation Bar -->
-    <div class="navbar">
-        <div>
-            <a href="homepage.php">Home</a>
-            <a href="userAccount.php">User Account</a>
-            <a href="searchEvents.php">Search Events</a>
-            <a href="indexSearchFlight.php">Search Flights</a>
-	    <a href="push_notifications.php">Notification Center</a>
-            <a href="recommendation.php">Recommendations</a>
-        </div>
-
-        <!-- Logout Button -->
-        <?php if (isset($_SESSION['username'])): ?>
-            <form action="logout.php" method="post" style="margin: 0;">
-                <button type="submit" class="logout-btn">Logout</button>
-            </form>
-        <?php endif; ?>
-    </div>
-
-<div class="container">
-        <h1>Search Flights</h1>
-        <form action="" method="GET">
-            <label for="origin">Origin (City or Country)</label>
-            <input type="text" id="origin" name="origin" required>
-
-            <label for="destination">Destination (City or Country)</label>
-            <input type="text" id="destination" name="destination" required>
-
-            <label for="departureDate">Departure Date</label>
-            <input type="date" id="departureDate" name="departureDate" required>
-
-            <label for="returnDate">Return Date</label>
-            <input type="date" id="returnDate" name="returnDate" required>
-
-            <button type="submit">Search Flights</button>
-        </form>
-
-    <!-- Flights Section -->
-    <div class="flights-container" id="flights-section">
-        <?php if (!empty($flights)): ?>
-            <h3>Available Flights:</h3>
-            <?php foreach ($flights as $flight): ?>
-                <div class="flight-card">
-                    <strong>Airline:</strong> <?php echo $flight['flights'][0]['airline']; ?><br>
-                    <img src="<?php echo $flight['flights'][0]['airline_logo']; ?>" alt="Airline Logo"><br>
-                    <strong>Price:</strong> $<?php echo $flight['price']; ?><br>
-                    <strong>Total Duration:</strong> <?php echo $flight['total_duration']; ?> minutes<br>
-                    <strong>Departure:</strong> <?php echo $flight['flights'][0]['departure_airport']['name']; ?> (<?php echo $flight['flights'][0]['departure_airport']['id']; ?>)<br>
-                    <strong>Destination:</strong> 
-                    <?php 
-                    if (!empty($flight['flights'])) {
-                        $lastFlight = end($flight['flights']); 
-                        echo $lastFlight['arrival_airport']['name'] . " (" . $lastFlight['arrival_airport']['id'] . ")<br>";
-                    } else {
-                        echo "Not available<br>";
-                    }
-                    ?>
-                    <strong>Departure Date & Time:</strong> <?php echo $flight['flights'][0]['departure_airport']['time']; ?><br>
-                    <strong>Arrival Date & Time:</strong> 
-                    <?php 
-                    if (!empty($flight['flights'])) {
-                        echo $lastFlight['arrival_airport']['time'] . "<br>";
-                    } else {
-                        echo "Not available<br>";
-                    }
-                    ?>
-                    
-                    <!-- Book Now Button -->
-                    <form action="booking_flight.php" method="GET">
-                        <input type="hidden" name="airline" value="<?php echo $flight['flights'][0]['airline']; ?>">
-                        <input type="hidden" name="price" value="<?php echo $flight['total_price']; ?>">
-                        <input type="hidden" name="departureAirport" value="<?php echo $flight['flights'][0]['departureAirport']['name']; ?>">
-                        <input type="hidden" name="arrivalAirport" value="<?php echo $lastFlight['arrivalAirport']['name']; ?>">
-                        <input type="hidden" name="departureDate" value="<?php echo $flight['flights'][0]['departureDate']['time']; ?>">
-                        <input type="hidden" name="arrivalDate" value="<?php echo $lastFlight['arrivalDate']['time']; ?>">
-                        <button type="submit" class="booking-button">Book Now</button>
-                    </form>
-                </div>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <p>No flights found for the given parameters.</p>
-        <?php endif; ?>
-    </div>
-
-</body>
-</html>
+ 
+     <!-- Navigation Bar -->
+     <div class="navbar">
+         <div>
+             <a href="homepage.php">Home</a>
+             <a href="userAccount.php">User Account</a>
+             <a href="searchEvents.php">Search Events</a>
+             <a href="indexSearchFlight.php">Search Flights</a>
+ 	    <a href="push_notifications.php">Notification Center</a>
+             <a href="recommendation.php">Recommendations</a>
+         </div>
+ 
+         <!-- Logout Button -->
+         <?php if (isset($_SESSION['username'])): ?>
+             <form action="logout.php" method="post" style="margin: 0;">
+                 <button type="submit" class="logout-btn">Logout</button>
+             </form>
+         <?php endif; ?>
+     </div>
+ 
+ <div class="container">
+         <h1>Search Flights</h1>
+         <form action="" method="GET">
+             <label for="origin">Origin (City or Country)</label>
+             <input type="text" id="origin" name="origin" required>
+ 
+             <label for="destination">Destination (City or Country)</label>
+             <input type="text" id="destination" name="destination" required>
+ 
+             <label for="departureDate">Departure Date</label>
+             <input type="date" id="departureDate" name="departureDate" required>
+ 
+             <label for="returnDate">Return Date</label>
+             <input type="date" id="returnDate" name="returnDate" required>
+ 
+             <button type="submit">Search Flights</button>
+         </form>
+ 
+     <!-- Flights Section -->
+     <div class="flights-container" id="flights-section">
+         <?php if (!empty($flights)): ?>
+             <h3>Available Flights:</h3>
+             <?php foreach ($flights as $flight): ?>
+                 <div class="flight-card">
+                     <strong>Airline:</strong> <?php echo $flight['flights'][0]['airline']; ?><br>
+                     <img src="<?php echo $flight['flights'][0]['airline_logo']; ?>" alt="Airline Logo"><br>
+                     <strong>Price:</strong> $<?php echo $flight['price']; ?><br>
+                     <strong>Total Duration:</strong> <?php echo $flight['total_duration']; ?> minutes<br>
+                     <strong>Departure:</strong> <?php echo $flight['flights'][0]['departure_airport']['name']; ?> (<?php echo $flight['flights'][0]['departure_airport']['id']; ?>)<br>
+                     <strong>Destination:</strong> 
+                     <?php 
+                     if (!empty($flight['flights'])) {
+                         $lastFlight = end($flight['flights']); 
+                         echo $lastFlight['arrival_airport']['name'] . " (" . $lastFlight['arrival_airport']['id'] . ")<br>";
+                     } else {
+                         echo "Not available<br>";
+                     }
+                     ?>
+                     <strong>Departure Date & Time:</strong> <?php echo $flight['flights'][0]['departure_airport']['time']; ?><br>
+                     <strong>Arrival Date & Time:</strong> 
+                     <?php 
+                     if (!empty($flight['flights'])) {
+                         echo $lastFlight['arrival_airport']['time'] . "<br>";
+                     } else {
+                         echo "Not available<br>";
+                     }
+                     ?>
+ 
+                     <!-- Book Now Button -->
+                     <form action="booking_flight.php" method="GET">
+                         <input type="hidden" name="airline" value="<?php echo $flight['flights'][0]['airline']; ?>">
+                         <input type="hidden" name="price" value="<?php echo $flight['price']; ?>">
+                         <input type="hidden" name="departureAirport" value="<?php echo $flight['flights'][0]['departure_airport']['name']; ?>">
+                         <input type="hidden" name="destinationAirport" value="<?php echo $lastFlight['arrival_airport']['name']; ?>">
+                         <input type="hidden" name="arrivalAirport" value="<?php echo $lastFlight['arrival_airport']['name']; ?>">
+                         <input type="hidden" name="departureDate" value="<?php echo $flight['flights'][0]['departure_airport']['time']; ?>">
+                         <input type="hidden" name="arrivalDate" value="<?php echo $lastFlight['arrival_airport']['time']; ?>">
+                         <button type="submit" class="booking-button">Book Now</button>
+                     </form>
+                 </div>
+             <?php endforeach; ?>
+         <?php else: ?>
+             <p>No flights found for the given parameters.</p>
+         <?php endif; ?>
+     </div>
+ 
+ </body>
+ </html>

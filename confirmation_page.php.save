@@ -6,14 +6,8 @@ session_start();
 
 include "connection.php";
 
-if (isset($_SESSION['booking_info'])) {
-    $booking_info = $_SESSION['booking_info'];
-}
-
-if (isset($_POST['confirm'])) {
-    header("Location: userAccount.php");
-    exit();
-}
+$airline = $_SESSION['booking_info']['airline'];
+$departure = $_SESSION[
 ?>
 
 <!DOCTYPE html>
@@ -40,23 +34,23 @@ if (isset($_POST['confirm'])) {
 
     <h2>Flight Information</h2>
     <div id="flight-info">
-        <p><strong>Airline:</strong> <?= htmlspecialchars($booking_info['airline']) ?></p>
-        <p><strong>Departure:</strong> <?= htmlspecialchars($booking_info['departureAirport']) ?> at <?= htmlspecialchars($booking_info['departureDate']) ?></p>
-        <p><strong>Arrival:</strong> <?= htmlspecialchars($booking_info['destinationAirport']) ?> at <?= htmlspecialchars($booking_info['arrivalDate']) ?></p>
+        <p><strong>Airline:</strong> <?= $airline ?></p>
+        <p><strong>Departure:</strong> <?= $departureDate ?> at <?= $departureDate ?></p>
+        <p><strong>Arrival:</strong> <?= $arrivalDate ?> at <?= $arrivalDate ?></p>
         <p id="flight-price" data-price="<?= $price ?>"><strong>Price per Ticket:</strong> $<?= $price ?></p>
     </div>
 
     <h2>Passenger Information</h2>
     <div id="passenger-info">
-    <?php foreach ($booking_info['passengers']['first_name'] as $index => $first_name): ?>
+    <?php foreach ($passengers as $index => $passenger): ?>
             <p><strong>Passenger <?= $index + 1 ?>:</strong></p>
             <ul>
-                <li><strong>Name:</strong> <?= htmlspecialchars('first_name'] . " " . $booking_info['passengers']['last_name'][$index]) ?></li>
-                <li><strong>Date of Birth:</strong> <?= htmlspecialchars($booking_info['passengers']['dob'][$index]) ?></li>
-                <li><strong>Cabin Class:</strong> <?= htmlspecialchars($booking_info['passengers']['cabin_class'][$index] ?></li>
-                <li><strong>Age Group:</strong> <?= htmlspecialchars($booking_info['passengers'['age_group'][$index] ?></li>
+                <li><strong>Name:</strong> <?= $passenger['first_name'] . " " . $passenger['last_name'] ?></li>
+                <li><strong>Date of Birth:</strong> <?= $passenger['dob'] ?></li>
+                <li><strong>Cabin Class:</strong> <?= $passenger['cabin_class'] ?></li>
+                <li><strong>Age Group:</strong> <?= $passenger['age_group'] ?></li>
             </ul>
-    <?php endforeach; ?>
+        <?php endforeach; ?>
 
         <button type="submit" name="confirm" value="Confirm">Confirm</button>
     </div>

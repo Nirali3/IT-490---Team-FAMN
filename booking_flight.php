@@ -66,12 +66,12 @@ if (isset($_POST['submit'])) {
 
     <h2>Passenger Details</h2>
     <form method="POST" action="handle_booking.php">
-	<input type="hidden" name="total_price" value="<?= $price ?>">
+	<input type="hidden" name="total_price" value="<?= $total_price ?>">
 	<input type="hidden" name="airline" value="<?= $airline ?>">
-	<input type="hidden" name="departureAirport" value="<?= $departure ?>">
-	<input type="hidden" name="arrivalAirport" value="<?= $arrival ?>">
-	<input type="hidden" name="departureDate" value="<?= $departure_time ?>">
-	<input type="hidden" name="arrivalDate" value="<?= $arrival_time ?>">
+	<input type="hidden" name="departureAirport" value="<?= $departureAirport ?>">
+	<input type="hidden" name="arrivalAirport" value="<?= $arrivalAirport ?>">
+	<input type="hidden" name="departureDate" value="<?= $departureDate ?>">
+	<input type="hidden" name="arrivalDate" value="<?= $arrivalDate ?>">
         <div id="passenger-section">
             <div class="passenger">
                 <label>First Name:</label>

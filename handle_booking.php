@@ -38,17 +38,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $departureDate = htmlspecialchars($_POST['departureDate']);
         $arrivalDate = htmlspecialchars($_POST['arrivalDate']);
 
-        $pdo->beginTransaction();
+        $con->begin_transaction();
 
-        $stmt = $pdo->prepare("INSERT INTO Bookings (airline, departureAirport, destinationAirport, departureDate, arrivalDate, total_price, card_number, cardholder_name, expiration_date, cvc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$airline, $departureAirport, $destinationAirport, $departureDate, $arrivalDate, $price, $card_number, $cardholder_name, $expiration_date, $cvc]);
+        $stmt = $con->prepare("INSERT INTO Bookings (airline, departureAirport, destinationAirport, departureDate, arrivalDate, price, card_number, cardholder_name, expiration_date, cvc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssdssss", $airline, $depatureAirport, $destinationAirport, $departureDate, $arrivalDate, $price, $card_number, $cardholder_name, $expiration_date, $cvc);
 
-        $booking_id = $pdo->lastInsertId();
+        $booking_id = $con->insert_id;
 
-        $stmt = $pdo->prepare("INSERT INTO Passengers (booking_id, first_name, last_name, dob, cabin_class, age_group) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt = $con->prepare("INSERT INTO Passengers (booking_id, first_name, last_name, dob, cabin_class, age_group) VALUES (?, ?, ?, ?, ?, ?)");
 
         foreach ($first_names as $index => $first_name) {
-            $stmt->execute([
+            $stmt->bind_param("isssss",
                 $booking_id, 
                 htmlspecialchars($first_names[$index]),
                 htmlspecialchars($last_names[$index]),
@@ -58,9 +58,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ]);
         }
 
-        $pdo->commit();
+        $con->commit();
     } catch (Exception $e) {
-        $pdo->rollBack();
+        $con->rollback();
         echo "Error: " . $e->getMessage();
     }
 }

@@ -27,21 +27,6 @@ $departureDate = htmlspecialchars($_GET['departureDate']);
 $arrivalDate = htmlspecialchars($_GET['arrivalDate']);
 
 if (isset($_POST['submit'])) {
-    $_SESSION['booking_info'] = [
-	'airline' => $airline,
-	'departure' => $departureDate,
-	'arrival' => $arrivalDate,
-	'departureAirport' => $departureAirport,
-	'destinationAirport' => $destinationAirport,
-	'price' => $price,
-	'passengers' => [
-	    'first_name' => $first_names,
-	    'last_name' => $last_names,
-	    'dob' => $dob,
-	    'cabin_class' => $cabin_classes,
-	    'age_group' => $age_groups
-	],
-    ];
     header("Location: confirmation_page.php");
     exit();
 }

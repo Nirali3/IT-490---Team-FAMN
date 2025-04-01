@@ -2,7 +2,6 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors',1);
 error_reporting(E_ALL);
-
 session_start();
 
 include "connection.php";
@@ -13,52 +12,68 @@ $dotenv->load();
 
 $api_key = $_ENV['GOOGLE_API_KEY'];
 
+// Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    try {
-        if (!isset($_POST['first_name'], $_POST['last_name'], $_POST['dob'], $_POST['cabin_class'], $_POST['age_group'], $_POST['card_number'], $_POST['cardholder_name'], $_POST['expiration_date'], $_POST['cvc'], $_POST['airline'], $_POST['departureAirport'], $_POST['destinationAirport'], $_POST['departureDate'], $_POST['arrivalDate'], $_POST['price'])) {
-            echo "Error: Missing required fields.";
-            exit;
+    // Validate required fields
+    $required_fields = ['first_name', 'last_name', 'dob', 'cabin_class', 'age_group', 'card_number', 'cardholder_name', 'expiration_date', 'cvc', 'airline', 'departureAirport', 'arrivalAirport', 'departureDate', 'arrivalDate', 'total_price'];
+    
+    foreach ($required_fields as $field) {
+        if (!isset($_POST[$field])) {
+            die("Error: Missing required fields.");
         }
+    }
 
-        $first_names = $_POST['first_name'];
-        $last_names = $_POST['last_name'];
-        $dobs = $_POST['dob'];
-        $cabin_classes = $_POST['cabin_class'];
-        $age_groups = $_POST['age_group'];
-        $card_number = $_POST['card_number'];
-        $cardholder_name = $_POST['cardholder_name'];
-        $expiration_date = $_POST['expiration_date'];
-        $cvc = $_POST['cvc'];
+    // Assigning POST data
+    $first_names = $_POST['first_name'];
+    $last_names = $_POST['last_name'];
+    $dobs = $_POST['dob'];
+    $cabin_classes = $_POST['cabin_class'];
+    $age_groups = $_POST['age_group'];
+    $card_number = $_POST['card_number'];
+    $cardholder_name = $_POST['cardholder_name'];
+    $expiration_date = $_POST['expiration_date'];
+    $cvc = $_POST['cvc'];
 
-        // Flight Details
-        $price = htmlspecialchars($_POST['price']);
-        $airline = htmlspecialchars($_POST['airline']);
-        $departureAirport = htmlspecialchars($_POST['departureAirport']);
-        $destinationAirport = htmlspecialchars($_POST['destinationAirport']);
-        $departureDate = htmlspecialchars($_POST['departureDate']);
-        $arrivalDate = htmlspecialchars($_POST['arrivalDate']);
+    $price = htmlspecialchars($_POST['total_price']);
+    $airline = htmlspecialchars($_POST['airline']);
+    $departureAirport = htmlspecialchars($_POST['departureAirport']);
+    $destinationAirport = htmlspecialchars($_POST['arrivalAirport']);
+    $departureDate = htmlspecialchars($_POST['departureDate']);
+    $arrivalDate = htmlspecialchars($_POST['arrivalDate']);
 
+    // Save to session
+    $_SESSION['booking_info'] = [
+        'airline' => $airline,
+        'departure' => $departureDate,
+        'arrival' => $arrivalDate,
+        'departureAirport' => $departureAirport,
+        'destinationAirport' => $destinationAirport,
+        'price' => $price,
+        'passengers' => [
+            'first_name' => $first_names,
+            'last_name' => $last_names,
+            'dob' => $dobs,
+            'cabin_class' => $cabin_classes,
+            'age_group' => $age_groups
+        ]
+    ];
+
+    // Optional: insert into database (you can uncomment this part later if needed)
+    
+    try {
         $con->begin_transaction();
 
         $stmt = $con->prepare("INSERT INTO Bookings (airline, departureAirport, destinationAirport, departureDate, arrivalDate, price, card_number, cardholder_name, expiration_date, cvc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("sssssdssss", $airline, $departureAirport, $destinationAirport, $departureDate, $arrivalDate, $price, $card_number, $cardholder_name, $expiration_date, $cvc);
-	$stmt->execute();
+        $stmt->execute();
 
         $booking_id = $con->insert_id;
 
         $stmt = $con->prepare("INSERT INTO Passengers (booking_id, first_name, last_name, dob, cabin_class, age_group) VALUES (?, ?, ?, ?, ?, ?)");
 
-        foreach ($first_names as $index => $first_name) {
-            $stmt->bind_param("isssss",
-                $booking_id, 
-                htmlspecialchars($first_names[$index]),
-                htmlspecialchars($last_names[$index]),
-                htmlspecialchars($dobs[$index]),
-                htmlspecialchars($cabin_classes[$index]),
-                htmlspecialchars($age_groups[$index])
-            );
-	    $stmt->execute();
-
+        foreach ($first_names as $index => $fname) {
+            $stmt->bind_param("isssss", $booking_id, $fname, $last_names[$index], $dobs[$index], $cabin_classes[$index], $age_groups[$index]);
+            $stmt->execute();
         }
 
         $con->commit();
@@ -66,4 +81,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $con->rollback();
         echo "Error: " . $e->getMessage();
     }
+    
+
+    header("Location: confirmation_page.php");
+    exit();
+} else {
+    echo "Error: Invalid request.";
 }
+?>

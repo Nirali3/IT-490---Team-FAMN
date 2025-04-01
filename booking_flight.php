@@ -25,11 +25,6 @@ $departureAirport = htmlspecialchars($_GET['departureAirport']);
 $destinationAirport = htmlspecialchars($_GET['destinationAirport']);
 $departureDate = htmlspecialchars($_GET['departureDate']);
 $arrivalDate = htmlspecialchars($_GET['arrivalDate']);
-
-if (isset($_POST['submit'])) {
-    header("Location: confirmation_page.php");
-    exit();
-}
 ?>
 
 <!DOCTYPE html>

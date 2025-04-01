@@ -1,4 +1,9 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'vendor/autoload.php';
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -9,20 +14,31 @@ include "connection.php";
 $loggedIn = isset($_SESSION['username']);
 $username = $loggedIn ? $_SESSION['username'] : "Guest";
 
-// Sample email notification function (Make sure mail server is configured properly)
-function sendEmailNotification($email, $subject, $message) {
-    $headers = "From: noreply@yourwebsite.com\r\n";
-    $headers .= "Reply-To: noreply@yourwebsite.com\r\n";
-    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+function sendEmailNotification($email, $subject, $body) {
+    $mail = new PHPMailer(true);
+    try {
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'your_gmail@gmail.com'; // Your Gmail
+        $mail->Password   = 'your_app_password';    // Your App Password
+        $mail->SMTPSecure = 'tls';
+        $mail->Port       = 587;
 
-    if (mail($email, $subject, $message, $headers)) {
-        return "<span style='color: green;'>Notification sent successfully to $email.</span>";
-    } else {
-        return "<span style='color: red;'>Failed to send notification. Please check server email settings.</span>";
+        $mail->setFrom('your_gmail@gmail.com', 'Flight Alerts');
+        $mail->addAddress($email);
+
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body    = $body;
+
+        $mail->send();
+        return "<p style='color: green;'>✅ Email sent to $email</p>";
+    } catch (Exception $e) {
+        return "<p style='color: red;'>❌ Mailer Error: {$mail->ErrorInfo}</p>";
     }
 }
 
-// Handling subscription form submission
 $notificationMessage = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribe"])) {
     $email = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
@@ -30,18 +46,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribe"])) {
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $notificationMessage = "<p style='color: red;'>Invalid email address.</p>";
     } else {
-        $subject = "Subscription to Real-Time Flight & Event Notifications";
-
-        $message = "<h3>Thank you for subscribing!</h3>
-        <p>Here are the types of notifications you will receive:</p>
-        <ul>
-            <li><strong>🔔 Alerts:</strong> Flight delays, event cancellations, and weather updates.</li>
-            <li><strong>⏳ Reminders:</strong> Upcoming flights, event schedules, and confirmations.</li>
-            <li><strong>💰 Promotions:</strong> Flight discounts, event ticket deals, and special offers.</li>
-            <li><strong>📢 Engagements:</strong> Travel tips, loyalty bonuses, and feature updates.</li>
-        </ul>
-        <p>Enjoy seamless travel planning with us!</p>";
-
+        $subject = "Subscription to Flight & Event Notifications";
+        $message = "<h3>Welcome!</h3><p>You will now receive alerts for:</p><ul>
+                    <li>🔔 Flight delays, cancellations, and severe weather</li>
+                    <li>⏰ Event reminders and bookings</li>
+                    <li>💰 Promotions on flights & events</li>
+                    <li>📢 Engagement and loyalty rewards</li>
+                    </ul><p>Thank you for subscribing!</p>";
         $notificationMessage = sendEmailNotification($email, $subject, $message);
     }
 }
@@ -55,89 +66,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribe"])) {
     <title>Push Notifications</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f8ff;
-        }
-
-        .navbar {
-            background-color: #0077b6;
-            overflow: hidden;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-        }
-
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            display: inline-block;
-        }
-
-        .navbar a:hover {
-            background-color: #005f87;
-            border-radius: 5px;
-        }
-
-        .container {
-            text-align: center;
-            margin: 50px auto;
-            max-width: 800px;
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        h1 {
-            color: #0077b6;
-        }
-
-        .notification-box {
-            text-align: left;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 5px;
-            background-color: #e3f2fd;
-            border-left: 5px solid #0077b6;
-        }
-
-        .email-form {
-            margin-top: 20px;
-            padding: 20px;
-            background-color: #f8f9fa;
-            border-radius: 5px;
-        }
-
-        input[type="email"] {
-            width: 70%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        button {
-            background-color: #0077b6;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #005f87;
-        }
+        body { font-family: Arial, sans-serif; background: #f0f8ff; margin: 0; padding: 0; }
+        .navbar { background: #0077b6; padding: 15px; display: flex; justify-content: space-between; }
+        .navbar a { color: white; padding: 10px; text-decoration: none; }
+        .container { max-width: 800px; margin: 40px auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1 { color: #0077b6; }
+        .notification-box { margin: 15px 0; padding: 15px; background: #e3f2fd; border-left: 5px solid #0077b6; }
+        .email-form input { padding: 10px; width: 60%; border-radius: 5px; border: 1px solid #ccc; }
+        .email-form button { padding: 10px 20px; background: #0077b6; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .email-form button:hover { background-color: #005f87; }
     </style>
 </head>
 <body>
-
-    <!-- Navigation Bar -->
     <div class="navbar">
         <div>
             <a href="homepage.php">Home</a>
@@ -149,42 +89,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribe"])) {
         </div>
     </div>
 
-    <!-- Notifications Section -->
     <div class="container">
         <h1>Notification Center</h1>
-        <p>Stay updated with real-time alerts, reminders, and promotions.</p>
+        <p>Stay updated with real-time alerts, reminders, and offers!</p>
 
         <div class="notification-box">
             <h3>🔔 Alerts</h3>
-            <p>Get instant notifications for <strong>flight delays, event cancellations, and severe weather warnings</strong>.</p>
+            <p>Flight delays, cancellations, and severe weather updates.</p>
         </div>
-
         <div class="notification-box">
             <h3>⏳ Reminders</h3>
-            <p>Receive reminders for <strong>upcoming flights, scheduled events, and booking confirmations</strong>.</p>
+            <p>Upcoming flights, booked events, and check-in reminders.</p>
         </div>
-
         <div class="notification-box">
             <h3>💰 Promotions</h3>
-            <p>Get exclusive deals on <strong>discounted flights, event tickets, and special offers</strong>.</p>
+            <p>Discounted flight and event deals.</p>
         </div>
-
         <div class="notification-box">
             <h3>📢 Engagements</h3>
-            <p>Stay connected with updates, <strong>loyalty program bonuses, and travel suggestions</strong>.</p>
+            <p>Loyalty program bonuses and travel tips.</p>
         </div>
 
-        <!-- Email Notification Subscription -->
         <div class="email-form">
-            <h3>Subscribe for Email Notifications 📧</h3>
+            <h3>📧 Subscribe for Email Alerts</h3>
             <form method="post">
                 <input type="email" name="email" placeholder="Enter your email" required>
                 <button type="submit" name="subscribe">Subscribe</button>
             </form>
-            <?php if (!empty($notificationMessage)) echo "<p>$notificationMessage</p>"; ?>
+            <?php echo $notificationMessage; ?>
         </div>
-
     </div>
-
 </body>
 </html>

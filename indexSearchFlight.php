@@ -74,18 +74,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['origin'], $_GET['destin
 
         .navbar {
             background-color: #0077b6; /* Dark Blue */
-            overflow: hidden;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
+            flex-wrap: wrap;              /* Allows wrapping */
+            justify-content: center;      /* Center buttons horizontally */
+            align-items: flex-start;      /* Align to top of row */
+            padding: 15px 20px;
+            gap: 10px;
         }
 
         .navbar a {
             color: white;
             text-decoration: none;
             padding: 10px 20px;
+            margin: 5px;
+            background-color: #0096c7;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
             display: inline-block;
+            white-space: nowrap;
         }
 
         .navbar a:hover {

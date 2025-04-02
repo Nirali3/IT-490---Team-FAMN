@@ -14,15 +14,12 @@ $dotenv->load();
 $api_key = $_ENV['GOOGLE_API_KEY'];
 
 $recommendedEvents = "";
-
-// Default Location (User Can Change)
 $location = "New York"; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])) {
     $location = htmlspecialchars($_POST['Location']);
 }
 
-// API Call for Trending Events
 $query = urlencode("trending events in " . $location);
 $url = "https://serpapi.com/search?engine=google_events&q={$query}&hl=en&gl=us&api_key={$api_key}";
 
@@ -39,9 +36,7 @@ if ($response === false) {
             $eventDate = !empty($event['date']['when']) ? htmlspecialchars($event['date']['when']) : "TBA";
             $eventLink = htmlspecialchars($event['link']);
             $eventImage = !empty($event['thumbnail']) ? htmlspecialchars($event['thumbnail']) : "images/default-event.jpg";
-
-            // Simulating event rating (In Real Case, Fetch from Database)
-            $rating = rand(4, 5); // Random ratings between 4 and 5 for recommendations
+            $rating = rand(4, 5);
             $stars = str_repeat("⭐", $rating);
 
             $recommendedEvents .= "
@@ -82,19 +77,23 @@ if ($response === false) {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 15px;
+        padding: 15px 20px;
+        flex-wrap: wrap;
     }
 
     .navbar a {
         color: white;
         text-decoration: none;
         padding: 10px 20px;
-        display: inline-block;
+        margin: 5px;
+        background-color: #0096c7;
+        border-radius: 6px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
     }
 
     .navbar a:hover {
         background-color: #005f87;
-        border-radius: 5px;
     }
 
     h1 {
@@ -102,10 +101,8 @@ if ($response === false) {
     }
 
     .search-bar {
-        width: 100%;
         display: flex;
         justify-content: center;
-        text-align: center;
         margin-top: 20px;
         max-width: 600px;
         margin: 20px auto;
@@ -129,6 +126,7 @@ if ($response === false) {
         border-radius: 5px;
         font-size: 16px;
         cursor: pointer;
+        margin-left: 10px;
     }
 
     button[type="submit"]:hover {
@@ -179,7 +177,6 @@ if ($response === false) {
         <a href="userAccount.php">User Account</a>
         <a href="searchEvents.php">Search Events</a>
         <a href="indexSearchFlight.php">Search Flights</a>
-       <!-- <a href="booking_flight.php">Book a Flight</a>-->
         <a href="push_notifications.php">Notification Center</a>
         <a href="recommendation.php">Recommendations</a>
     </div>
@@ -198,10 +195,11 @@ if ($response === false) {
 
 <!-- Recommended Events Section -->
 <div class="event-container">
-    <?php echo $recommendedEvents; ?>
+    <?= $recommendedEvents ?>
 </div>
 
 <?php include 'footer.php'; ?>
 
 </body>
 </html>
+

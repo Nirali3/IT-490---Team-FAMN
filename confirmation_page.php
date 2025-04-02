@@ -1,10 +1,15 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 session_start();
-
 include "connection.php";
 
+// Check if the form has been submitted
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['confirm'])) {
+    // Redirect to userAccount.php after confirmation
+    header('Location: userAccount.php');
+    exit();
+}
+
+// Retrieve booking information from session
 if (!isset($_SESSION['booking_info'])) {
     die("No booking data found.");
 }
@@ -13,11 +18,11 @@ $booking_info = $_SESSION['booking_info'];
 ?>
 
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Confirmation Page</title>
-    <link rel="stylesheet" href="style-booking.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -51,10 +56,9 @@ $booking_info = $_SESSION['booking_info'];
     <?php endforeach; ?>
 </div>
 
-<form method="POST">
+<form method="POST" action="">
     <button type="submit" name="confirm">Confirm</button>
 </form>
 
 </body>
 </html>
-

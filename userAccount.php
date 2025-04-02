@@ -208,5 +208,7 @@ if ($loggedIn && $passenger_id) {
     </form>
 </div>
 
+<?php include 'footer.php'; ?>
+
 </body>
 </html>

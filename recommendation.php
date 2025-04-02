@@ -201,5 +201,7 @@ if ($response === false) {
     <?php echo $recommendedEvents; ?>
 </div>
 
+<?php include 'footer.php'; ?>
+
 </body>
 </html>

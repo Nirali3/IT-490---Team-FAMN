@@ -6,8 +6,7 @@ error_reporting(E_ALL);
 session_start();
 include "connection.php";
 
-// Check if user is logged in
-$loggedIn = isset($_SESSION['username']);
+$loggedIn = isset($_SESSION['username']) && isset($_SESSION['passenger_id']);
 $username = $loggedIn ? $_SESSION['username'] : "Guest";
 $passenger_id = $_SESSION['passenger_id'] ?? null;
 
@@ -15,16 +14,15 @@ $purchasedFlights = [];
 $purchasedPassengers = [];
 
 if ($loggedIn && $passenger_id) {
-    // Fetch bookings
     $stmt = $con->prepare("SELECT * FROM Bookings WHERE passenger_id = ?");
-    $stmt->bind_param("s", $passenger_id);
+    $stmt->bind_param("i", $passenger_id);
     $stmt->execute();
     $result = $stmt->get_result();
+
     while ($row = $result->fetch_assoc()) {
         $purchasedFlights[] = $row;
-
-        // Fetch passengers for this booking
         $booking_id = $row['booking_id'];
+
         $stmt_inner = $con->prepare("SELECT * FROM Passengers WHERE booking_id = ?");
         $stmt_inner->bind_param("i", $booking_id);
         $stmt_inner->execute();
@@ -43,7 +41,6 @@ if ($loggedIn && $passenger_id) {
 <head>
     <meta charset="UTF-8">
     <title>User Account - My Bookings</title>
-    <link rel="stylesheet" href="css/style.css">
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
@@ -56,20 +53,20 @@ if ($loggedIn && $passenger_id) {
         .navbar {
             background-color: #0077b6;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
             flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 20px;
         }
 
         .navbar a {
             color: #fff;
             text-decoration: none;
-            margin: 6px 10px;
             padding: 10px 15px;
             background-color: #0096c7;
             border-radius: 8px;
             transition: background 0.3s ease;
+            white-space: nowrap;
         }
 
         .navbar a:hover {
@@ -112,10 +109,6 @@ if ($loggedIn && $passenger_id) {
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
         }
 
-        .booking-card p {
-            margin: 5px 0;
-        }
-
         .passenger-box {
             background-color: #ffffff;
             padding: 15px;
@@ -147,25 +140,17 @@ if ($loggedIn && $passenger_id) {
         .submit-review:hover {
             background-color: #005f87;
         }
-
-        select {
-            padding: 8px;
-            border-radius: 5px;
-        }
     </style>
 </head>
 <body>
 
-<!-- Navigation -->
 <div class="navbar">
-    <div>
-        <a href="homepage.php">Home</a>
-        <a href="userAccount.php">User Account</a>
-        <a href="searchEvents.php">Search Events</a>
-        <a href="indexSearchFlight.php">Search Flights</a>
-        <a href="push_notifications.php">Notifications</a>
-        <a href="recommendation.php">Recommendations</a>
-    </div>
+    <a href="homepage.php">Home</a>
+    <a href="userAccount.php">User Account</a>
+    <a href="searchEvents.php">Search Events</a>
+    <a href="indexSearchFlight.php">Search Flights</a>
+    <a href="push_notifications.php">Notifications</a>
+    <a href="recommendation.php">Recommendations</a>
     <?php if ($loggedIn): ?>
         <form action="logout.php" method="post" style="margin: 0;">
             <button type="submit" class="logout-btn">Logout</button>
@@ -173,7 +158,6 @@ if ($loggedIn && $passenger_id) {
     <?php endif; ?>
 </div>
 
-<!-- Content -->
 <div class="container">
     <h2>Welcome, <?= htmlspecialchars($username); ?> 👋</h2>
     <p>Here are your past bookings and passenger details:</p>
@@ -183,25 +167,21 @@ if ($loggedIn && $passenger_id) {
             <div class="booking-card">
                 <h3>Flight Booking #<?= $flight['booking_id'] ?></h3>
                 <p><strong>Airline:</strong> <?= htmlspecialchars($flight['airline']) ?></p>
-                <p><strong>From:</strong> <?= htmlspecialchars($flight['departureAirport']) ?> → 
-                   <strong>To:</strong> <?= htmlspecialchars($flight['destinationAirport']) ?></p>
-                <p><strong>Departure Date:</strong> <?= htmlspecialchars($flight['departureDate']) ?></p>
-                <p><strong>Arrival Date:</strong> <?= htmlspecialchars($flight['arrivalDate']) ?></p>
-                <p><strong>Total Price:</strong> $<?= htmlspecialchars($flight['price']) ?></p>
-                <p><strong>Booking Date:</strong> <?= htmlspecialchars($flight['created_at']) ?></p>
+                <p><strong>From:</strong> <?= htmlspecialchars($flight['departureAirport']) ?> → <strong>To:</strong> <?= htmlspecialchars($flight['destinationAirport']) ?></p>
+                <p><strong>Departure:</strong> <?= htmlspecialchars($flight['departureDate']) ?></p>
+                <p><strong>Arrival:</strong> <?= htmlspecialchars($flight['arrivalDate']) ?></p>
+                <p><strong>Total Price:</strong> $<?= htmlspecialchars($flight['total_price']) ?></p>
 
                 <?php if (!empty($purchasedPassengers[$flight['booking_id']])): ?>
                     <h4>Passengers:</h4>
                     <?php foreach ($purchasedPassengers[$flight['booking_id']] as $passenger): ?>
                         <div class="passenger-box">
-                            <p><strong>Name:</strong> <?= htmlspecialchars($passenger['first_name']) . ' ' . htmlspecialchars($passenger['last_name']) ?></p>
+                            <p><strong>Name:</strong> <?= htmlspecialchars($passenger['first_name'] . ' ' . $passenger['last_name']) ?></p>
                             <p><strong>DOB:</strong> <?= htmlspecialchars($passenger['dob']) ?></p>
                             <p><strong>Cabin:</strong> <?= htmlspecialchars($passenger['cabin_class']) ?></p>
                             <p><strong>Age Group:</strong> <?= htmlspecialchars($passenger['age_group']) ?></p>
                         </div>
                     <?php endforeach; ?>
-                <?php else: ?>
-                    <p>No passengers found for this booking.</p>
                 <?php endif; ?>
             </div>
         <?php endforeach; ?>
@@ -209,7 +189,6 @@ if ($loggedIn && $passenger_id) {
         <p>No bookings found.</p>
     <?php endif; ?>
 
-    <!-- Review Section -->
     <h3>Write a Review</h3>
     <form class="review-form" action="submit_review.php" method="post">
         <textarea name="review" placeholder="Share your flight experience..." required></textarea>

@@ -179,5 +179,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribe"])) {
 
     </div>
 
+    <?php include 'footer.php'; ?>
+
 </body>
 </html>

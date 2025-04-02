@@ -376,6 +376,8 @@ button:active {
              <p>No flights found for the given parameters.</p>
          <?php endif; ?>
      </div>
- 
+
+    <?php include 'footer.php'; ?>
+
  </body>
  </html>

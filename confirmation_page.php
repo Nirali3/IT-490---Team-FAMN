@@ -60,5 +60,7 @@ $booking_info = $_SESSION['booking_info'];
     <button type="submit" name="confirm">Confirm</button>
 </form>
 
+<?php include 'footer.php'; ?>
+
 </body>
 </html>

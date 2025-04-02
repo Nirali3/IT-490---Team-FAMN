@@ -125,5 +125,7 @@ $arrivalDate = htmlspecialchars($_GET['arrivalDate']);
         });
     </script>
 
+<?php include 'footer.php'; ?>
+
 </body> 
 </html>

@@ -196,5 +196,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
 	<?php echo $EventResults; ?>
 </div>
 
+<?php include 'footer.php'; ?>
+
 </body>
 </html>

@@ -127,6 +127,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $review && $rating && $booking_id &
 
     <a class="back-btn" href="userAccount.php">⬅ Back to Account</a>
 
+<?php include 'footer.php'; ?>
+
 </body>
 </html>
 

@@ -73,12 +73,12 @@ if ($response === false) {
 
     .navbar {
         background-color: #0077b6;
-        overflow: hidden;
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 15px 20px;
         flex-wrap: wrap;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 15px 20px;
+        gap: 10px;
     }
 
     .navbar a {
@@ -90,6 +90,8 @@ if ($response === false) {
         border-radius: 6px;
         font-weight: bold;
         transition: background-color 0.3s ease;
+        display: inline-block;
+        white-space: nowrap;
     }
 
     .navbar a:hover {

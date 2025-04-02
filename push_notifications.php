@@ -24,13 +24,13 @@ function sendEmailNotification($email, $subject, $message) {
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';                 // Replace with your SMTP host
         $mail->SMTPAuth = true;
-        $mail->Username = 'elsatomeymichele@gmail.com';       // Replace with your Gmail
-        $mail->Password = 'sqyg tswc heqt rvox';          // Replace with your App Password
+        $mail->Username = '';       // Replace with your Gmail
+        $mail->Password = '';          // Replace with your App Password
         $mail->SMTPSecure = 'tls';
         $mail->Port = 587;
 
         // Email Details
-        $mail->setFrom('elsatomeymichele@gmail.com', 'Flight Notification Service');
+        $mail->setFrom('', 'Flight Notification Service');
         $mail->addAddress($email);
         $mail->isHTML(true);
         $mail->Subject = $subject;

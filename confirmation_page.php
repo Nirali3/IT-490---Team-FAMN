@@ -47,7 +47,8 @@ $booking_info = $_SESSION['booking_info'];
     <div id="flight-info">
         <p><strong>Airline:</strong> <?= htmlspecialchars($booking_info['airline']) ?></p>
         <p><strong>Departure:</strong> <?= htmlspecialchars($booking_info['departureAirport']) ?> at <?= htmlspecialchars($booking_info['departure']) ?></p>
-        <p><strong>Arrival:</strong> <?= htmlspecialchars($booking_info['destinationAirport']) ?> at <?= htmlspecialchars($booking_info['arrival']) ?></p>
+        <p><strong>Arrival:</strong> <?= htmlspecialchars($booking_info['destinationAirport']) ?> at <?= htmlspecialchars($booking_info['arrivalDate
+']) ?></p>
         <p><strong>Price per Ticket:</strong> $<?= htmlspecialchars($booking_info['price']) ?></p>
     </div>
 

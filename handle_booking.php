@@ -13,18 +13,18 @@ $dotenv->load();
 $api_key = $_ENV['GOOGLE_API_KEY'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $required_fields = ['first_name', 'last_name', 'dob', 'cabin_class', 'age_group', 'card_number', 'cardholder_name', 'expiration_date', 'cvc', 'airline', 'departureAirport', 'arrivalAirport', 'departureDate', 'arrivalDate', 'total_price'];
+    $required_fields = ['first_name', 'last_name', 'dob', 'cabin_class', 'age_group', 'card_number', 'cardholder_name', 'expiration_date', 'cvc', 'airline', 'departureAirport', 'destinationAirport', 'departureDate', 'arrivalDate', 'total_price'];
     foreach ($required_fields as $field) {
         if (!isset($_POST[$field])) {
             die("Error: Missing required fields.");
         }
     }
 
-    if (!isset($_SESSION['passenger_id'])) {
+    if (!isset($_SESSION['user_id'])) {
         die("User not logged in.");
     }
 
-    $passenger_id = $_SESSION['passenger_id'];
+    $user_id = $_SESSION['user_id'];
 
     $first_names = $_POST['first_name'];
     $last_names = $_POST['last_name'];
@@ -62,12 +62,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         $con->begin_transaction();
 
-        $stmt = $con->prepare("INSERT INTO bookings (passenger_id, airline, departureAirport, destinationAirport, departureDate, arrivalDate, total_price, card_number, cardholder_name, expiration_date, cvc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $con->prepare("INSERT INTO Bookings (passenger_id, airline, departureAirport, destinationAirport, departureDate, arrivalDate, total_price, card_number, cardholder_name, expiration_date, cvc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("isssssdssss", $passenger_id, $airline, $departureAirport, $destinationAirport, $departureDate, $arrivalDate, $price, $card_number, $cardholder_name, $expiration_date, $cvc);
         $stmt->execute();
         $booking_id = $con->insert_id;
 
-        $stmt = $con->prepare("INSERT INTO passengers (booking_id, first_name, last_name, dob, cabin_class, age_group) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt = $con->prepare("INSERT INTO Passengers (booking_id, first_name, last_name, dob, cabin_class, age_group) VALUES (?, ?, ?, ?, ?, ?)");
         foreach ($first_names as $index => $fname) {
             $stmt->bind_param("isssss", $booking_id, $fname, $last_names[$index], $dobs[$index], $cabin_classes[$index], $age_groups[$index]);
             $stmt->execute();

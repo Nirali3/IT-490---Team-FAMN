@@ -57,7 +57,12 @@ $booking_info = $_SESSION['booking_info'];
             <p><strong>Passenger <?= $index + 1 ?>:</strong></p>
             <ul>
                 <li><strong>Name:</strong> <?= htmlspecialchars($fname) . ' ' . htmlspecialchars($booking_info['passengers']['last_name'][$index]) ?></li>
-                <li><strong>Date of Birth:</strong> <?= htmlspecialchars($booking_info['passengers']['dob'][$index]) ?></li>
+                <li><strong>Date of Birth:</strong>
+		     <?php 
+			$dob = new DateTime($booking_info['passengers']['dob'][$index]);
+			echo $dob->format('m/d/Y');
+		     ?>
+		</li>
                 <li><strong>Cabin Class:</strong> <?= htmlspecialchars($booking_info['passengers']['cabin_class'][$index]) ?></li>
                 <li><strong>Age Group:</strong> <?= htmlspecialchars($booking_info['passengers']['age_group'][$index]) ?></li>
             </ul>

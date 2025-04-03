@@ -4,8 +4,6 @@ ini_set('display_startup_errors',1);
 error_reporting(E_ALL);
 session_start();
 
-$_SESSION['passenger_id'] = $passenger_id;
-
 include "connection.php";
 require 'vendor/autoload.php';
 
@@ -64,12 +62,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         $con->begin_transaction();
 
-        $stmt = $con->prepare("INSERT INTO Bookings (passenger_id, airline, departureAirport, destinationAirport, departureDate, arrivalDate, total_price, card_number, cardholder_name, expiration_date, cvc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $con->prepare("INSERT INTO bookings (passenger_id, airline, departureAirport, destinationAirport, departureDate, arrivalDate, total_price, card_number, cardholder_name, expiration_date, cvc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("isssssdssss", $passenger_id, $airline, $departureAirport, $destinationAirport, $departureDate, $arrivalDate, $price, $card_number, $cardholder_name, $expiration_date, $cvc);
         $stmt->execute();
         $booking_id = $con->insert_id;
 
-        $stmt = $con->prepare("INSERT INTO Passengers (booking_id, first_name, last_name, dob, cabin_class, age_group) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt = $con->prepare("INSERT INTO passengers (booking_id, first_name, last_name, dob, cabin_class, age_group) VALUES (?, ?, ?, ?, ?, ?)");
         foreach ($first_names as $index => $fname) {
             $stmt->bind_param("isssss", $booking_id, $fname, $last_names[$index], $dobs[$index], $cabin_classes[$index], $age_groups[$index]);
             $stmt->execute();

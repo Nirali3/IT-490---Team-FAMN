@@ -4,8 +4,6 @@ ini_set('display_startup_errors',1);
 error_reporting(E_ALL);
 session_start();
 
-$_SESSION['passenger_id'] = $passenger_id;
-
 include "connection.php";
 require 'vendor/autoload.php';
 
@@ -15,18 +13,20 @@ $dotenv->load();
 $api_key = $_ENV['GOOGLE_API_KEY'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $required_fields = ['first_name', 'last_name', 'dob', 'cabin_class', 'age_group', 'card_number', 'cardholder_name', 'expiration_date', 'cvc', 'airline', 'departureAirport', 'arrivalAirport', 'departureDate', 'arrivalDate', 'total_price'];
+    $required_fields = ['first_name', 'last_name', 'dob', 'cabin_class', 'age_group', 'card_number', 'cardholder_name', 'expiration_date', 'cvc', 'airline', 'departureAirport', 'destinationAirport', 'departureDate', 'arrivalDate', 'total_price'];
     foreach ($required_fields as $field) {
         if (!isset($_POST[$field])) {
             die("Error: Missing required fields.");
         }
     }
 
-    if (!isset($_SESSION['passenger_id'])) {
+    if (!isset($_SESSION['user_id'])) {
         die("User not logged in.");
     }
 
+
    $passenger_id = $_SESSION['passenger_id'];
+    $user_id = $_SESSION['user_id'];
 
     $first_names = $_POST['first_name'];
     $last_names = $_POST['last_name'];
@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $price = htmlspecialchars($_POST['total_price']);
     $airline = htmlspecialchars($_POST['airline']);
     $departureAirport = htmlspecialchars($_POST['departureAirport']);
-    $destinationAirport = htmlspecialchars($_POST['arrivalAirport']);
+    $destinationAirport = htmlspecialchars($_POST['destinationAirport']);
     $departureDate = htmlspecialchars($_POST['departureDate']);
     $arrivalDate = htmlspecialchars($_POST['arrivalDate']);
 

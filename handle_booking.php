@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("User not logged in.");
     }
 
-    $passenger_id = $_SESSION['passenger_id'];
+   $passenger_id = $_SESSION['passenger_id'];
 
     $first_names = $_POST['first_name'];
     $last_names = $_POST['last_name'];

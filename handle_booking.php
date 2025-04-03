@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $price = htmlspecialchars($_POST['total_price']);
     $airline = htmlspecialchars($_POST['airline']);
     $departureAirport = htmlspecialchars($_POST['departureAirport']);
-    $destinationAirport = htmlspecialchars($_POST['arrivalAirport']);
+    $destinationAirport = htmlspecialchars($_POST['destinationAirport']);
     $departureDate = htmlspecialchars($_POST['departureDate']);
     $arrivalDate = htmlspecialchars($_POST['arrivalDate']);
 

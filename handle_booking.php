@@ -4,6 +4,8 @@ ini_set('display_startup_errors',1);
 error_reporting(E_ALL);
 session_start();
 
+$_SESSION['passenger_id'] = $passenger_id;
+
 include "connection.php";
 require 'vendor/autoload.php';
 

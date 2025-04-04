@@ -48,7 +48,7 @@ $username = $loggedIn ? $_SESSION['username'] : "Guest";
 	    background-color: #0096c7;
 	    border-radius: 6px;
   	    transition: background-color 0.3s ease;
-	    front-weight: bold;
+	    font-weight: bold;
         }
 
         .navbar a:hover {

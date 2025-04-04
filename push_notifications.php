@@ -84,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribe"])) {
             justify-content: center;
 	    flex-wrap: wrap;
 	    align-items: center;
-            padding: 10px 15px;
+            padding: 10px 20px;
         }
 
         .navbar a {
@@ -97,7 +97,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribe"])) {
             transition: background-color 0.3s ease;
             font-weight: bold;
             background-color: #0096c7;
-            border-radius: 6px;
         }
 
         .navbar a:hover {

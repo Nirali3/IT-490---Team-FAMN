@@ -32,7 +32,7 @@ $username = $loggedIn ? $_SESSION['username'] : "Guest";
             background-color: #0077b6; /* Dark Blue */
             overflow: hidden;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             padding: 10px 20px;
 	    flex-wrap: wrap;

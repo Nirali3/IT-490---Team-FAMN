@@ -45,12 +45,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 		if(isset($response['success']) && $response['success'] == 1){
 			session_start();
 			$_SESSION["username"] = $username;
+			$_SESSION["passenger_id"] = $response["passenger_id"];
 			
 			ob_end_clean();
 			header("Location: homepage.php");
 			exit();
 		}else{
-			$errors[] = $response['message'];
+			$errors[] = $response['message'] ?? "Login failed.";
 		}
 
 	}

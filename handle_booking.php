@@ -23,6 +23,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
+    $passenger_id = $_SESSION['passenger_id'] ?? null;
+    if (!$passenger_id) {
+        die("You must be logged in to book a flight.");
+
+    }
+
+    
     // Assigning POST data
     $first_names = $_POST['first_name'];
     $last_names = $_POST['last_name'];
@@ -63,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         $con->begin_transaction();
 
-        $stmt = $con->prepare("INSERT INTO Bookings (airline, departureAirport, destinationAirport, departureDate, arrivalDate, price, card_number, cardholder_name, expiration_date, cvc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $con->prepare("INSERT INTO Bookings (passenger_id, airline, departureAirport, destinationAirport, departureDate, arrivalDate, price, card_number, cardholder_name, expiration_date, cvc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("sssssdssss", $airline, $departureAirport, $destinationAirport, $departureDate, $arrivalDate, $price, $card_number, $cardholder_name, $expiration_date, $cvc);
         $stmt->execute();
 

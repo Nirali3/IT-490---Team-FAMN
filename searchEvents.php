@@ -143,7 +143,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
 		background-color: #0077b6; /* Dark Blue */
         	overflow: hidden;
         	display: flex;
-        	justify-content: space-between;
+        	justify-content: center;
         	align-items: center;
 		padding: 10px 20px;
 		flex-wrap: wrap;

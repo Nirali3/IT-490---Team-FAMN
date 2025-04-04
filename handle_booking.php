@@ -69,9 +69,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     try {
         $con->begin_transaction();
+	$user_id = $_SESSION['user_id'];
 
-        $stmt = $con->prepare("INSERT INTO Bookings (airline, departureAirport, destinationAirport, departureDate, arrivalDate, price, card_number, cardholder_name, expiration_date, cvc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssssdssss", $airline, $departureAirport, $destinationAirport, $departureDate, $arrivalDate, $price, $card_number, $cardholder_name, $expiration_date, $cvc);
+        $stmt = $con->prepare("INSERT INTO Bookings (user_id, airline, departureAirport, destinationAirport, departureDate, arrivalDate, price, card_number, cardholder_name, expiration_date, cvc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssdssss", $user_id, $airline, $departureAirport, $destinationAirport, $departureDate, $arrivalDate, $price, $card_number, $cardholder_name, $expiration_date, $cvc);
         $stmt->execute();
 
         $booking_id = $con->insert_id;

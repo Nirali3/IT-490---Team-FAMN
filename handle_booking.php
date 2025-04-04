@@ -15,7 +15,7 @@ $api_key = $_ENV['GOOGLE_API_KEY'];
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate required fields
-    $required_fields = ['first_name', 'last_name', 'dob', 'cabin_class', 'age_group', 'card_number', 'cardholder_name', 'expiration_date', 'cvc', 'airline', 'departureAirport', 'arrivalAirport', 'departureDate', 'arrivalDate', 'total_price'];
+    $required_fields = ['first_name', 'last_name', 'dob', 'cabin_class', 'age_group', 'card_number', 'cardholder_name', 'expiration_date', 'cvc', 'airline', 'departureAirport', 'destinationAirport', 'departureDate', 'arrivalDate', 'total_price'];
     
     foreach ($required_fields as $field) {
         if (!isset($_POST[$field])) {

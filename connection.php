@@ -13,11 +13,11 @@ if ($con->connect_error){
 	echo "Connection Successful";
 }*/
 
-echo "Current Database: " . $con->query("SELECT DATABASE()")->fetch_row()[0];
+/*echo "Current Database: " . $con->query("SELECT DATABASE()")->fetch_row()[0];
 $result = $con->query("SHOW TABLES LIKE 'Book%'");
 if ($result->num_rows > 0) {
     echo "Bookings table exists!";
 } else {
     echo "Bookings table does not exist.";
-}
+}*/
 ?>

@@ -59,8 +59,9 @@ $username = $loggedIn ? $_SESSION['username'] : "Guest";
         .logout-btn {
             background-color: #ff4d4d;
             color: white;
-            border: none;
-            padding: 10px 15px;
+	    border: none;
+	    justify-content: space-between;
+            padding: 10px 25px;
             cursor: pointer;
             border-radius: 5px;
         }

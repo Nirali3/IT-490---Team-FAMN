@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     foreach ($required_fields as $field) {
         if (!isset($_POST[$field])) {
-            die("Error: Missing required fields.");
+            die("Error: Missing required fields." . $field);
         }
     }
 

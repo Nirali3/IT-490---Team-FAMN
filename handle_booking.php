@@ -84,9 +84,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         $con->commit();
-    } catch (Exception $e) {
-        $con->rollback();
-        echo "Error: " . $e->getMessage();
+    } catch (mysqli_sql_exception $e) {
+        echo "MySQL Error: " . $e->getMessage();
+	$con->rollback();
+	exit;
     }
     
 

@@ -5,6 +5,11 @@ error_reporting(E_ALL);
 
 session_start();
 include "connection.php";
+session_start();
+echo "<pre>";
+print_r($_SESSION);
+echo "</pre>";
+
 
 // Check if the user is logged in and get their name
 $loggedIn = isset($_SESSION['username']);

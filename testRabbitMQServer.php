@@ -7,13 +7,20 @@ require_once('rabbitMQLib.inc');
 include "connection.php";
 
 function doLogin($username, $password)
-{
-    include "connection.php"; // Use your actual DB connection
+{   
 
+    global $con;
     // Check if user exists in the database
     $stmt = $con->prepare("SELECT user_id, passenger_id, password FROM Users WHERE username = ?");
+    if (!$stmt) {
+    return ["success" => 0, "message" => "SQL Prepare failed: " . $con->error];
+}
+
     $stmt->bind_param("s", $username);
-    $stmt->execute();
+    if (!$stmt->execute()) {
+    return ["success" => 0, "message" => "SQL Execute failed: " . $stmt->error];
+}
+
     $result = $stmt->get_result();
 
     if ($row = $result->fetch_assoc()) {

@@ -81,22 +81,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribe"])) {
             background-color: #0077b6;
             overflow: hidden;
             display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
+            justify-content: space-between;
+	    flex-wrap: wrap;
+	    align-items: center;
             gap: 10px;
-            padding: 15px;
+            padding: 10px 20px;
         }
 
         .navbar a {
             color: white;
             text-decoration: none;
-            padding: 10px 20px;
+	    padding: 10px 20px;
+	    margin: 5px;
+	    display: inline-block;
+	    border-radius: 6px;
+            transition: background-color 0.3s ease;
+            font-weight: bold;
             background-color: #0096c7;
             border-radius: 6px;
         }
 
         .navbar a:hover {
-            background-color: #005f87;
+	    background-color: #005f87;
+            border-radius: 5px;
         }
 
         .container {

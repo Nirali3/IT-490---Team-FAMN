@@ -23,11 +23,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    $passenger_id = $_SESSION['passenger_id'] ?? null;
-    if (!$passenger_id) {
-        die("You must be logged in to book a flight.");
+   // $passenger_id = $_SESSION['passenger_id'] ?? null;
+  //  if (!$passenger_id) {
+  //      die("You must be logged in to book a flight.");
 
-    }
+  //  }
 
     
     // Assigning POST data

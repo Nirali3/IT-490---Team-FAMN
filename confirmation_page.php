@@ -46,11 +46,16 @@ $booking_info = $_SESSION['booking_info'];
     <h2>Flight Information</h2>
     <div id="flight-info">
         <p><strong>Airline:</strong> <?= htmlspecialchars($booking_info['airline']) ?></p>
-        <p><strong>Departure:</strong> <?= htmlspecialchars($booking_info['departureAirport']) ?> at <?= htmlspecialchars($booking_info['departure']) ?></p>
+        <p><strong>Departure:</strong> <?= htmlspecialchars($booking_info['departureAirport']) ?> at 
+	    <?php 
+		$departureDate = new DateTime($booking_info['departure']);
+		echo $departureDate->format('m/d/Y H:i'); 
+	    ?>
+	</p>
         <p><strong>Arrival:</strong> <?= htmlspecialchars($booking_info['destinationAirport']) ?> at
 	    <?php
 		$arrivalDate = new DateTime($booking_info['arrival']);
-		echo $arrivalDate->format('m/d/Y');
+		echo $arrivalDate->format('m/d/Y H:i');
 	    ?>
 	</p>
         <p><strong>Price per Ticket:</strong> $<?= htmlspecialchars($booking_info['price']) ?></p>

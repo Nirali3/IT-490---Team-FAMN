@@ -6,40 +6,19 @@ require_once('rabbitMQLib.inc');
 
 include "connection.php";
 
-function doLogin($username, $password)
-{   
+function doLogin($username,$password)
+{
+    $validUsers = [ 
+	$username => $password];
 
-    global $con;
-    // Check if user exists in the database
-    $stmt = $con->prepare("SELECT user_id, passenger_id, password FROM Users WHERE username = ?");
-    if (!$stmt) {
-    return ["success" => 0, "message" => "SQL Prepare failed: " . $con->error];
+	if (isset($validUsers[$username]) && $validUsers[$username] === $password) {
+		return ["success" => true, "message" => "Login successful"];
+	}
+
+    //return false if not valid
+
+    		return ["success" => false, "message" => "Invalid credentials"];
 }
-
-    $stmt->bind_param("s", $username);
-    if (!$stmt->execute()) {
-    return ["success" => 0, "message" => "SQL Execute failed: " . $stmt->error];
-}
-
-    $result = $stmt->get_result();
-
-    if ($row = $result->fetch_assoc()) {
-        // Optional: you can hash passwords, for now we'll assume plain text match
-        if ($row['password'] === $password) {
-            return [
-                "success" => 1,
-                "message" => "Login successful",
-                "user_id" => $row['user_id'],
-                "passenger_id" => $row['passenger_id']
-            ];
-        } else {
-            return ["success" => 0, "message" => "Incorrect password"];
-        }
-    } else {
-        return ["success" => 0, "message" => "User not found"];
-    }
-}
-
 
 function doValidate($sessionId)
 {

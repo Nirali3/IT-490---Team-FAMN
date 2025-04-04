@@ -6,16 +6,16 @@ error_reporting(E_ALL);
 session_start();
 include "connection.php";
 
-$loggedIn = isset($_SESSION['username']) && isset($_SESSION['passenger_id']);
+$loggedIn = isset($_SESSION['username']) && isset($_SESSION['user_id']);
 $username = $loggedIn ? $_SESSION['username'] : "Guest";
-$passenger_id = $_SESSION['passenger_id'] ?? null;
+$passenger_id = $_SESSION['user_id'] ?? null;
 
 $purchasedFlights = [];
 $purchasedPassengers = [];
 
-if ($loggedIn && $passenger_id) {
-    $stmt = $con->prepare("SELECT * FROM Bookings WHERE passenger_id = ?");
-    $stmt->bind_param("i", $passenger_id);
+if ($loggedIn && $user_id) {
+    $stmt = $con->prepare("SELECT * FROM Bookings WHERE user_id = ?");
+    $stmt->bind_param("i", $user_id);
     $stmt->execute();
     $result = $stmt->get_result();
 

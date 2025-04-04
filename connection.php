@@ -14,7 +14,7 @@ if ($con->connect_error){
 }*/
 
 echo "Current Database: " . $con->query("SELECT DATABASE()")->fetch_row()[0];
-$result = $con->query("SHOW TABLES LIKE 'Book%'");
+$result = $con->query("SHOW TABLES LIKE 'Bookings'");
 if ($result->num_rows > 0) {
     echo "Bookings table exists!";
 } else {

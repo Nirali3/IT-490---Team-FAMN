@@ -29,10 +29,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   //  }
 
-$user_id = $_SESSION['user_id'] ?? null;
-if (!$user_id) {
-    die("You must be logged in to book a flight.");
-}
+//$user_id = $_SESSION['user_id'] ?? null;
+//if (!$user_id) {
+//    die("You must be logged in to book a flight.");
+//}
 
     
     // Assigning POST data

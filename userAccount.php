@@ -6,7 +6,6 @@ error_reporting(E_ALL);
 session_start();
 include "connection.php";
 
-<<<<<<< HEAD
 $loggedIn = isset($_SESSION['user_id']);
 $username = "Guest";
 $user_id = $_SESSION['user_id'] ?? null;
@@ -22,11 +21,6 @@ if ($loggedIn && $user_id) {
     }
     $stmt->close();
 }
-=======
-$loggedIn = isset($_SESSION['username']) && isset($_SESSION['user_id']);
-$username = $loggedIn ? $_SESSION['username'] : "Guest";
-$user_id = $_SESSION['user_id'] ?? null;
->>>>>>> 4e5f200 (made small change)
 
 $purchasedFlights = [];
 $purchasedPassengers = [];

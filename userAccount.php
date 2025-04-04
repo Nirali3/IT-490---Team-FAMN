@@ -43,7 +43,7 @@ if ($loggedIn && $passenger_id) {
     <title>User Account - My Bookings</title>
     <style>
         body {
-            font-family: 'Segoe UI', sans-serif;
+            font-family: Arial, sans-serif;
             background-color: #f0f8ff;
             margin: 0;
             padding: 0;
@@ -63,7 +63,8 @@ if ($loggedIn && $passenger_id) {
             color: #fff;
             text-decoration: none;
             padding: 10px 15px;
-            background-color: #0096c7;
+	    background-color: #0096c7;
+	    font-weight: bold;
             border-radius: 8px;
             transition: background 0.3s ease;
             white-space: nowrap;

@@ -81,11 +81,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribe"])) {
             background-color: #0077b6;
             overflow: hidden;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
 	    flex-wrap: wrap;
 	    align-items: center;
-            gap: 10px;
-            padding: 10px 20px;
+            padding: 10px 15px;
         }
 
         .navbar a {

@@ -74,17 +74,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribe"])) {
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f8ff;
-            padding: 30px;
+	    padding: 30px;
+	    margin: 0;
+	    padding: 0;
         }
 
         .navbar {
             background-color: #0077b6;
             overflow: hidden;
-            display: flex;
+	    display: flex;
             justify-content: center;
 	    flex-wrap: wrap;
 	    align-items: center;
-            padding: 10px 20px;
+	    padding: 10px 20px;
         }
 
         .navbar a {
@@ -163,12 +165,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribe"])) {
 
 <!-- Navbar -->
 <div class="navbar">
+  <div>
     <a href="homepage.php">Home</a>
     <a href="userAccount.php">User Account</a>
     <a href="searchEvents.php">Search Events</a>
     <a href="indexSearchFlight.php">Search Flights</a>
     <a href="push_notifications.php">Notification Center</a>
     <a href="recommendation.php">Recommendations</a>
+  </div>
 </div>
 
 <!-- Main Content -->

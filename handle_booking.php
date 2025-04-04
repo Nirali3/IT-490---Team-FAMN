@@ -78,8 +78,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $stmt = $con->prepare("INSERT INTO Passengers (booking_id, first_name, last_name, dob, cabin_class, age_group, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
 
-        foreach ($first_names as $index => $fname) {
-            $stmt->bind_param("isssss", $booking_id, $fname, $last_names[$index], $dobs[$index], $cabin_classes[$index], $age_groups[$index], $user_id);
+        foreach ($first_names as $index => $first_name) {
+            $stmt->bind_param("isssss", $booking_id, $first_name[$index], $last_names[$index], $dobs[$index], $cabin_classes[$index], $age_groups[$index], $user_id);
             $stmt->execute();
         }
 

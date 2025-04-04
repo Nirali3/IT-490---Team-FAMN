@@ -64,7 +64,7 @@ $arrivalDate = htmlspecialchars($_GET['arrivalDate']);
 	<input type="hidden" name="total_price" value="<?= $price ?>">
 	<input type="hidden" name="airline" value="<?= $airline ?>">
 	<input type="hidden" name="departureAirport" value="<?= $departureAirport ?>">
-	<input type="hidden" name="arrivalAirport" value="<?= $arrivalAirport ?>">
+	<input type="hidden" name="destinationAirport" value="<?= $destinationAirport ?>">
 	<input type="hidden" name="departureDate" value="<?= $departureDate ?>">
 	<input type="hidden" name="arrivalDate" value="<?= $arrivalDate ?>">
         <div id="passenger-section">

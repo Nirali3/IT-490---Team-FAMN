@@ -78,6 +78,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
 		color: white;
 		padding: 12px 24px;
 		border: none;
+	        font-weight: bold;
 		border-radius: 5px;
 		font-size: 16px;
 		display: inline-block;

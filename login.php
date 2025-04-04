@@ -46,6 +46,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 			session_start();
 			$_SESSION["username"] = $username;
 			$_SESSION["passenger_id"] = $response["passenger_id"];
+
+			$_SESSION["user_id"] = $response["user_id"];
 			
 			ob_end_clean();
 			header("Location: homepage.php");

@@ -6,14 +6,27 @@ error_reporting(E_ALL);
 session_start();
 include "connection.php";
 
-$loggedIn = isset($_SESSION['username']) && isset($_SESSION['user_id']);
-$username = $loggedIn ? $_SESSION['username'] : "Guest";
-$passenger_id = $_SESSION['user_id'] ?? null;
+$loggedIn = isset($_SESSION['user_id']);
+$username = "Guest";
+$user_id = $_SESSION['user_id'] ?? null;
+
+if ($loggedIn && $user_id) {
+    // Get username from Users table
+    $stmt = $con->prepare("SELECT username FROM Users WHERE user_id = ?");
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($row = $result->fetch_assoc()) {
+        $username = $row['username'];
+    }
+    $stmt->close();
+}
 
 $purchasedFlights = [];
 $purchasedPassengers = [];
 
 if ($loggedIn && $user_id) {
+    // Get all bookings by this user
     $stmt = $con->prepare("SELECT * FROM Bookings WHERE user_id = ?");
     $stmt->bind_param("i", $user_id);
     $stmt->execute();
@@ -43,7 +56,7 @@ if ($loggedIn && $user_id) {
     <title>User Account - My Bookings</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             background-color: #f0f8ff;
             margin: 0;
             padding: 0;
@@ -63,8 +76,7 @@ if ($loggedIn && $user_id) {
             color: #fff;
             text-decoration: none;
             padding: 10px 15px;
-	    background-color: #0096c7;
-	    font-weight: bold;
+            background-color: #0096c7;
             border-radius: 8px;
             transition: background 0.3s ease;
             white-space: nowrap;
@@ -171,7 +183,7 @@ if ($loggedIn && $user_id) {
                 <p><strong>From:</strong> <?= htmlspecialchars($flight['departureAirport']) ?> → <strong>To:</strong> <?= htmlspecialchars($flight['destinationAirport']) ?></p>
                 <p><strong>Departure:</strong> <?= htmlspecialchars($flight['departureDate']) ?></p>
                 <p><strong>Arrival:</strong> <?= htmlspecialchars($flight['arrivalDate']) ?></p>
-                <p><strong>Total Price:</strong> $<?= htmlspecialchars($flight['total_price']) ?></p>
+                <p><strong>Total Price:</strong> $<?= htmlspecialchars($flight['price']) ?></p>
 
                 <?php if (!empty($purchasedPassengers[$flight['booking_id']])): ?>
                     <h4>Passengers:</h4>
@@ -195,7 +207,7 @@ if ($loggedIn && $user_id) {
         <textarea name="review" placeholder="Share your flight experience..." required></textarea>
         <br>
         <input type="hidden" name="booking_id" value="<?= isset($purchasedFlights[0]['booking_id']) ? $purchasedFlights[0]['booking_id'] : '' ?>">
-        <input type="hidden" name="passenger_id" value="<?= $passenger_id ?>">
+        <input type="hidden" name="user_id" value="<?= $user_id ?>">
         <label>Rate your experience:</label>
         <select name="rating" required>
             <option value="5">⭐⭐⭐⭐⭐</option>

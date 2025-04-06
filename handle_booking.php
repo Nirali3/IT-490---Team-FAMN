@@ -5,11 +5,11 @@ error_reporting(E_ALL);
 session_start();
 
 // echo "UserID: " . $_SESSION['user_id'];
-//$user_id = $_SESSION['user_id'];
 if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
         die("Please log in to book flight");
 }
-$user_id = $_SESSION['user_id'];
+//$user_id = $_SESSION['user_id'];
+
 
 include "connection.php";
 require 'vendor/autoload.php';
@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Save to session
     $_SESSION['booking_info'] = [
-	'user_id' => $_SESSION['user_id'],
+	//'user_id' => $_SESSION['user_id'],
         'airline' => $airline,
         'departure' => $departureDate,
         'arrival' => $arrivalDate,

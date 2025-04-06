@@ -12,10 +12,10 @@ $dotenv->load();
 
 $api_key = $_ENV['GOOGLE_API_KEY'];
 
-$user_id = $_SESSION['user_id'] ?? null;
-if (!$user_id) {
-    die("You must be logged in to book a flight.");
-}
+//$user_id = $_SESSION['user_id'] ?? null;
+//if (!$user_id) {
+//    die("You must be logged in to book a flight.");
+//}
 
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

@@ -43,11 +43,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 		$response = $client->send_request($request);
 
 		if(isset($response['success']) && $response['success'] == 1){
-			session_start();
+			// 🔥 DO NOT start the session again here
 			$_SESSION["username"] = $username;
-			$_SESSION["passenger_id"] = $response["passenger_id"];
 
+		if (isset($response["user_id"])) {
 			$_SESSION["user_id"] = $response["user_id"];
+	}
+
+		if (isset($response["passenger_id"])) {
+			$_SESSION["passenger_id"] = $response["passenger_id"];
+	}
+
+		file_put_contents("debug_login_session.txt", print_r($_SESSION, true));
 			
 			ob_end_clean();
 			header("Location: homepage.php");

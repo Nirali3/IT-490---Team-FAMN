@@ -4,6 +4,9 @@ ini_set('display_startup_errors',1);
 error_reporting(E_ALL);
 session_start();
 
+// 🔍 Log the session contents for debugging
+file_put_contents("debug_session.txt", print_r($_SESSION, true));
+
 include "connection.php";
 require 'vendor/autoload.php';
 

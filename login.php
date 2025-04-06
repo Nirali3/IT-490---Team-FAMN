@@ -3,6 +3,7 @@ error_reporting(E_ALL & ~E_DEPRECATED);
 ini_set('display_errors', 1);
 
 session_start();
+$user_id = $_SESSION['user_id'];
 
 include "connection.php";
 require_once('rabbitMQLib.inc');
@@ -46,9 +47,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 			// 🔥 DO NOT start the session again here
 			$_SESSION["username"] = $username;
 
-		if (isset($response["user_id"])) {
+		/*if (isset($response["user_id"])) {
 			$_SESSION["user_id"] = $response["user_id"];
-			}
+			}*/
 
 		if (isset($response["passenger_id"])) {
 			$_SESSION["passenger_id"] = $response["passenger_id"];

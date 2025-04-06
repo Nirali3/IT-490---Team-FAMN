@@ -47,13 +47,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 			// 🔥 DO NOT start the session again here
 			$_SESSION["username"] = $username;
 
-		/*if (isset($response["user_id"])) {
+		if (isset($response["user_id"])) {
 			$_SESSION["user_id"] = $response["user_id"];
-			}*/
+			} else {
+				$errors[] = "Login succeeded but user_id was not returned!";
+			}
 
-		if (isset($response["passenger_id"])) {
-			$_SESSION["passenger_id"] = $response["passenger_id"];
-	}
+		//if (isset($response["passenger_id"])) {
+	//		$_SESSION["passenger_id"] = $response["passenger_id"];
+	//}
 
 			
 			ob_end_clean();

@@ -12,6 +12,10 @@ $dotenv->load();
 
 $api_key = $_ENV['GOOGLE_API_KEY'];
 
+if (!isset($_SESSION['user_id'])) {
+	die("Please log in to book flight");
+}
+
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate required fields

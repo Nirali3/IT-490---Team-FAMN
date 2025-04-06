@@ -12,6 +12,11 @@ $dotenv->load();
 
 $api_key = $_ENV['GOOGLE_API_KEY'];
 
+$user_id = $_SESSION['user_id'] ?? null;
+if (!$user_id) {
+    die("You must be logged in to book a flight.");
+}
+
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate required fields
@@ -29,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   //  }
 
-//$user_id = $_SESSION['user_id'] ?? null;
+ // $user_id = $_SESSION['user_id']
 //if (!$user_id) {
 //    die("You must be logged in to book a flight.");
 //}
@@ -91,9 +96,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $con->commit();
     } catch (mysqli_sql_exception $e) {
-        echo "MySQL Error: " . $e->getMessage();
-	$con->rollback();
-	exit;
+        $con->rollback();
+        die("MySQL Error: " . $e->getMessage());
     }
     
 

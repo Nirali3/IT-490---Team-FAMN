@@ -3,7 +3,11 @@ error_reporting(E_ALL & ~E_DEPRECATED);
 ini_set('display_errors', 1);
 
 session_start();
-//$user_id = $_SESSION['user_id'];
+
+if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
+        die("Please log in to book flight");
+}
+$user_id = $_SESSION['user_id'];
 
 include "connection.php";
 require_once('rabbitMQLib.inc');

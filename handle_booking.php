@@ -12,11 +12,6 @@ $dotenv->load();
 
 $api_key = $_ENV['GOOGLE_API_KEY'];
 
-$user_id = $_SESSION['user_id'] ?? null;
-if (!$user_id) {
-    die("You must be logged in to book a flight.");
-}
-
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate required fields
@@ -79,18 +74,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     try {
         $con->begin_transaction();
-	//$user_id = $_SESSION['user_id'];
+	$user_id = $_SESSION['user_id'];
+	if (!$user_id) {
+	    die("You must be logged in to book a flight.");
+	}
 
-        $stmt = $con->prepare("INSERT INTO Bookings (airline, departureAirport, destinationAirport, departureDate, arrivalDate, price, card_number, cardholder_name, expiration_date, cvc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssssdssss", $airline, $departureAirport, $destinationAirport, $departureDate, $arrivalDate, $price, $card_number, $cardholder_name, $expiration_date, $cvc);
+        $stmt = $con->prepare("INSERT INTO Bookings (user_id, airline, departureAirport, destinationAirport, departureDate, arrivalDate, price, card_number, cardholder_name, expiration_date, cvc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssdssss", $user_id, $airline, $departureAirport, $destinationAirport, $departureDate, $arrivalDate, $price, $card_number, $cardholder_name, $expiration_date, $cvc);
         $stmt->execute();
 
         $booking_id = $con->insert_id;
 
-        $stmt = $con->prepare("INSERT INTO Passengers (booking_id, first_name, last_name, dob, cabin_class, age_group) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt = $con->prepare("INSERT INTO Passengers (user_id, booking_id, first_name, last_name, dob, cabin_class, age_group) VALUES (?, ?, ?, ?, ?, ?)");
 
         foreach ($first_names as $index => $first_name) {
-            $stmt->bind_param("isssss", $booking_id, $first_names[$index], $last_names[$index], $dobs[$index], $cabin_classes[$index], $age_groups[$index]);
+            $stmt->bind_param("isssss", $user_id, $booking_id, $first_names[$index], $last_names[$index], $dobs[$index], $cabin_classes[$index], $age_groups[$index]);
             $stmt->execute();
         }
 

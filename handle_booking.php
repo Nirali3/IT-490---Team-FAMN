@@ -4,10 +4,10 @@ ini_set('display_startup_errors',1);
 error_reporting(E_ALL);
 session_start();
 
-echo "UserID: " . $_SESSION['user_id'];
+// echo "UserID: " . $_SESSION['user_id'];
 //$user_id = $_SESSION['user_id'];
 if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
-        die("Please log in to book flight" . var_export($_SESSION, true));
+        die("Please log in to book flight");
 }
 $user_id = $_SESSION['user_id'];
 

@@ -65,6 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Save to session
     $_SESSION['booking_info'] = [
+	'user_id' => $_SESSION['user_id'],
         'airline' => $airline,
         'departure' => $departureDate,
         'arrival' => $arrivalDate,

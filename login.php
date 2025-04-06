@@ -54,7 +54,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 			$_SESSION["passenger_id"] = $response["passenger_id"];
 	}
 
-		file_put_contents("debug_login_session.txt", print_r($_SESSION, true));
 			
 			ob_end_clean();
 			header("Location: homepage.php");

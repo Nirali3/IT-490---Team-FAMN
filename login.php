@@ -42,6 +42,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
 		$response = $client->send_request($request);
 
+		// 💡 Add this for debugging
+		echo "<pre>";
+		print_r($response);
+		echo "</pre>";
+
 		if(isset($response['success']) && $response['success'] == 1){
 			// 🔥 DO NOT start the session again here
 			$_SESSION["username"] = $username;

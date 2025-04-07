@@ -94,13 +94,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	    die("You must be logged in to book a flight.");
 	}
 
-        $stmt = $con->prepare("INSERT INTO Bookings (user_id, airline, departureAirport, destinationAirport, departureDate, arrivalDate, price, card_number, cardholder_name, expiration_date, cvc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $con->prepare("INSERT INTO Bookings (user_id, airline, departureAirport, destinationAirport, departureDate, arrivalDate, price, card_number, cardholder_name, expiration_date, cvc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("sssssdsssss", $user_id, $airline, $departureAirport, $destinationAirport, $departureDate, $arrivalDate, $price, $card_number, $cardholder_name, $expiration_date, $cvc);
         $stmt->execute();
 
         $booking_id = $con->insert_id;
 
-        $stmt = $con->prepare("INSERT INTO Passengers (user_id, booking_id, first_name, last_name, dob, cabin_class, age_group) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt = $con->prepare("INSERT INTO Passengers (user_id, booking_id, first_name, last_name, dob, cabin_class, age_group) VALUES (?, ?, ?, ?, ?, ?, ?)");
 
         foreach ($first_names as $index => $first_name) {
             $stmt->bind_param("iisssss", $user_id, $booking_id, $first_names[$index], $last_names[$index], $dobs[$index], $cabin_classes[$index], $age_groups[$index]);

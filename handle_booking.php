@@ -8,12 +8,12 @@ session_start();
 //echo "SESSION: ";
 //var_dump($_SESSION);
 
-// echo "UserID: " . $_SESSION['user_id'];
+//echo "UserID: " . $_SESSION['user_id'];
 if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
-        die("Please log in to book flight");
+	die("Please log in to book flight");
 }
 $user_id = $_SESSION['user_id'];
-
+echo "UserID: " . $_SESSION['user_id'];
 
 include "connection.php";
 require 'vendor/autoload.php';

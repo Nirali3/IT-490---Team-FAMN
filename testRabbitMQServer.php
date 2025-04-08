@@ -3,53 +3,66 @@
 
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
+include "connection.php"; // assumes $con is your MySQLi connection
 
-include "connection.php";
-
-function doLogin($username,$password)
+function doLogin($username, $password)
 {
-    $validUsers = [ 
-	$username => $password];
+    global $con;
 
-	if (isset($validUsers[$username]) && $validUsers[$username] === $password) {
-		return ["success" => true, "message" => "Login successful"];
-	}
+    // Prepare query to prevent SQL injection
+    $stmt = $con->prepare("SELECT id, password_hash FROM register WHERE username = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    //return false if not valid
+    if ($result->num_rows === 1) {
+        $row = $result->fetch_assoc();
 
-    		return ["success" => false, "message" => "Invalid credentials"];
+        // Use password_verify if you're storing hashed passwords (recommended)
+        if (password_verify($password, $row['password_hash'])) {
+            return [
+                "success" => 1,
+                "user_id" => $row['id'],
+                "message" => "Login successful"
+            ];
+        } else {
+            return ["success" => 0, "message" => "Incorrect password"];
+        }
+    } else {
+        return ["success" => 0, "message" => "User not found"];
+    }
 }
 
 function doValidate($sessionId)
 {
-	return ["success" => true, "message" => "Session is valid"];
+    return ["success" => true, "message" => "Session is valid"];
 }
 
 function requestProcessor($request)
 {
-  echo "received request".PHP_EOL;
-  print_r($request);
+    echo "received request" . PHP_EOL;
+    print_r($request);
 
-  if(!isset($request['type']))
-  {
-    return "ERROR: unsupported message type";
-  }
-  switch ($request['type'])
-  {
-    case "login":
-      return doLogin($request['username'],$request['password']);
-    case "validate_session":
-      return doValidate($request['sessionId']);
-    default:
-      return ["error" => "Unknown request type"];
-  }
-  return array("returnCode" => '0', 'message'=>"Server received request and processed");
+    if (!isset($request['type'])) {
+        return "ERROR: unsupported message type";
+    }
+
+    switch ($request['type']) {
+        case "login":
+            return doLogin($request['username'], $request['password']);
+        case "validate_session":
+            return doValidate($request['sessionId']);
+        default:
+            return ["error" => "Unknown request type"];
+    }
+
+    return ["returnCode" => '0', 'message' => "Server received request and processed"];
 }
 
-$server = new rabbitMQServer("testRabbitMQ.ini","testServer");
+$server = new rabbitMQServer("testRabbitMQ.ini", "testServer");
 
-echo "testRabbitMQServer BEGIN".PHP_EOL;
+echo "testRabbitMQServer BEGIN" . PHP_EOL;
 $server->process_requests('requestProcessor');
-echo "testRabbitMQServer END".PHP_EOL;
+echo "testRabbitMQServer END" . PHP_EOL;
 exit();
 ?>

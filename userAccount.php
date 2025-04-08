@@ -206,8 +206,31 @@ if ($loggedIn && $user_id) {
     <form class="review-form" action="submit_review.php" method="post">
         <textarea name="review" placeholder="Share your flight experience..." required></textarea>
         <br>
-        <input type="hidden" name="booking_id" value="<?= isset($purchasedFlights[0]['booking_id']) ? $purchasedFlights[0]['booking_id'] : '' ?>">
-        <input type="hidden" name="user_id" value="<?= $user_id ?>">
+
+        <!-- Booking Dropdown -->
+    <label>Booking:</label>
+    <select name="booking_id" required>
+        <?php foreach ($purchasedFlights as $flight): ?>
+            <option value="<?= $flight['booking_id'] ?>">
+                Flight #<?= $flight['booking_id'] ?> (<?= htmlspecialchars($flight['airline']) ?>: <?= htmlspecialchars($flight['departureAirport']) ?> → <?= htmlspecialchars($flight['destinationAirport']) ?>)
+            </option>
+        <?php endforeach; ?>
+    </select>
+    <br><br>
+
+    <!-- Passenger Dropdown -->
+    <label>Passenger:</label>
+    <select name="passenger_id" required>
+        <?php foreach ($purchasedPassengers as $bookingPassengers): ?>
+            <?php foreach ($bookingPassengers as $passenger): ?>
+                <option value="<?= $passenger['passenger_id'] ?>">
+                    <?= htmlspecialchars($passenger['first_name'] . ' ' . $passenger['last_name']) ?>
+                </option>
+            <?php endforeach; ?>
+        <?php endforeach; ?>
+    </select>
+    <br><br>
+        
         <label>Rate your experience:</label>
         <select name="rating" required>
             <option value="5">⭐⭐⭐⭐⭐</option>

@@ -12,7 +12,7 @@ $user_id = $_SESSION['user_id'] ?? null;
 
 if ($loggedIn && $user_id) {
     // Get username from Users table
-    $stmt = $con->prepare("SELECT username FROM login WHERE user_id = ?");
+    $stmt = $con->prepare("SELECT username FROM register WHERE id = ?");
     $stmt->bind_param("i", $user_id);
     $stmt->execute();
     $result = $stmt->get_result();

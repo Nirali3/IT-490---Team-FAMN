@@ -76,6 +76,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ]
     ];
 
+    echo "<pre>";
+    echo "Raw arrivalDate: " . $_POST['arrivalDate'] . PHP_EOL;
+    echo "Parsed arrivalDate: " . $arrivalDate . PHP_EOL;
+    echo "Raw departureDate: " . $_POST['departureDate'] . PHP_EOL;
+    echo "Parsed departureDate: " . $departureDate . PHP_EOL;
+    echo "</pre>";
+    exit();
+
+
+    
     try {
         $con->begin_transaction();
 

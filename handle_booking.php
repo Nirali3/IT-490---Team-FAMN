@@ -1,16 +1,11 @@
 <?php
 ini_set('display_errors', 1);
-ini_set('display_startup_errors',1);
+ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 session_start();
 
-//var_dump($_SESSION);
-//echo "SESSION: ";
-//var_dump($_SESSION);
-
-//echo "UserID: " . $_SESSION['user_id'];
 if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
-	die("Please log in to book flight");
+    die("Please log in to book flight");
 }
 $user_id = $_SESSION['user_id'];
 echo "UserID: " . $_SESSION['user_id'];
@@ -23,54 +18,49 @@ $dotenv->load();
 
 $api_key = $_ENV['GOOGLE_API_KEY'];
 
-/*if (!isset($_SESSION['user_id'])) {
-	die("Please log in to book flight" . var_export($_SESSION, true));
-}*/
-
-// Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate required fields
-    $required_fields = ['first_name', 'last_name', 'dob', 'cabin_class', 'age_group', 'card_number', 'cardholder_name', 'expiration_date', 'cvc', 'airline', 'departureAirport', 'destinationAirport', 'departureDate', 'arrivalDate', 'total_price'];
+    $required_fields = [
+        'first_name', 'last_name', 'dob', 'cabin_class', 'age_group',
+        'card_number', 'cardholder_name', 'expiration_date', 'cvc',
+        'airline', 'departureAirport', 'destinationAirport', 'departureDate', 'arrivalDate', 'total_price'
+    ];
     
     foreach ($required_fields as $field) {
         if (!isset($_POST[$field])) {
-            die("Error: Missing required fields." . $field);
+            die("Error: Missing required field: " . $field);
         }
     }
 
-   // $passenger_id = $_SESSION['passenger_id'] ?? null;
-  //  if (!$passenger_id) {
-  //      die("You must be logged in to book a flight.");
-
-  //  }
-
- // $user_id = $_SESSION['user_id']
-//if (!$user_id) {
-//    die("You must be logged in to book a flight.");
-//}
-
-    
     // Assigning POST data
     $first_names = $_POST['first_name'];
     $last_names = $_POST['last_name'];
     $dobs = $_POST['dob'];
     $cabin_classes = $_POST['cabin_class'];
     $age_groups = $_POST['age_group'];
+
     $card_number = $_POST['card_number'];
     $cardholder_name = $_POST['cardholder_name'];
     $expiration_date = $_POST['expiration_date'];
     $cvc = $_POST['cvc'];
 
-    $price = htmlspecialchars($_POST['total_price']);
-    $airline = htmlspecialchars($_POST['airline']);
-    $departureAirport = htmlspecialchars($_POST['departureAirport']);
-    $destinationAirport = htmlspecialchars($_POST['destinationAirport']);
-    $departureDate = htmlspecialchars($_POST['departureDate']);
-    $arrivalDate = htmlspecialchars($_POST['arrivalDate']);
+    $price = floatval($_POST['total_price']);
+    $airline = $_POST['airline'];
+    $departureAirport = $_POST['departureAirport'];
+    $destinationAirport = $_POST['destinationAirport'];
 
-    // Save to session
+    // ✅ Convert datetime strings to MySQL-compatible format
+    $departureDateRaw = $_POST['departureDate'];
+    $arrivalDateRaw = $_POST['arrivalDate'];
+
+    $departureDate = date('Y-m-d H:i:s', strtotime($departureDateRaw));
+    $arrivalDate = date('Y-m-d H:i:s', strtotime($arrivalDateRaw));
+
+    // Optional Debug:
+    // echo "DEBUG - Dep: $departureDate | Arr: $arrivalDate"; exit;
+
+    // Store in session (optional)
     $_SESSION['booking_info'] = [
-	//'user_id' => $_SESSION['user_id'],
         'airline' => $airline,
         'departure' => $departureDate,
         'arrival' => $arrivalDate,
@@ -86,14 +76,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ]
     ];
 
-    // Optional: insert into database (you can uncomment this part later if needed)
-    
     try {
         $con->begin_transaction();
-	$user_id = $_SESSION['user_id'];
-	if (!$user_id) {
-	    die("You must be logged in to book a flight.");
-	}
 
         $stmt = $con->prepare("INSERT INTO Bookings (user_id, airline, departureAirport, destinationAirport, departureDate, arrivalDate, price, card_number, cardholder_name, expiration_date, cvc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("sssssdsssss", $user_id, $airline, $departureAirport, $destinationAirport, $departureDate, $arrivalDate, $price, $card_number, $cardholder_name, $expiration_date, $cvc);
@@ -109,14 +93,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         $con->commit();
+        header("Location: confirmation_page.php");
+        exit();
     } catch (mysqli_sql_exception $e) {
         $con->rollback();
         die("MySQL Error: " . $e->getMessage());
     }
-    
-
-    header("Location: confirmation_page.php");
-    exit();
 } else {
     echo "Error: Invalid request.";
 }

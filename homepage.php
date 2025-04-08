@@ -4,7 +4,10 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 session_start();
+
 include "connection.php";
+
+
 
 // Check if the user is logged in and get their name
 $loggedIn = isset($_SESSION['username']);
@@ -32,7 +35,7 @@ $username = $loggedIn ? $_SESSION['username'] : "Guest";
             background-color: #0077b6; /* Dark Blue */
             overflow: hidden;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             padding: 10px 20px;
 	    flex-wrap: wrap;
@@ -48,7 +51,7 @@ $username = $loggedIn ? $_SESSION['username'] : "Guest";
 	    background-color: #0096c7;
 	    border-radius: 6px;
   	    transition: background-color 0.3s ease;
-	    front-weight: bold;
+	    font-weight: bold;
         }
 
         .navbar a:hover {
@@ -59,8 +62,9 @@ $username = $loggedIn ? $_SESSION['username'] : "Guest";
         .logout-btn {
             background-color: #ff4d4d;
             color: white;
-            border: none;
-            padding: 10px 15px;
+	    border: none;
+	    justify-content: space-between;
+            padding: 10px 25px;
             cursor: pointer;
             border-radius: 5px;
         }
@@ -164,54 +168,6 @@ $username = $loggedIn ? $_SESSION['username'] : "Guest";
         footer a:hover {
             text-decoration: underline;
         }
-
-	/* 🎯 Responsive Styling */
-    @media screen and (max-width: 768px) {
-      .navbar {
-        flex-direction: column;
-        align-items: stretch;
-        text-align: center;
-      }
-
-      .navbar a {
-        width: 100%;
-        margin: 5px 0;
-      }
-
-      .hero {
-        height: 200px;
-      }
-
-      .hero-content {
-        font-size: 20px;
-        padding: 15px;
-      }
-
-      .container p {
-        font-size: 16px;
-      }
-
-      .image-section img {
-        width: 90%;
-      }
-    }
-
-    @media screen and (max-width: 480px) {
-      .hero-content {
-        font-size: 18px;
-        padding: 10px;
-      }
-
-      .cta-button {
-        font-size: 16px;
-        padding: 10px 20px;
-      }
-
-      footer {
-        font-size: 14px;
-        padding: 15px;
-      }
-    }
     </style>
 	
 </head>

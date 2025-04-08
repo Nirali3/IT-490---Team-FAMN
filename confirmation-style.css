@@ -1,0 +1,106 @@
+#flight-info {
+    border: 2px solid #0077b6;  
+    padding: 20px;
+    margin: 20px auto;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    max-width: 800px;
+    text-align: left;
+}
+
+#passenger-info {
+    border: 2px solid #0077b6;  
+    padding: 20px;
+    margin: 20px auto;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    max-width: 800px;
+    text-align: left;
+}
+
+button[type="submit"] {
+    background-color: #0077b6;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #005f87;
+}
+
+.confirmation-heading {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.confirmation-heading h1 {
+    font-size: 28px;
+    color: #0077b6;
+}
+
+.confirmation-heading p {
+    font-size: 18px;
+    color: #333;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f0f8ff;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.navbar {
+    background-color: #0077b6;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px 20px;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    background-color: #0096c7;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+}
+
+.navbar a:hover {
+    background-color: #005f87;
+}
+
+.container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 25px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+h2 {
+    color: #0077b6;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #0096c7;
+    padding-bottom: 10px;
+}
+
+#flight-info, #passenger-info {
+    margin-bottom: 30px;
+}
+
+#flight-info p, #passenger-info ul {
+    font-size: 16px;
+    line-height: 1.6;
+}

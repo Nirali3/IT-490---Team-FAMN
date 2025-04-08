@@ -42,15 +42,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
 		$response = $client->send_request($request);
 
+		// 💡 Add this for debugging
+		echo "<pre>";
+		print_r($response);
+		echo "</pre>";
+
 		if(isset($response['success']) && $response['success'] == 1){
-			session_start();
+			// 🔥 DO NOT start the session again here
 			$_SESSION["username"] = $username;
+
+		if (isset($response["user_id"])) {
+			$_SESSION["user_id"] = $response["user_id"];
+			} else {
+				$errors[] = "Login succeeded but user_id was not returned!";
+			}
+
+		//if (isset($response["passenger_id"])) {
+	//		$_SESSION["passenger_id"] = $response["passenger_id"];
+	//}
+
 			
 			ob_end_clean();
 			header("Location: homepage.php");
 			exit();
 		}else{
-			$errors[] = $response['message'];
+			$errors[] = $response['message'] ?? "Login failed.";
 		}
 
 	}

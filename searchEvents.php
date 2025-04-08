@@ -78,6 +78,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
 		color: white;
 		padding: 12px 24px;
 		border: none;
+	        font-weight: bold;
 		border-radius: 5px;
 		font-size: 16px;
 		display: inline-block;
@@ -143,7 +144,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
 		background-color: #0077b6; /* Dark Blue */
         	overflow: hidden;
         	display: flex;
-        	justify-content: space-between;
+        	justify-content: center;
         	align-items: center;
 		padding: 10px 20px;
 		flex-wrap: wrap;
@@ -195,6 +196,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
 <div id="event_results">
 	<?php echo $EventResults; ?>
 </div>
+
+<?php include 'footer.php'; ?>
 
 </body>
 </html>

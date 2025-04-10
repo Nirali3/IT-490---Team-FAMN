@@ -35,3 +35,4 @@ api.env
 
 #Ignore specific test file
 testRabbitMQ.ini
+connection.php

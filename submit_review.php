@@ -14,11 +14,6 @@ $review = trim($_POST['review'] ?? '');
 $rating = intval($_POST['rating'] ?? 0);
 $booking_id = intval($_POST['booking_id'] ?? 0);
 $passenger_id = intval($_POST['passenger_id'] ?? 0);
-$username = $_SESSION['username'] ?? "Guest";
-$review = $_POST['review'] ?? '';
-$rating = $_POST['rating'] ?? '';
-$booking_id = $_POST['booking_id'] ?? '';
-$passenger_id = $_POST['passenger_id'] ?? '';
 
 $inserted = false;
 $error_message = "";
@@ -46,20 +41,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmt->close();
         }
     }
-
-// Insert the review into the database if form is submitted
-if ($_SERVER["REQUEST_METHOD"] === "POST" && $review && $rating && $booking_id && $passenger_id) {
-    // Use $conn or $con depending on your connection file
-    $stmt = $con->prepare("INSERT INTO Reviews (username, comment, rating, booking_id, passenger_id) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssiii", $username, $review, $rating, $booking_id, $passenger_id);
-
-    if ($stmt->execute()) {
-        $inserted = true;
-    } else {
-        $error_message = "❌ Failed to submit review. Please try again later.";
-    }
-
-    $stmt->close();
 }
 ?>
 
@@ -81,7 +62,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $review && $rating && $booking_id &
         }
 
         .message {
-            color: green;
             font-size: 18px;
             margin-bottom: 20px;
         }
@@ -139,35 +119,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $review && $rating && $booking_id &
         </table>
     <?php else: ?>
         <div class="message" style="color:red;"><?= $error_message ?></div>
-    <h2>✅ Review Submitted Successfully</h2>
-
-    <?php if ($review && $rating): ?>
-        <div class="message">Thank you for your feedback, <strong><?php echo htmlspecialchars($username); ?></strong>!</div>
-
-        <table>
-            <tr>
-                <th>Username</th>
-                <td><?php echo htmlspecialchars($username); ?></td>
-            </tr>
-            <tr>
-                <th>Review</th>
-                <td><?php echo htmlspecialchars($review); ?></td>
-            </tr>
-            <tr>
-                <th>Rating</th>
-                <td><?php echo str_repeat('⭐', (int)$rating); ?></td>
-            </tr>
-            <tr>
-                <th>Booking ID</th>
-                <td><?php echo htmlspecialchars($booking_id ?: 'N/A'); ?></td>
-            </tr>
-            <tr>
-                <th>Passenger ID</th>
-                <td><?php echo htmlspecialchars($passenger_id ?: 'N/A'); ?></td>
-            </tr>
-        </table>
-    <?php else: ?>
-        <div class="message" style="color:red;">❌ No review data submitted.</div>
     <?php endif; ?>
 
     <a class="back-btn" href="userAccount.php">⬅ Back to Account</a>
@@ -176,4 +127,3 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $review && $rating && $booking_id &
 
 </body>
 </html>
-

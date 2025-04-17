@@ -206,10 +206,6 @@ if ($loggedIn && $user_id) {
     <form class="review-form" action="submit_review.php" method="post">
         <textarea name="review" placeholder="Share your flight experience..." required></textarea>
         <br>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> midterm
 
         <!-- Booking Dropdown -->
     <label>Booking:</label>
@@ -235,13 +231,6 @@ if ($loggedIn && $user_id) {
     </select>
     <br><br>
         
-<<<<<<< HEAD
-=======
-        <input type="hidden" name="booking_id" value="<?= isset($purchasedFlights[0]['booking_id']) ? $purchasedFlights[0]['booking_id'] : '' ?>">
-        <input type="hidden" name="user_id" value="<?= $user_id ?>">
->>>>>>> midterm
-=======
->>>>>>> midterm
         <label>Rate your experience:</label>
         <select name="rating" required>
             <option value="5">⭐⭐⭐⭐⭐</option>

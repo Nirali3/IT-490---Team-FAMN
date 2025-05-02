@@ -130,6 +130,36 @@ function validatePassword($password, $passwordRegex) {
 		background-color: #005f87;
 	}
 
+	.btn-login{
+		background-color: #0077b6;
+		color: white;
+		padding: 12px 24px;
+		border: none;
+		border-radius: 5px;
+		font-size: 18px;
+		display: inline-block;
+		width: auto;
+	}
+	
+	.btn-login:hover{
+		background-color: #005f87;
+	}
+
+	.btn-register{
+		background-color: #0077b6;
+		color: white;
+		padding: 12px 24px;
+		border: none;
+		border-radius: 5px;
+		font-size: 18px;
+		display: inline-block;
+		width: auto;
+	}
+
+	.btn-register:hover{
+		background-color: #005f87;
+	}
+
 	input[type="text"]{
 		width: 20%;
 		height: 30px;
@@ -179,8 +209,8 @@ function validatePassword($password, $passwordRegex) {
 		<input type="password" id="password" name="password" />
 	</p>
 
-	<button type="submit" name="register" value="Register">Register</button>
-	<button type="submit" name="login" value="Login">Login</button>
+	<button type="submit" name="register" value="Register" class="btn btn-register">Register</button>
+	<button type="submit" name="login" value="Login" class="btn btn-login">Login</button>
 
 </form>
 

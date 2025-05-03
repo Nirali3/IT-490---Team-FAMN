@@ -120,7 +120,8 @@ $username = $loggedIn ? $_SESSION['username'] : "Guest";
 
         .container {
             text-align: center;
-            margin-top: 50px;
+	    margin-top: 50px;
+	    padding: 0 15px;
         }
 
         h1 {
@@ -166,8 +167,26 @@ $username = $loggedIn ? $_SESSION['username'] : "Guest";
         }
 
         footer a:hover {
-            text-decoration: underline;
-        }
+	    text-decoration: underline;
+	}
+
+	@media (max-width:768px){
+		.navbar {
+			flex-direction: column;
+			align-items: stretch;
+		}
+
+		.navbar a;
+		.logout-btn{
+			width: 100%;
+			text-align: center;
+		}
+
+		.hero-content{
+			font-size: 20px;
+			padding: 10px;
+		}
+	}
     </style>
 	
 </head>

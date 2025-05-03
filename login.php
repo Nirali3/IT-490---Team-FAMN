@@ -114,6 +114,7 @@ function validatePassword($password, $passwordRegex) {
 		align-items: center;
 		justify-content: center;
 		flex-direction: column;
+		display: flex;
 		margin: 0;
 		padding: 0;
 	}
@@ -168,7 +169,6 @@ function validatePassword($password, $passwordRegex) {
 	}
 
 	.container{
-		max-width: 400px;
 		width: 90%;
 		padding: 20px;
 	}
@@ -205,6 +205,13 @@ function validatePassword($password, $passwordRegex) {
 		margin-bottom: 5px;
 	}
 
+	.button-group{
+		display: flex;
+		justify-content: center;
+		gap: 10px;
+		margin-top: 20px;
+	}
+
 	#loginform{
 		width: 100%;
 	}
@@ -229,6 +236,7 @@ function validatePassword($password, $passwordRegex) {
 <h1> Real Time Flight Tracker </h1>
 <h2> User Login </h2>
 <div class="container mt-4">
+<div class="row justify-content-center">
 <div class="col-md-6 col-sm-10 col-12">
 <form method="POST" action="login.php" id="loginform">
 <div class="mb-3">
@@ -240,10 +248,10 @@ function validatePassword($password, $passwordRegex) {
 	<label for="Password">Password:</label>
 	<input type="password" class="form-control" id="password" name="password" />
 </div>
-
+<div class="button-group">
 	<button type="submit" name="register" value="Register" class="btn btn-register mb-2">Register</button>
 	<button type="submit" name="login" value="Login" class="btn btn-login mb-2">Login</button>
-
+</div>
 </form>
 
  <?php if (!empty($errors)): ?>
@@ -256,6 +264,7 @@ function validatePassword($password, $passwordRegex) {
 		</ul>
 	</div>
 <?php endif; ?>
+</div>
 </div>
 </div>
 </body>

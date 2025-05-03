@@ -108,9 +108,12 @@ function validatePassword($password, $passwordRegex) {
 
 	body{
 		font-family: Arial, sans-serif;
-		background-color: #f4f4f9;
+		background-color: white;
 		color: #333;
 		text-align: center;
+		align-items: center;
+		justify-content: center;
+		min-height: 100vh;
 		margin: 0;
 		padding: 0;
 	}
@@ -160,6 +163,16 @@ function validatePassword($password, $passwordRegex) {
 		background-color: #005f87;
 	}
 
+	.mb-3 {
+		 margin-bottom: 15px;
+	}
+
+	.container{
+		max-width: 400px;
+		width: 90%;
+		padding: 20px;
+	}
+
 	input[type="text"]{
 		width: 20%;
 		height: 30px;
@@ -186,12 +199,19 @@ function validatePassword($password, $passwordRegex) {
 	label{
 		font-size: 18px;
 		font-family: Arial, sans-serif;
+		font-weight: bold;
 		margin-bottom: 5px;
 	}
 
 	#loginform{
 		width: 100%;
 	}
+
+	@media (max-width: 768px) {
+	input[type="text"], input[type="password"] {
+		width: 60%;
+	}
+}
 </style>
 </head>
 
@@ -202,12 +222,12 @@ function validatePassword($password, $passwordRegex) {
 <div class="col-md-6 col-sm-10 col-12">
 <form method="POST" action="login.php" id="loginform">
 <div class="mb-3">
-	<label>Username:</label>
+	<label for="Username">Username:</label>
 	<input type="text" id="username" name="username" />
 </div>
 
 <div class="mb-3">
-	<label>Password:</label>
+	<label for="Password">Password:</label>
 	<input type="password" id="password" name="password" />
 </div>
 
@@ -226,5 +246,7 @@ function validatePassword($password, $passwordRegex) {
 		</ul>
 	</div>
 <?php endif; ?>
+</div>
+</div>
 </body>
 </html>

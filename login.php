@@ -198,20 +198,25 @@ function validatePassword($password, $passwordRegex) {
 <body>
 <h1> Real Time Flight Tracker </h1>
 <h2> User Login </h2>
+<div class="container mt-4">
+<div class="col-md-6 col-sm-10 col-12">
 <form method="POST" action="login.php" id="loginform">
+<div class="mb-3">
 	<p>
 		<label>Username:</label>
 		<input type="text" id="username" name="username" />
 	</p>
-
+</div>
+<div class="mb-3">
 	<p>
 		<label>Password:</label>
 		<input type="password" id="password" name="password" />
 	</p>
-
+</div>
+<div class="d-flex justify-content-between">
 	<button type="submit" name="register" value="Register" class="btn btn-register">Register</button>
 	<button type="submit" name="login" value="Login" class="btn btn-login">Login</button>
-
+</div>
 </form>
 
  <?php if (!empty($errors)): ?>

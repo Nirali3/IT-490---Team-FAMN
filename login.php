@@ -113,7 +113,7 @@ function validatePassword($password, $passwordRegex) {
 		text-align: center;
 		align-items: center;
 		justify-content: center;
-		min-height: 100vh;
+		flex-direction: column;
 		margin: 0;
 		padding: 0;
 	}
@@ -210,10 +210,18 @@ function validatePassword($password, $passwordRegex) {
 	}
 
 	@media (max-width: 768px) {
-	input[type="text"], input[type="password"] {
-		width: 100%;
+		input[type="text"], 
+		input[type="password"] {
+			width: 100%;
 	}
 }
+
+	@media (max-width: 576px) {
+		.btn-register, .btn-login {
+			width: 100%;
+		}
+	}
+
 </style>
 </head>
 
@@ -233,8 +241,8 @@ function validatePassword($password, $passwordRegex) {
 	<input type="password" class="form-control" id="password" name="password" />
 </div>
 
-	<button type="submit" name="register" value="Register" class="btn btn-register">Register</button>
-	<button type="submit" name="login" value="Login" class="btn btn-login">Login</button>
+	<button type="submit" name="register" value="Register" class="btn btn-register mb-2">Register</button>
+	<button type="submit" name="login" value="Login" class="btn btn-login mb-2">Login</button>
 
 </form>
 

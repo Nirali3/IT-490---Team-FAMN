@@ -166,6 +166,38 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
         	border-radius: 5px;
 	}
 
+	@media (max-width: 768px){
+		input[type="text"]{
+			font-size: 16px;
+			width: 90%;
+		}
+
+		button[type="submit"]{
+			width: 90%;
+			font-size: 15px;
+		}
+
+		.navbar{
+			flex-direction: column;
+		}
+
+		.navbar a{
+			width: 90%;
+			text-align: center;
+		}
+		
+		#event-results{
+			width: 95%;
+			padding: 15px;
+		}
+		
+		.event-img{
+			width: 100%;
+			max-width: 100%;
+			height: auto;
+		}
+}
+
 </style>
 </head>
 

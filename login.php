@@ -174,19 +174,21 @@ function validatePassword($password, $passwordRegex) {
 	}
 
 	input[type="text"]{
-		width: 20%;
+		width: 100%;
 		height: 30px;
 		padding: 10 0px;
 		margin: 20px auto;
 		font-size: 18px;
+		box-sizing: border-box;
 	}
 
 	input[type="password"]{
-		width: 20%;
+		width: 100%;
 		height: 30px;
 		padding: 10 0px;
 		margin: 20px auto;
 		font-size: 18px;
+		box-sizing: border-box;
 	}
 
 	h1, h2{
@@ -209,7 +211,7 @@ function validatePassword($password, $passwordRegex) {
 
 	@media (max-width: 768px) {
 	input[type="text"], input[type="password"] {
-		width: 60%;
+		width: 100%;
 	}
 }
 </style>
@@ -223,12 +225,12 @@ function validatePassword($password, $passwordRegex) {
 <form method="POST" action="login.php" id="loginform">
 <div class="mb-3">
 	<label for="Username">Username:</label>
-	<input type="text" id="username" name="username" />
+	<input type="text" class="form-control" id="username" name="username" />
 </div>
 
 <div class="mb-3">
 	<label for="Password">Password:</label>
-	<input type="password" id="password" name="password" />
+	<input type="password" class="form-control" id="password" name="password" />
 </div>
 
 	<button type="submit" name="register" value="Register" class="btn btn-register">Register</button>

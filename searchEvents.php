@@ -30,7 +30,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
 		
 		if (!empty($data['events_results'])) {
 			foreach ($data['events_results'] as $event) {
-				$EventResults .= "<div class='col-md-4 col-sm-6 mb-4'>";
+				$EventResults .= "<div class='col-lg-3 col-md-4 col-sm-6 mb-4'>";
 				$EventResults .= "<h3>" . htmlspecialchars($event['title']) . "</h3>";
 				if(!empty($event['date']['when'])){
 					$EventResults .= "<p><strong>Date:</strong> " . htmlspecialchars($event['date']['when']) . "</p>";
@@ -41,7 +41,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
 				}
 
 				if(!empty($event['thumbnail'])){
-					$EventResults .= "<img src='" . htmlspecialchars($event['thumbnail']) . "' alt='Event image' class='event-img' style='max-width:300px; display:block; margin:10px 15px;'/>";
+					$EventResults .= "<img src='" . htmlspecialchars($event['thumbnail']) . "' alt='Event image' class='img-fluid' style='max-width:300px; display:block; margin:10px 15px;'/>";
 				}
 		
 				$EventResults .= "<p><a href='" . htmlspecialchars($event['link']) . "' target='_blank'>More Info</a></p>";
@@ -127,7 +127,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
 		color: #0077b6;
 	}
 
-	.event-img{
+	.img-fluid{
 		width: 300px;
 	}
 

@@ -177,8 +177,7 @@ $username = $loggedIn ? $_SESSION['username'] : "Guest";
 			align-items: stretch;
 		}
 
-		.navbar a;
-		.logout-btn{
+		.navbar a, .logout-btn{
 			width: 100%;
 			text-align: center;
 		}

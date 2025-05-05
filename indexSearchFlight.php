@@ -295,7 +295,52 @@ button:active {
         .error {
             color: red;
             font-weight: bold;
-        }
+	}
+
+@media (max-width: 768px){
+	.navabr{
+		flex-direction: column;
+		align-items: center;
+	}
+	
+	.navbar a{
+		width: 80%;
+		text-align: center;
+	}
+	.container {
+		padding: 20px;
+		max-width: 90%;
+	}
+	.flight-card{
+		max-width: 90%;
+	}
+	.image-section img{
+		width:80%;
+	}
+}
+
+@media (max-width: 480px){
+	h1{
+		font-size:23px;
+	}
+	h2{
+		font-soze: 20px;
+	}
+	label {
+		font-size: 14px;
+	}
+	.navbar a {
+		padding: 8px 10px;
+		font-size: 14px;
+	}
+	.flight-card{
+		font-size: 14px;
+	}
+
+	.flight-card img{
+		width: 60px;
+	}
+}
     </style>
 </head>
 <body>

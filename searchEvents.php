@@ -180,12 +180,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
 		}
 
 		.navbar{
-			flex-direction: column;
-		}
-
-		.navbar a{
-			width: 100%;
-			text-align: center;
+			overflow-x: auto;
+			white-space: wrap;
+			align-items: center;
+			padding: 15px;
 		}
 		
 		#event-results{

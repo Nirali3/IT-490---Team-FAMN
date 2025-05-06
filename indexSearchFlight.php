@@ -299,13 +299,10 @@ button:active {
 
 @media (max-width: 768px){
 	.navabr{
-		flex-direction: column;
+		overflow-x: auto;
+		white-space: wrap;
 		align-items: center;
-	}
-	
-	.navbar a{
-		width: 80%;
-		text-align: center;
+		padding: 15px;
 	}
 	.container {
 		padding: 20px;

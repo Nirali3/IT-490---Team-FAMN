@@ -164,7 +164,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribe"])) {
 	@media (max-width: 768px){
 		.navbar{
 			overflow-x: auto;
-			white-space: nowrap;
+			white-space: wrap;
+			align-items: center;
 			padding: 15px;
 		}
 		.container{

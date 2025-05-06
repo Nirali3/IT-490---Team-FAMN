@@ -173,11 +173,13 @@ $username = $loggedIn ? $_SESSION['username'] : "Guest";
 
 	@media (max-width:768px){
 		.navbar {
-			flex-direction: column;
-			align-items: stretch;
+			overflow-x: auto;
+			white-space: wrap;
+			align-items: center;
+			padding: 15px;
 		}
 
-		.navbar a, .logout-btn{
+		.logout-btn{
 			width: 100%;
 			text-align: center;
 		}

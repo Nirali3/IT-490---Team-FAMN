@@ -52,7 +52,9 @@ if ($loggedIn && $user_id) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<title>Top Event Recommendations</title>
     <title>User Account - My Bookings</title>
     <style>
         body {
@@ -152,7 +154,33 @@ if ($loggedIn && $user_id) {
 
         .submit-review:hover {
             background-color: #005f87;
-        }
+	}
+@media (max-width:768px){
+	.navbar{
+		align-items: center;
+		overflow-x: auto;
+		white-space: wrap;
+		padding: 15px;
+	}
+	.logout-btn {
+        	width: 90%;
+        	text-align: center;
+        	margin-bottom: 8px;
+    	}
+
+    	.container {
+        	padding: 15px;
+        	margin: 15px 10px;
+    	}
+
+    	.booking-card, .passenger-box {
+        	padding: 15px;
+    	}
+
+    	.submit-review {
+        	width: 100%;
+    	}
+}
     </style>
 </head>
 <body>

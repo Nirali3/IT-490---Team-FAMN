@@ -164,13 +164,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribe"])) {
 	@media (max-width: 768px){
 		.navbar{
 			flex-direction: row;
-			padding: 10px;
+			padding: 15px;
 		}
 
 		.navbar a{
 			width: 100%;
 			text-align: center;
-			margin: 5px 0;
+			margin: 10px 0;
 			}
 		.container{
 			margin: 20px auto;

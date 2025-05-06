@@ -174,7 +174,7 @@ function validatePassword($password, $passwordRegex) {
 	}
 
 	input[type="text"]{
-		width: 100%;
+		width: 90%;
 		height: 30px;
 		padding: 10 0px;
 		margin: 20px auto;
@@ -183,7 +183,7 @@ function validatePassword($password, $passwordRegex) {
 	}
 
 	input[type="password"]{
-		width: 100%;
+		width: 90%;
 		height: 30px;
 		padding: 10 0px;
 		margin: 20px auto;
@@ -216,12 +216,12 @@ function validatePassword($password, $passwordRegex) {
 		width: 100%;
 	}
 
-	@media (max-width: 768px) {
+	/*@media (max-width: 768px) {
 		input[type="text"], 
 		input[type="password"] {
-			width: 100%;
+			width: 90%;
 	}
-}
+}*/
 
 	@media (max-width: 576px) {
 		.btn-register, .btn-login {

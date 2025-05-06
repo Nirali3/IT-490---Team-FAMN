@@ -69,6 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribe"])) {
 <head>
     <meta charset="UTF-8">
     <title>Notification Center</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <style>
         body {
@@ -158,7 +159,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribe"])) {
         .message {
             margin-top: 20px;
             font-weight: bold;
-        }
+	}
+
+	@media (max-width: 768px){
+		.navbar{
+			flex-direction: row;
+			padding: 10px;
+		}
+
+		.navbar a{
+			width: 100%;
+			text-align: center;
+			margin: 5px 0;
+			}
+		.container{
+			margin: 20px auto;
+			padding: 20px;
+			max-width: 95%;
+		}
+	}
+
+	@media (max-width: 480px){
+		h1, h3 {
+			font-size: 20px;
+		}
+}
     </style>
 </head>
 <body>

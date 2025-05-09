@@ -106,7 +106,13 @@ class rabbitMQServer
       $params['port'] = $this->BROKER_PORT;
       $params['login'] = $this->USER;
       $params['password'] = $this->PASSWORD;
-      $params['vhost'] = $this->VHOST;
+      $params['vhost'] = trim($this->VHOST);
+
+      // Debugging line:
+        echo "Attempting to connect with the following parameters: \n";
+        print_r($params);
+
+	
 			$conn = new AMQPConnection($params);
 			$conn->connect();
 

@@ -60,6 +60,7 @@ if ($response === false) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <title>Top Event Recommendations</title>
 <style>
     body {
@@ -167,6 +168,33 @@ if ($response === false) {
     .more-info:hover {
         text-decoration: underline;
     }
+
+@media (max-width:768px){
+	.search-bar{
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.search-bar imput[type="text"],
+	.search-bar button{
+		width: 100%;
+		margin: 5px 0;
+	}
+	.navbar {
+		flex-direction: cooolumn;
+		align-items: center;
+	}
+	.event-card{
+		width: 90%;
+		margin: 10px auto;
+	}
+
+	.navbar{
+		overflow-x: auto;
+		white-space: wrap;
+		padding: 15px;
+	}
+}
 </style>
 </head>
 

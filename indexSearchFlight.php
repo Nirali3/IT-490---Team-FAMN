@@ -63,6 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['origin'], $_GET['destin
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flight Search</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <style>
         body {
@@ -294,7 +295,49 @@ button:active {
         .error {
             color: red;
             font-weight: bold;
-        }
+	}
+
+@media (max-width: 768px){
+	.navabr{
+		overflow-x: auto;
+		white-space: wrap;
+		align-items: center;
+		padding: 15px;
+	}
+	.container {
+		padding: 20px;
+		max-width: 90%;
+	}
+	.flight-card{
+		max-width: 90%;
+	}
+	.image-section img{
+		width:80%;
+	}
+}
+
+@media (max-width: 480px){
+	h1{
+		font-size:23px;
+	}
+	h2{
+		font-soze: 20px;
+	}
+	label {
+		font-size: 14px;
+	}
+	.navbar a {
+		padding: 8px 10px;
+		font-size: 14px;
+	}
+	.flight-card{
+		font-size: 14px;
+	}
+
+	.flight-card img{
+		width: 60px;
+	}
+}
     </style>
 </head>
 <body>

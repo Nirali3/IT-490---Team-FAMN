@@ -18,6 +18,18 @@ $dotenv->load();
 
 $api_key = $_ENV['GOOGLE_API_KEY'];
 
+// ✅ Debug: Check connected DB and Bookings table
+$dbResult = $con->query("SELECT DATABASE()");
+$currentDB = $dbResult ? $dbResult->fetch_row()[0] : 'Unknown';
+echo "Connected to DB: <strong>$currentDB</strong><br>";
+
+$tableResult = $con->query("SHOW TABLES LIKE 'Bookings'");
+if ($tableResult && $tableResult->num_rows > 0) {
+    echo "<span style='color:green;'>Bookings table exists ✅</span><br>";
+} else {
+    die("<span style='color:red;'>Bookings table does NOT exist ❌</span><br>");
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate required fields
     $required_fields = [

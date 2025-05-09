@@ -30,6 +30,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
 		
 		if (!empty($data['events_results'])) {
 			foreach ($data['events_results'] as $event) {
+				$EventResults .= "<div class='col-lg-3 col-md-4 col-sm-6 mb-4'>";
 				$EventResults .= "<h3>" . htmlspecialchars($event['title']) . "</h3>";
 				if(!empty($event['date']['when'])){
 					$EventResults .= "<p><strong>Date:</strong> " . htmlspecialchars($event['date']['when']) . "</p>";
@@ -40,7 +41,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
 				}
 
 				if(!empty($event['thumbnail'])){
-					$EventResults .= "<img src='" . htmlspecialchars($event['thumbnail']) . "' alt='Event image' class='event-img' style='max-width:300px; display:block; margin:10px 15px;'/>";
+					$EventResults .= "<img src='" . htmlspecialchars($event['thumbnail']) . "' alt='Event image' class='img-fluid' style='max-width:300px; display:block; margin:10px 15px;'/>";
 				}
 		
 				$EventResults .= "<p><a href='" . htmlspecialchars($event['link']) . "' target='_blank'>More Info</a></p>";
@@ -62,6 +63,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Event Search</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
 
 	body{
@@ -125,7 +127,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
 		color: #0077b6;
 	}
 
-	.event-img{
+	.img-fluid{
 		width: 300px;
 	}
 
@@ -166,6 +168,36 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
         	border-radius: 5px;
 	}
 
+	@media (max-width: 768px){
+		input[type="text"]{
+			font-size: 16px;
+			width: 90%;
+		}
+
+		button[type="submit"]{
+			width: 90%;
+			font-size: 15px;
+		}
+
+		.navbar{
+			overflow-x: auto;
+			white-space: wrap;
+			align-items: center;
+			padding: 15px;
+		}
+		
+		#event-results{
+			width: 95%;
+			padding: 10px;
+		}
+		
+		.event-img{
+			width: 100%;
+			max-width: 100%;
+			height: auto;
+		}
+}
+
 </style>
 </head>
 
@@ -193,8 +225,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['Location'])){
 	</form>
 </div>
 
-<div id="event_results">
-	<?php echo $EventResults; ?>
+<div id="event_results" class="container">
+	<div class="row">
+		<?php echo $EventResults; ?>
+	</div>
 </div>
 
 <?php include 'footer.php'; ?>

@@ -21,6 +21,7 @@ $username = $loggedIn ? $_SESSION['username'] : "Guest";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Explore & Book | Your Event and Flight Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <style>
         /* Light Blue Theme Styling */
@@ -120,7 +121,8 @@ $username = $loggedIn ? $_SESSION['username'] : "Guest";
 
         .container {
             text-align: center;
-            margin-top: 50px;
+	    margin-top: 50px;
+	    padding: 0 15px;
         }
 
         h1 {
@@ -166,8 +168,27 @@ $username = $loggedIn ? $_SESSION['username'] : "Guest";
         }
 
         footer a:hover {
-            text-decoration: underline;
-        }
+	    text-decoration: underline;
+	}
+
+	@media (max-width:768px){
+		.navbar {
+			overflow-x: auto;
+			white-space: wrap;
+			align-items: center;
+			padding: 15px;
+		}
+
+		.logout-btn{
+			width: 100%;
+			text-align: center;
+		}
+
+		.hero-content{
+			font-size: 20px;
+			padding: 10px;
+		}
+	}
     </style>
 	
 </head>
